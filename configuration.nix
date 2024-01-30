@@ -14,6 +14,18 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # I use zsh btw
+  environment.shells = with pkgs; [ zsh ];
+  users.defaultUserShell = pkgs.zsh;
+  programs.zsh = {
+    enable = true;
+#    autosuggestions.enable = true;
+#    syntaxHighlighting.enable = true;
+#    ohMyZsh = {
+#      enable = true;
+#    };
+  };
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -100,6 +112,7 @@
     wget
     git
     _1password-gui
+    oh-my-zsh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

@@ -67,7 +67,22 @@
   #  /etc/profiles/per-user/marnas/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "neovim";
+  };
+
+  programs.zsh = {
+    enable = true;
+    enableAutosuggestions = true;
+    syntaxHighlighting.enable = true;
+
+    oh-my-zsh = {
+      enable = true;
+      theme = "robbyrussell";
+      plugins = [ ];
+    }; 
+    shellAliases = {
+      ".." = "cd ..";
+    };
   };
 
   # Let Home Manager install and manage itself.
