@@ -2,9 +2,23 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, pkgs-stable, ... }:
 
 {
+  nixpkgs.overlays = [
+    (final: prev: {
+      postman = prev.postman.overrideAttrs(old: rec {
+        version = "20230716100528";
+        src = final.fetchurl {
+          url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
+          sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
+
+          name = "${old.pname}-${version}.tar.gz";
+        };
+      });
+    })
+  ];
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -106,13 +120,15 @@
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     neovim
     wget
     git
     alacritty
     oh-my-zsh
+    teams-for-linux
+    postman
+    orca-slicer
   ];
 
   programs._1password.enable = true;

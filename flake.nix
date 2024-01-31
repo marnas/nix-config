@@ -2,17 +2,34 @@
   description = "Marnas Flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.11";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
+    home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }:
     let
       lib = nixpkgs.lib;
-        system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      system = "x86_64-linux";
+      #pkgs = nixpkgs.legacyPackages.${system};
+
+      # configure pkgs
+      pkgs = import nixpkgs {
+        inherit system;
+        config = { allowUnfree = true;
+                   allowUnfreePredicate = (_: true); };
+        #overlays = [ rust-overlay.overlays.default ];
+      };
+
+      pkgs-stable = import nixpkgs-stable {
+        inherit system;
+        config = { allowUnfree = true;
+                   allowUnfreePredicate = (_: true); };
+        #overlays = [ rust-overlay.overlays.default ];
+      };
     in {
+
     nixosConfigurations = {
       nixos = lib.nixosSystem {
         inherit system;
