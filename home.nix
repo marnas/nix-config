@@ -1,5 +1,18 @@
 { config, pkgs, ... }:
 
+let
+  tilish-colemak = pkgs.tmuxPlugins.mkTmuxPlugin
+  {
+    pluginName = "tilish";
+    version = "unstable-2023-05-12";
+    src = pkgs.fetchFromGitHub {
+      owner = "marnas";
+      repo = "tmux-tilish";
+      rev = "d81c007f29aa3d81f1381eda58dc1fd0524d55f1";
+      sha256 = "sha256-HgzYBn0eEkG/HNGSZkWzFufnMDqxBfYUgAl6XzKT+zQ=";
+    };
+  };
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -77,12 +90,46 @@
 
     oh-my-zsh = {
       enable = true;
-      theme = "robbyrussell";
+      theme = "mrtazz";
       plugins = [ ];
     }; 
     shellAliases = {
       ".." = "cd ..";
     };
+  };
+
+  programs.tmux = {
+    enable = true;
+    mouse = true;
+    escapeTime = 10;
+    baseIndex = 1;
+    #shell = "${pkgs.fish}/bin/fish";
+    terminal = "tmux-256color";
+    historyLimit = 100000;
+    plugins = with pkgs;
+      [
+        {
+          plugin = tilish-colemak;
+          extraConfig = ''
+            set -g @tilish-default 'main-vertical'
+            set -g @tilish-colemak 'on'
+            set -g @tilish-navigator 'on'
+          '';
+        }
+#        {
+#	  plugin = tmuxPlugins.tilish;
+#          extraConfig = ''
+#            set -g @tilish-default 'main-vertical'
+#          '';
+#	}
+        tmuxPlugins.better-mouse-mode
+      ];
+    extraConfig = ''
+      bind -n S-Up resize-pane -U 5
+      bind -n S-Down resize-pane -D 5
+      bind -n S-Left resize-pane -L 5
+      bind -n S-Right resize-pane -R 5
+    '';
   };
 
   # Let Home Manager install and manage itself.

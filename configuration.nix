@@ -111,6 +111,7 @@
     neovim
     wget
     git
+    alacritty
     _1password-gui
     oh-my-zsh
   ];
