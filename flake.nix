@@ -3,13 +3,19 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "nixpkgs/nixos-23.11";
-    home-manager.url = "github:nix-community/home-manager/master";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hyprland.url = "github:hyprwm/Hyprland";
+    split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
+      inputs.hyprland.follows = "hyprland";
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, hyprland, ... }:
+  outputs = { self, nixpkgs, home-manager, hyprland, split-monitor-workspaces, ... }:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -20,15 +26,8 @@
         inherit system;
         config = { allowUnfree = true;
                    allowUnfreePredicate = (_: true); };
-        #overlays = [ rust-overlay.overlays.default ];
       };
 
-      pkgs-stable = import nixpkgs-stable {
-        inherit system;
-        config = { allowUnfree = true;
-                   allowUnfreePredicate = (_: true); };
-        #overlays = [ rust-overlay.overlays.default ];
-      };
     in {
 
     nixosConfigurations = {
@@ -43,7 +42,14 @@
 	modules = [
 	  ./home.nix
           hyprland.homeManagerModules.default
-          {wayland.windowManager.hyprland.enable = true;}
+          {
+	    wayland.windowManager.hyprland = {
+	      enable = true;
+	      plugins = [
+                split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+              ];
+	    };
+	  }
 	];
       };
     };
