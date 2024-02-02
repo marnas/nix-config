@@ -3,7 +3,7 @@
 {
   nixpkgs.overlays = [
     (final: prev: {
-      postman = prev.postman.overrideAttrs(old: rec {
+      postman = prev.postman.overrideAttrs (old: rec {
         version = "20230716100528";
         src = final.fetchurl {
           url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
@@ -33,6 +33,24 @@
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
+
+  services.dbus.enable = true;
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+    ];
+  };
+
+  fonts.packages = with pkgs; [
+    nerdfonts
+    meslo-lgs-nf
+  ];
+
   networking.hostName = "nixos"; # Define your hostname.
 
   # Enable networking
@@ -59,14 +77,10 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  #services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
   # Configure keymap in X11
-  services.xserver = {
+  services.xserver.xkb = {
     layout = "us";
-    xkbVariant = "";
+    variant = "altgr-intl";
   };
 
   # Enable CUPS to print documents.
@@ -95,7 +109,7 @@
     packages = with pkgs; [
       firefox-wayland
       kate
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -105,11 +119,24 @@
     neovim
     wget
     git
+    gcc
+    go
+    cargo
+    nodejs
+    ripgrep
+    bat
     alacritty
     oh-my-zsh
     teams-for-linux
     postman
     orca-slicer
+    wine
+    bottles
+    unzip
+    btop
+    telegram-desktop
+    discord
+    whatsapp-for-linux
 
     polkit
     xdg-desktop-portal-hyprland
@@ -125,6 +152,12 @@
     wayland-protocols
     wayland-utils
     wlroots
+    grim
+    slurp
+    dunst
+    libnotify
+
+    lxqt.lxqt-policykit
   ];
 
   programs._1password.enable = true;
@@ -132,7 +165,7 @@
     enable = true;
     polkitPolicyOwners = [ "marnas" ];
   };
-  
+
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
