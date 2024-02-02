@@ -6,9 +6,10 @@
     nixpkgs-stable.url = "nixpkgs/nixos-23.11";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, ... }:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, hyprland, ... }:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -39,7 +40,11 @@
     homeConfigurations = {
       marnas = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-	modules = [ ./home.nix ];
+	modules = [
+	  ./home.nix
+          hyprland.homeManagerModules.default
+          {wayland.windowManager.hyprland.enable = true;}
+	];
       };
     };
   };
