@@ -24,6 +24,20 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
+  virtualisation.docker.enable = true;
+
+  boot.kernelParams = [
+    "video=DP-1:2560x1440@75"
+    "video=DP-2:2560x1440@75"
+  ];
+
+  programs.steam = {
+    enable = true;
+    # remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
 
   services.xserver.displayManager.gdm.enable = true;
   #services.xserver.displayManager.gdm.wayland = true;
@@ -56,6 +70,9 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
   # Set your time zone.
   time.timeZone = "Europe/London";
 
@@ -76,6 +93,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -105,10 +123,9 @@
   users.users.marnas = {
     isNormalUser = true;
     description = "marnas";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox-wayland
-      kate
       #  thunderbird
     ];
   };
@@ -131,12 +148,20 @@
     postman
     orca-slicer
     wine
+    winetricks
     bottles
     unzip
     btop
     telegram-desktop
     discord
     whatsapp-for-linux
+    steam
+    lutris
+    nwg-look
+    vifm
+    docker
+    docker-compose
+    apple-cursor
 
     polkit
     xdg-desktop-portal-hyprland
@@ -156,8 +181,9 @@
     slurp
     dunst
     libnotify
-
-    lxqt.lxqt-policykit
+    libsForQt5.qt5.qtwayland
+    qt6.qtwayland
+    polkit-kde-agent
   ];
 
   programs._1password.enable = true;
@@ -166,9 +192,27 @@
     polkitPolicyOwners = [ "marnas" ];
   };
 
+  security.polkit.enable = true;
+
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
+  };
+
+  systemd = {
+    user.services.polkit-kde-authentication-agent-1 = {
+      description = "polkit-kde-authentication-agent-1";
+      wantedBy = [ "graphical-session.target" ];
+      wants = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
   };
 
   # This value determines the NixOS release from which the default
