@@ -27,6 +27,8 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
 
   virtualisation.docker.enable = true;
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   boot.kernelParams = [
     "video=DP-1:2560x1440@75"
@@ -123,7 +125,7 @@
   users.users.marnas = {
     isNormalUser = true;
     description = "marnas";
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
     packages = with pkgs; [
       firefox-wayland
       #  thunderbird
@@ -157,11 +159,12 @@
     whatsapp-for-linux
     steam
     lutris
-    nwg-look
     vifm
     docker
     docker-compose
+    kubectl
     apple-cursor
+    plexamp
 
     polkit
     xdg-desktop-portal-hyprland
@@ -179,8 +182,8 @@
     wlroots
     grim
     slurp
-    dunst
     libnotify
+    swaynotificationcenter
     libsForQt5.qt5.qtwayland
     qt6.qtwayland
     polkit-kde-agent

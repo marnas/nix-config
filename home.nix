@@ -92,7 +92,9 @@ in
     };
     shellAliases = {
       ".." = "cd ..";
+      "k" = "kubectl";
     };
+    initExtra = "source <(kubectl completion zsh)";
   };
 
   home.pointerCursor.gtk.enable = true;
@@ -148,6 +150,7 @@ in
       
       	  # Execute your favorite apps at launch
             exec-once = waybar
+            exec-once = swaync
             exec-once = 1password --silent
 
             # Source a file (multi-file configs)
