@@ -272,6 +272,7 @@ in
             bind = $mod, Q, killactive, 
             bind = $mod, V, togglefloating, 
             bind = $mod, SPACE, exec, $menu
+            bind = $mod CTRL, E, exit,
             bind = $mod, P, pseudo, # dwindle
             bind = $mod, J, togglesplit, # dwindle
             bind = $mod, F, fullscreen, 0

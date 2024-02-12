@@ -18,6 +18,7 @@
   imports =
     [
       ./hardware-configuration.nix
+      ./virtmanager.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -27,8 +28,6 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
 
   virtualisation.docker.enable = true;
-  virtualisation.libvirtd.enable = true;
-  programs.virt-manager.enable = true;
 
   boot.kernelParams = [
     "video=DP-1:2560x1440@75"
@@ -125,7 +124,7 @@
   users.users.marnas = {
     isNormalUser = true;
     description = "marnas";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox-wayland
       #  thunderbird
@@ -165,6 +164,10 @@
     kubectl
     apple-cursor
     plexamp
+    zathura
+    texliveMedium
+    ollama
+    python3
 
     polkit
     xdg-desktop-portal-hyprland
