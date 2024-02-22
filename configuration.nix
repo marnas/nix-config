@@ -139,6 +139,7 @@
     git
     gcc
     go
+    sshfs
     cargo
     nodejs
     ripgrep
@@ -165,9 +166,14 @@
     apple-cursor
     plexamp
     zathura
-    texliveMedium
+    texliveFull
+    gimp
     ollama
-    python3
+    pulsemixer
+    nextcloud-client
+    vlc
+    gnome.eog
+    lens
 
     polkit
     xdg-desktop-portal-hyprland
@@ -191,6 +197,10 @@
     qt6.qtwayland
     polkit-kde-agent
   ];
+
+  programs.thunar.enable = true;
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
 
   programs._1password.enable = true;
   programs._1password-gui = {

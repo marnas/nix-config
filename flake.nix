@@ -24,35 +24,40 @@
       # configure pkgs
       pkgs = import nixpkgs {
         inherit system;
-        config = { allowUnfree = true;
-                   allowUnfreePredicate = (_: true); };
+        config = {
+          allowUnfree = true;
+          allowUnfreePredicate = (_: true);
+        };
       };
 
-    in {
+    in
+    {
 
-    nixosConfigurations = {
-      nixos = lib.nixosSystem {
-        inherit system;
-	modules = [ ./configuration.nix ];
+      nixosConfigurations = {
+        nixos = lib.nixosSystem {
+          inherit system;
+          modules = [ ./configuration.nix ];
+        };
+      };
+      homeConfigurations = {
+        # useGlobalPkgs = true;
+        # useUserPackages = true;
+        marnas = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./home.nix
+            hyprland.homeManagerModules.default
+            {
+              wayland.windowManager.hyprland = {
+                enable = true;
+                plugins = [
+                  split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+                ];
+              };
+            }
+          ];
+        };
       };
     };
-    homeConfigurations = {
-      marnas = home-manager.lib.homeManagerConfiguration {
-        inherit pkgs;
-	modules = [
-	  ./home.nix
-          hyprland.homeManagerModules.default
-          {
-	    wayland.windowManager.hyprland = {
-	      enable = true;
-	      plugins = [
-                split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
-              ];
-	    };
-	  }
-	];
-      };
-    };
-  };
 
 }

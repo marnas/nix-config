@@ -76,7 +76,7 @@ in
   #  /etc/profiles/per-user/marnas/etc/profile.d/hm-session-vars.sh
   #
   home.sessionVariables = {
-    EDITOR = "neovim";
+    EDITOR = "nvim";
     XDG_CURRENT_DESKTOP = "hyprland";
   };
 
@@ -141,9 +141,13 @@ in
     '';
   };
 
+
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
+    # plugins = [
+    #   split-monitor-workspaces
+    # ];
     extraConfig = ''
             # See https://wiki.hyprland.org/Configuring/Monitors/
             monitor=,preferred,auto,auto
@@ -261,7 +265,7 @@ in
             # Example windowrule v2
             # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
             # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
-            windowrulev2 = nomaximizerequest, class:.* # You'll probably like this.
+            #windowrulev2 = nomaximizerequest, class:.* # You'll probably like this.
 
 
             # See https://wiki.hyprland.org/Configuring/Keywords/ for more
