@@ -113,9 +113,9 @@
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
-    # plugins = [
-    #   split-monitor-workspaces
-    # ];
+    plugins = [
+      inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+    ];
     extraConfig = ''
             # See https://wiki.hyprland.org/Configuring/Monitors/
             monitor=,preferred,auto,auto

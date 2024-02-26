@@ -23,7 +23,6 @@
     , nixpkgs
     , home-manager
     , hyprland
-    , split-monitor-workspaces
     , ...
     }@ inputs:
     let
@@ -68,16 +67,6 @@
           modules = [
             # > main home-manager configuration file <
             ./home-manager/home.nix
-
-            hyprland.homeManagerModules.default
-            {
-              wayland.windowManager.hyprland = {
-                enable = true;
-                plugins = [
-                  split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
-                ];
-              };
-            }
           ];
         };
       };
