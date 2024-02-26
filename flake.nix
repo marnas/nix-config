@@ -1,6 +1,4 @@
 {
-  description = "Marnas Flake";
-
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
     home-manager = {
@@ -15,13 +13,18 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, hyprland, split-monitor-workspaces, ... }:
+  outputs =
+    { self
+    , nixpkgs
+    , home-manager
+    , hyprland
+    , split-monitor-workspaces
+    , ...
+    }:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
-      #pkgs = nixpkgs.legacyPackages.${system};
 
-      # configure pkgs
       pkgs = import nixpkgs {
         inherit system;
         config = {
