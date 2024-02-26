@@ -1,6 +1,8 @@
 {
   inputs = {
+
     nixpkgs.url = "nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -13,6 +15,7 @@
       url = "github:Duckonaut/split-monitor-workspaces";
       inputs.hyprland.follows = "hyprland";
     };
+
   };
 
   outputs =
@@ -22,8 +25,10 @@
     , hyprland
     , split-monitor-workspaces
     , ...
-    }:
+    }@ inputs:
     let
+      inherit (self) outputs;
+
       lib = nixpkgs.lib;
       system = "x86_64-linux";
 
@@ -37,25 +42,17 @@
 
     in
     {
+
+      overlays = import ./overlays { inherit inputs; };
+
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
       nixosConfigurations = {
         nixos = nixpkgs.lib.nixosSystem {
-          # specialArgs = { inherit inputs outputs; };
+          specialArgs = { inherit inputs outputs; };
           modules = [
             # > main nixos configuration file <
             ./nixos/configuration.nix
-          ];
-        };
-      };
-
-      homeConfigurations = {
-        # useGlobalPkgs = true;
-        # useUserPackages = true;
-        marnas = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          modules = [
-            ./home-manager/home.nix
           ];
         };
       };

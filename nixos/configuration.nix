@@ -1,25 +1,28 @@
-{ config, pkgs, pkgs-stable, ... }:
+{ inputs
+, outputs
+, config
+, pkgs
+, ...
+}:
 
 {
-  nixpkgs.overlays = [
-    (final: prev: {
-      postman = prev.postman.overrideAttrs (old: rec {
-        version = "20230716100528";
-        src = final.fetchurl {
-          url = "https://web.archive.org/web/${version}/https://dl.pstmn.io/download/latest/linux_64";
-          sha256 = "sha256-svk60K4pZh0qRdx9+5OUTu0xgGXMhqvQTGTcmqBOMq8=";
-
-          name = "${old.pname}-${version}.tar.gz";
-        };
-      });
-    })
-  ];
-
   imports =
     [
       ./hardware-configuration.nix
       ./virtmanager.nix
     ];
+
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.stable-packages
+    ];
+
+    config = {
+      allowUnfree = true;
+    };
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -42,6 +45,9 @@
 
   services.xserver.displayManager.gdm.enable = true;
   #services.xserver.displayManager.gdm.wayland = true;
+
+  services.mullvad-vpn.enable = true;
+  services.mullvad-vpn.package = pkgs.mullvad-vpn;
 
   # I use zsh btw
   environment.shells = with pkgs; [ zsh ];
@@ -130,8 +136,6 @@
       #  thunderbird
     ];
   };
-
-  nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
     neovim
