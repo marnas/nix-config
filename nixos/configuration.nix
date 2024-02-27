@@ -12,6 +12,7 @@
       ./hardware-configuration.nix
       ./virtmanager.nix
       ./fish.nix
+      ./greetd.nix
     ];
 
   nixpkgs = {
@@ -56,29 +57,7 @@
     # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  services.xserver.displayManager.gdm.enable = true;
-  #services.xserver.displayManager.gdm.wayland = true;
-
-  services.mullvad-vpn.enable = true;
-  services.mullvad-vpn.package = pkgs.mullvad-vpn;
-
-  # I use zsh btw
-  environment.shells = with pkgs; [ zsh fish ];
-  users.defaultUserShell = pkgs.zsh;
-  programs.zsh.enable = true;
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-  };
-
   services.dbus.enable = true;
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-    ];
-  };
 
   fonts.packages = with pkgs; [
     nerdfonts
@@ -146,7 +125,6 @@
     shell = pkgs.fish;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
-      firefox-wayland
       home-manager
     ];
   };
@@ -160,60 +138,21 @@
     sshfs
     cargo
     nodejs
-    ripgrep
-    bat
     alacritty
     oh-my-zsh
-    teams-for-linux
-    postman
-    orca-slicer
     wine
     winetricks
     bottles
     unzip
     btop
-    telegram-desktop
-    discord
-    whatsapp-for-linux
-    steam
-    lutris
-    vifm
     docker
     docker-compose
     kubectl
     apple-cursor
-    plexamp
     zathura
     texliveFull
-    gimp
-    ollama
     pulsemixer
-    nextcloud-client
     vlc
-    gnome.eog
-    lens
-
-    polkit
-    xdg-desktop-portal-hyprland
-    xdg-desktop-portal-gtk
-    mesa
-    wayland
-    xwayland
-    waybar
-    wl-clipboard
-    wofi
-    kitty
-    meson
-    wayland-protocols
-    wayland-utils
-    wlroots
-    grim
-    slurp
-    libnotify
-    swaynotificationcenter
-    libsForQt5.qt5.qtwayland
-    qt6.qtwayland
-    polkit-kde-agent
   ];
 
   programs.thunar.enable = true;
@@ -227,11 +166,6 @@
   };
 
   security.polkit.enable = true;
-
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
 
   systemd = {
     user.services.polkit-kde-authentication-agent-1 = {

@@ -7,6 +7,7 @@
 
   imports = [
     ./cli
+    ./desktop
   ];
 
   nixpkgs = {
@@ -31,7 +32,19 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
+    teams-for-linux
+    postman
+    orca-slicer
+    telegram-desktop
+    discord
+    whatsapp-for-linux
     steam
+    lutris
+    plexamp
+    gimp
+    nextcloud-client
+    gnome.eog
+    lens
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
