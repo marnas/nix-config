@@ -5,6 +5,10 @@
 , ...
 }: {
 
+  imports = [
+    ./cli
+  ];
+
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
@@ -48,23 +52,6 @@
     XDG_CURRENT_DESKTOP = "hyprland";
   };
 
-  programs.zsh = {
-    enable = true;
-    enableAutosuggestions = true;
-    syntaxHighlighting.enable = true;
-
-    oh-my-zsh = {
-      enable = true;
-      theme = "mrtazz";
-      plugins = [ ];
-    };
-    shellAliases = {
-      ".." = "cd ..";
-      "k" = "kubectl";
-    };
-    initExtra = "source <(kubectl completion zsh)";
-  };
-
   home.pointerCursor.gtk.enable = true;
   home.pointerCursor.name = "macOS-BigSur";
   home.pointerCursor.package = pkgs.apple-cursor;
@@ -81,34 +68,6 @@
     #   package = pkgs.juno-theme;
     # };
   };
-
-  programs.tmux = {
-    enable = true;
-    mouse = true;
-    escapeTime = 10;
-    baseIndex = 1;
-    terminal = "tmux-256color";
-    historyLimit = 100000;
-    plugins = with pkgs;
-      [
-        {
-          plugin = tilish-colemak;
-          extraConfig = ''
-            set -g @tilish-default 'main-vertical'
-            set -g @tilish-colemak 'on'
-            set -g @tilish-navigator 'on'
-          '';
-        }
-        tmuxPlugins.better-mouse-mode
-      ];
-    extraConfig = ''
-      bind -n S-Up resize-pane -U 5
-      bind -n S-Down resize-pane -D 5
-      bind -n S-Left resize-pane -L 5
-      bind -n S-Right resize-pane -R 5
-    '';
-  };
-
 
   wayland.windowManager.hyprland = {
     enable = true;
