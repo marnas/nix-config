@@ -23,6 +23,7 @@
     , nixpkgs
     , home-manager
     , hyprland
+    , split-monitor-workspaces
     , ...
     }@ inputs:
     let
@@ -60,13 +61,25 @@
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'
       homeConfigurations = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
         "marnas@nixos" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs;
-          # pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          #inherit pkgs;
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > main home-manager configuration file <
             ./home-manager/home.nix
+
+            hyprland.homeManagerModules.default
+            {
+              wayland.windowManager.hyprland = {
+                enable = true;
+                plugins = [
+                  split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+                ];
+              };
+            }
           ];
         };
       };

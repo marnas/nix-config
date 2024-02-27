@@ -30,7 +30,9 @@
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
-  # home.packages = with pkgs; [ steam ];
+  home.packages = with pkgs; [
+    steam
+  ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -72,9 +74,9 @@
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
-    plugins = [
-      inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
-    ];
+    # plugins = [
+    #   inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+    # ];
     extraConfig = ''
             # See https://wiki.hyprland.org/Configuring/Monitors/
             monitor=,preferred,auto,auto

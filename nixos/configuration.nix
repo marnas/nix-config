@@ -1,6 +1,7 @@
 { inputs
 , outputs
 , config
+, lib
 , pkgs
 , ...
 }:
@@ -10,6 +11,7 @@
     [
       ./hardware-configuration.nix
       ./virtmanager.nix
+      ./fish.nix
     ];
 
   nixpkgs = {
@@ -23,6 +25,17 @@
       allowUnfree = true;
     };
   };
+
+  # This will additionally add your inputs to the system's legacy channels
+  # Making legacy nix commands consistent as well, awesome!
+  nix.nixPath = [ "/etc/nix/path" ];
+  environment.etc =
+    lib.mapAttrs'
+      (name: value: {
+        name = "nix/path/${name}";
+        value.source = value.flake;
+      })
+      config.nix.registry;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -50,7 +63,7 @@
   services.mullvad-vpn.package = pkgs.mullvad-vpn;
 
   # I use zsh btw
-  environment.shells = with pkgs; [ zsh ];
+  environment.shells = with pkgs; [ zsh fish ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
 
@@ -130,10 +143,11 @@
   users.users.marnas = {
     isNormalUser = true;
     description = "marnas";
+    shell = pkgs.fish;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox-wayland
-      #  thunderbird
+      home-manager
     ];
   };
 
