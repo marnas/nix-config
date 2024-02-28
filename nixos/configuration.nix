@@ -29,14 +29,14 @@
 
   # This will additionally add your inputs to the system's legacy channels
   # Making legacy nix commands consistent as well, awesome!
-  nix.nixPath = [ "/etc/nix/path" ];
-  environment.etc =
-    lib.mapAttrs'
-      (name: value: {
-        name = "nix/path/${name}";
-        value.source = value.flake;
-      })
-      config.nix.registry;
+  # nix.nixPath = [ "/etc/nix/path" ];
+  # environment.etc =
+  #   lib.mapAttrs'
+  #     (name: value: {
+  #       name = "nix/path/${name}";
+  #       value.source = value.flake;
+  #     })
+  #     config.nix.registry;
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
@@ -139,7 +139,6 @@
     cargo
     nodejs
     alacritty
-    oh-my-zsh
     wine
     winetricks
     bottles
@@ -148,11 +147,6 @@
     docker
     docker-compose
     kubectl
-    apple-cursor
-    zathura
-    texliveFull
-    pulsemixer
-    vlc
   ];
 
   programs.thunar.enable = true;

@@ -45,6 +45,10 @@
     nextcloud-client
     gnome.eog
     lens
+    zathura
+    texliveFull
+    pulsemixer
+    vlc
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -67,22 +71,6 @@
     XDG_CURRENT_DESKTOP = "hyprland";
   };
 
-  home.pointerCursor.gtk.enable = true;
-  home.pointerCursor.name = "macOS-BigSur";
-  home.pointerCursor.package = pkgs.apple-cursor;
-  home.pointerCursor.size = 30;
-
-  gtk = {
-    enable = true;
-    cursorTheme = {
-      name = "macOS-BigSur";
-    }; # enable = true;
-    # font.name = "TeX Gyre Adventor 10";
-    # theme = {
-    #   name = "Juno";
-    #   package = pkgs.juno-theme;
-    # };
-  };
 
   wayland.windowManager.hyprland = {
     enable = true;
