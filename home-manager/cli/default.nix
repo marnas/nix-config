@@ -1,7 +1,9 @@
 { pkgs, ... }: {
   imports = [
     ./bat.nix
+    ./eza.nix
     ./fish.nix
+    ./starship.nix
     ./tmux.nix
     ./zsh.nix
   ];
@@ -11,7 +13,6 @@
     bc # Calculator
     bottom # System viewer
     ncdu # TUI disk usage
-    eza # Better ls
     ripgrep # Better grep
     fd # Better find
     httpie # Better curl
