@@ -53,9 +53,17 @@
 
   programs.steam = {
     enable = true;
-    # remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
+
+  # networking.firewall = {
+  #   enable = true;
+  #   allowedTCPPorts = [ 80 443 ];
+  #   allowedUDPPortRanges = [
+  #     { from = 47000; to = 48000; }
+  #   ];
+  # };
 
   services.dbus.enable = true;
 
