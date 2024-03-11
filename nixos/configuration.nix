@@ -57,13 +57,19 @@
     # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  # networking.firewall = {
-  #   enable = true;
-  #   allowedTCPPorts = [ 80 443 ];
-  #   allowedUDPPortRanges = [
-  #     { from = 47000; to = 48000; }
-  #   ];
-  # };
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 80 443 47984 47989 47990 48010 ];
+    allowedUDPPortRanges = [
+      { from = 47000; to = 48000; }
+    ];
+  };
+
+  programs = {
+    adb.enable = true;
+    dconf.enable = true;
+    kdeconnect.enable = true;
+  };
 
   services.dbus.enable = true;
 
@@ -155,6 +161,7 @@
     docker
     docker-compose
     kubectl
+    soulseekqt
   ];
 
   programs.thunar.enable = true;
