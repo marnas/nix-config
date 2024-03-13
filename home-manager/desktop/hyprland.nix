@@ -1,4 +1,4 @@
-{ config, lib, ... }: {
+{ config, lib, pkgs, ... }: {
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
@@ -64,6 +64,10 @@
         "col.shadow" = "0x44000000";
         "col.shadow_inactive" = "0x66000000";
       };
+
+      exec = [
+        "${pkgs.swaybg}/bin/swaybg -i /home/marnas/Pictures/Mountains.png --mode fill"
+      ];
 
       animations = {
         enabled = true;

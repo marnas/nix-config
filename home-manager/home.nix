@@ -1,6 +1,5 @@
 { inputs
 , outputs
-, config
 , pkgs
 , ...
 }: {
@@ -44,6 +43,7 @@
     gimp
     nextcloud-client
     gnome.eog
+    swaybg
     lens
     zathura
     texliveFull
@@ -53,8 +53,8 @@
     prismlauncher
     sunshine
     # inputs.nix-gaming.packages.${pkgs.system}.star-citizen
-	inputs.nix-citizen.packages.${pkgs.system}.star-citizen
-	inputs.nix-citizen.packages.${pkgs.system}.lug-helper
+    inputs.nix-citizen.packages.${pkgs.system}.star-citizen
+    inputs.nix-citizen.packages.${pkgs.system}.lug-helper
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
