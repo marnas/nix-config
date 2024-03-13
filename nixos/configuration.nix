@@ -44,6 +44,22 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "amdgpu" ];
 
+  hardware.opengl = {
+    # Mesa
+    enable = true;
+    # Vulkan
+    driSupport32Bit = true;
+
+    extraPackages = with pkgs; [
+      amdvlk
+    ];
+    # For 32 bit applications 
+    extraPackages32 = with pkgs; [
+      driversi686Linux.amdvlk
+    ];
+
+  };
+
   virtualisation.docker.enable = true;
 
   boot.kernelParams = [
@@ -57,12 +73,20 @@
     # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  networking.firewall = {
+  networking = {
+	firewall = {
     enable = true;
-    allowedTCPPorts = [ 80 443 47984 47989 47990 48010 ];
-    allowedUDPPortRanges = [
-      { from = 47000; to = 48000; }
+    allowedTCPPorts = [ ];
+    allowedTCPPortRanges = [
+      # { from = 47984; to = 48010; } # Sunshine
+      # { from = 1714; to = 1764; } # KDE Connect
     ];
+    allowedUDPPortRanges = [
+      # { from = 47984; to = 48010; } # Sunshine
+      # { from = 1714; to = 1764; } # KDE Connect
+    ];
+	};
+	extraHosts = "127.0.0.1 modules-cdn.eac-prod.on.epicgames.com"; # Patch for Star Citizen
   };
 
   programs = {
@@ -190,6 +214,12 @@
         TimeoutStopSec = 10;
       };
     };
+  };
+
+  # NixOS configuration for Star Citizen requirements
+  boot.kernel.sysctl = {
+    "vm.max_map_count" = 16777216;
+    "fs.file-max" = 524288;
   };
 
   # This value determines the NixOS release from which the default
