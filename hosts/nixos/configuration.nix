@@ -11,8 +11,9 @@
     [
       ./hardware-configuration.nix
       ./virtmanager.nix
-      ./fish.nix
       ./greetd.nix
+
+      ../shared/fish.nix
     ];
 
   nixpkgs = {
@@ -74,19 +75,19 @@
   };
 
   networking = {
-	firewall = {
-    enable = true;
-    allowedTCPPorts = [ ];
-    allowedTCPPortRanges = [
-      # { from = 47984; to = 48010; } # Sunshine
-      # { from = 1714; to = 1764; } # KDE Connect
-    ];
-    allowedUDPPortRanges = [
-      # { from = 47984; to = 48010; } # Sunshine
-      # { from = 1714; to = 1764; } # KDE Connect
-    ];
-	};
-	extraHosts = "127.0.0.1 modules-cdn.eac-prod.on.epicgames.com"; # Patch for Star Citizen
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ ];
+      allowedTCPPortRanges = [
+        # { from = 47984; to = 48010; } # Sunshine
+        # { from = 1714; to = 1764; } # KDE Connect
+      ];
+      allowedUDPPortRanges = [
+        # { from = 47984; to = 48010; } # Sunshine
+        # { from = 1714; to = 1764; } # KDE Connect
+      ];
+    };
+    extraHosts = "127.0.0.1 modules-cdn.eac-prod.on.epicgames.com"; # Patch for Star Citizen
   };
 
   programs = {

@@ -20,7 +20,7 @@
       inputs.hyprland.follows = "hyprland";
     };
 
-	nix-citizen.url = "github:LovingMelody/nix-citizen";
+    nix-citizen.url = "github:LovingMelody/nix-citizen";
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -62,7 +62,15 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             # > main nixos configuration file <
-            ./nixos/configuration.nix
+            ./hosts/nixos/configuration.nix
+          ];
+        };
+
+        noxis = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            # > main nixos configuration file <
+            ./hosts/noxis/configuration.nix
           ];
         };
       };
