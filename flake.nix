@@ -9,12 +9,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland = {
+      url = "github:hyprwm/hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     split-monitor-workspaces = {
       # url = "github:Duckonaut/split-monitor-workspaces";
       url = "github:bivsk/split-monitor-workspaces/bivsk";
       inputs.hyprland.follows = "hyprland";
+    };
+
+	nix-citizen.url = "github:LovingMelody/nix-citizen";
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
   };

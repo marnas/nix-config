@@ -34,7 +34,7 @@
   home.packages = with pkgs; [
     teams-for-linux
     postman
-    orca-slicer
+    # orca-slicer
     telegram-desktop
     discord
     whatsapp-for-linux
@@ -52,6 +52,9 @@
     yt-dlp
     prismlauncher
     sunshine
+    # inputs.nix-gaming.packages.${pkgs.system}.star-citizen
+	inputs.nix-citizen.packages.${pkgs.system}.star-citizen
+	inputs.nix-citizen.packages.${pkgs.system}.lug-helper
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
