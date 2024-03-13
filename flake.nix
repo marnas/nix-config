@@ -87,7 +87,27 @@
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > main home-manager configuration file <
-            ./home-manager/home.nix
+            ./home-manager/nixos.nix
+
+            hyprland.homeManagerModules.default
+            {
+              wayland.windowManager.hyprland = {
+                enable = true;
+                plugins = [
+                  split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+                ];
+              };
+            }
+          ];
+        };
+
+        "marnas@noxis" = home-manager.lib.homeManagerConfiguration {
+          #inherit pkgs;
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            # > main home-manager configuration file <
+            ./home-manager/noxis.nix
 
             hyprland.homeManagerModules.default
             {
