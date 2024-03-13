@@ -8,8 +8,8 @@
   };
 
   users.users.marnas = {
-    openssh.authorizedKeys.keys = [
-      "./ssh_host_rsa_key.pub"
+    openssh.authorizedKeys.keyFiles = [
+      ./ssh_host_rsa_key.pub
     ];
 
   };

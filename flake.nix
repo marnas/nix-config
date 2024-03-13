@@ -108,16 +108,6 @@
           modules = [
             # > main home-manager configuration file <
             ./home-manager/noxis.nix
-
-            hyprland.homeManagerModules.default
-            {
-              wayland.windowManager.hyprland = {
-                enable = true;
-                plugins = [
-                  split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
-                ];
-              };
-            }
           ];
         };
       };
