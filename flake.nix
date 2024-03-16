@@ -26,6 +26,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+
   };
 
   outputs =
@@ -81,6 +83,7 @@
       homeConfigurations = {
         useGlobalPkgs = true;
         useUserPackages = true;
+
         "marnas@nixos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
@@ -100,7 +103,6 @@
             }
           ];
         };
-
         "marnas@noxis" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance

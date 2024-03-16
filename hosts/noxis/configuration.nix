@@ -4,12 +4,15 @@
   imports =
     [
       ./hardware-configuration.nix
+      ./minecraft.nix
+      ./terraria.nix
 
       ../shared/fish.nix
       ../shared/openssh.nix
     ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
 
   # Bootloader.
   boot.loader.grub.enable = true;
@@ -49,7 +52,10 @@
     ];
   };
 
-  nixpkgs.config.allowUnfree = true;
+  networking.firewall = {
+    allowedTCPPorts = [ 7777 25570 25565 ];
+    allowedUDPPorts = [ 7777 25570 25565 19132 ];
+  };
 
   environment.systemPackages = with pkgs; [
     neovim

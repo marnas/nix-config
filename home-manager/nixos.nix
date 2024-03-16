@@ -34,8 +34,10 @@
     teams-for-linux
     postman
     # orca-slicer
+    slack
     telegram-desktop
     discord
+    element-desktop
     whatsapp-for-linux
     steam
     lutris
