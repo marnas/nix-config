@@ -44,6 +44,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
 
   hardware.opengl = {
     # Mesa
@@ -66,6 +67,7 @@
   boot.kernelParams = [
     "video=DP-1:2560x1440@75"
     "video=DP-2:2560x1440@75"
+    "clearcpuid=304" # The Finals
   ];
 
   programs.steam = {
@@ -151,6 +153,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
+    wireplumber.enable = true;
     jack.enable = true;
   };
 
@@ -187,6 +190,7 @@
     docker-compose
     kubectl
     soulseekqt
+    natscli
   ];
 
   programs.thunar.enable = true;
@@ -216,6 +220,8 @@
       };
     };
   };
+
+  services.nats.enable = true;
 
   # NixOS configuration for Star Citizen requirements
   boot.kernel.sysctl = {

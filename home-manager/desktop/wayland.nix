@@ -7,7 +7,8 @@
   xdg.portal = {
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
-    configPackages = [ pkgs.hyprland ];
+    # configPackages = [ pkgs.hyprland ];
+    config.common.default = "*";
   };
 
   xdg.mimeApps.enable = true;

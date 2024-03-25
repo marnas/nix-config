@@ -33,7 +33,10 @@
   home.packages = with pkgs; [
     teams-for-linux
     postman
-    # orca-slicer
+    orca-slicer
+    kind
+    kubernetes-helm
+    gamemode
     slack
     telegram-desktop
     discord

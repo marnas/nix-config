@@ -7,7 +7,10 @@
     # ];
 
     settings = {
-      monitor = ",preferred,auto,auto";
+      monitor = [
+        "DP-1,2560x1440@75,0x0,1"
+        "DP-2,2560x1440@75,2560x0,1"
+      ];
       general = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
@@ -193,3 +196,4 @@
   };
 
 }
+
