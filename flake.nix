@@ -20,6 +20,11 @@
       inputs.hyprland.follows = "hyprland";
     };
 
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-citizen.url = "github:LovingMelody/nix-citizen";
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
@@ -36,6 +41,7 @@
     , home-manager
     , hyprland
     , split-monitor-workspaces
+    , nix-darwin
     , ...
     }@ inputs:
     let
@@ -77,6 +83,16 @@
         };
       };
 
+      # Build darwin flake using:
+      # $ darwin-rebuild build --flake .#evombp05evolvere-techcom
+      darwinConfigurations = {
+        evombp05evolvere-techcom = nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/evo/configuration.nix
+          ];
+        };
+      };
 
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'
@@ -116,3 +132,4 @@
 
     };
 }
+
