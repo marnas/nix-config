@@ -12,6 +12,7 @@
   environment.systemPackages = with pkgs; [
     virt-manager
     virt-viewer
+    virglrenderer
     spice
     spice-gtk
     spice-protocol

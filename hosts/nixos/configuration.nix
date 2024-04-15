@@ -66,7 +66,7 @@
 
   boot.kernelParams = [
     "video=DP-1:2560x1440@75"
-    "video=DP-2:2560x1440@75"
+    "video=DP-2:2560x1440@360"
     "clearcpuid=304" # The Finals
   ];
 
@@ -78,7 +78,7 @@
 
   networking = {
     firewall = {
-      enable = true;
+      enable = false;
       allowedTCPPorts = [ ];
       allowedTCPPortRanges = [
         # { from = 47984; to = 48010; } # Sunshine
@@ -177,12 +177,15 @@
     git
     gcc
     go
+	python3
+	python311Packages.nats-python
     sshfs
     cargo
     nodejs
     alacritty
     wine
     winetricks
+    protonup-qt
     bottles
     unzip
     btop
@@ -191,6 +194,8 @@
     kubectl
     soulseekqt
     natscli
+	nmap
+	wowup
   ];
 
   programs.thunar.enable = true;
@@ -220,8 +225,6 @@
       };
     };
   };
-
-  services.nats.enable = true;
 
   # NixOS configuration for Star Citizen requirements
   boot.kernel.sysctl = {

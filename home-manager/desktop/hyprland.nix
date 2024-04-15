@@ -1,15 +1,17 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, inputs, ... }: {
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
+	package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    plugins = [inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces];
     # plugins = [
-    #   inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+    #   inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
     # ];
 
     settings = {
       monitor = [
         "DP-1,2560x1440@75,0x0,1"
-        "DP-2,2560x1440@75,2560x0,1"
+        "DP-2,2560x1440@360,2560x0,1"
       ];
       general = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
@@ -24,7 +26,6 @@
         allow_tearing = false;
       };
 
-
       # master = {
       #   new_is_master = false;
       # };
@@ -32,7 +33,6 @@
       # Execute your favorite apps at launch
       exec-once = [
         "waybar"
-        "swaync"
         "1password --silent"
       ];
 
@@ -51,7 +51,8 @@
 
       decoration = {
         active_opacity = 0.97;
-        inactive_opacity = 0.77;
+        inactive_opacity = 0.97;
+        # inactive_opacity = 0.77;
         fullscreen_opacity = 1.0;
         rounding = 2;
         blur = {
@@ -122,6 +123,7 @@
           #
           terminal = config.home.sessionVariables.TERMINAL;
           browser = "firefox";
+          passmanager = "1password";
           mod = "SUPER";
           menu = "wofi --show drun";
           # editor = defaultApp "text/plain";
@@ -130,6 +132,7 @@
           # Program bindings
           "${mod},Return,exec,${terminal}"
           "${mod},b,exec,${browser}"
+          "${mod},o,exec,${passmanager}"
           "${mod}, Q, killactive,"
           "${mod}, V, togglefloating,"
           "${mod}, SPACE, exec, ${menu}"

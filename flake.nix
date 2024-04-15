@@ -14,9 +14,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    split-monitor-workspaces = {
-      # url = "github:Duckonaut/split-monitor-workspaces";
-      url = "github:bivsk/split-monitor-workspaces/bivsk";
+	split-monitor-workspaces = {
+      url = "github:Duckonaut/split-monitor-workspaces";
       inputs.hyprland.follows = "hyprland";
     };
 
@@ -40,7 +39,6 @@
     , nixpkgs
     , home-manager
     , hyprland
-    , split-monitor-workspaces
     , nix-darwin
     , ...
     }@ inputs:
@@ -107,16 +105,6 @@
           modules = [
             # > main home-manager configuration file <
             ./home-manager/nixos.nix
-
-            hyprland.homeManagerModules.default
-            {
-              wayland.windowManager.hyprland = {
-                enable = true;
-                plugins = [
-                  split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
-                ];
-              };
-            }
           ];
         };
         "marnas@noxis" = home-manager.lib.homeManagerConfiguration {
