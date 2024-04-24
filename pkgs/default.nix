@@ -3,5 +3,4 @@
 { pkgs ? import <nixpkgs> { } }: rec {
   tilish-colemak = pkgs.callPackage ./tilish-colemak { };
   wowup = pkgs.callPackage ./wowup { };
-  wowup-cf = pkgs.callPackage ./wowup-cf { };
 }

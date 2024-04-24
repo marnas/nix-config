@@ -50,16 +50,8 @@
     # Mesa
     enable = true;
     # Vulkan
+	driSupport = true;
     driSupport32Bit = true;
-
-    extraPackages = with pkgs; [
-      amdvlk
-    ];
-    # For 32 bit applications 
-    extraPackages32 = with pkgs; [
-      driversi686Linux.amdvlk
-    ];
-
   };
 
   virtualisation.docker.enable = true;
@@ -78,7 +70,7 @@
 
   networking = {
     firewall = {
-      enable = false;
+      enable = true;
       allowedTCPPorts = [ ];
       allowedTCPPortRanges = [
         # { from = 47984; to = 48010; } # Sunshine
@@ -99,6 +91,8 @@
   };
 
   services.dbus.enable = true;
+  services.mullvad-vpn.enable = true;
+
 
   fonts.packages = with pkgs; [
     nerdfonts
