@@ -90,6 +90,15 @@
             ./hosts/evo/configuration.nix
           ];
         };
+
+        # $ darwin-rebuild build --flake .#macos
+        macos = nix-darwin.lib.darwinSystem {
+          # system = "x86_64-darwin";
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/macos/configuration.nix
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
@@ -114,6 +123,16 @@
           modules = [
             # > main home-manager configuration file <
             ./home-manager/noxis.nix
+          ];
+        };
+
+        "marnas@macos" = home-manager.lib.homeManagerConfiguration {
+          #inherit pkgs;
+          pkgs = nixpkgs.legacyPackages.x86_64-darwin; # Home-manager requires 'pkgs' instance
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            # > main home-manager configuration file <
+            ./home-manager/macos.nix
           ];
         };
       };
