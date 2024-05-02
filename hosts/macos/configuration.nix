@@ -50,6 +50,14 @@
     ${pkgs.rsync}/bin/rsync $rsyncArgs "$apps_source/" "$app_target"
   '';
 
+  homebrew = {
+    enable = true;
+    global.autoUpdate = true;
+    casks = [
+      "whatsapp"
+    ];
+  };
+
   # home-manager.useUserPackages = true;
 
 
