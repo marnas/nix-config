@@ -98,6 +98,12 @@
         preserve_split = true;
       };
 
+      plugin = {
+        split-monitor-workspaces = {
+          count = 5;
+        };
+      };
+
 
       bindm = [
         "SUPER,mouse:272,movewindow"
@@ -193,7 +199,7 @@
 
       misc {
           # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          force_default_wallpaper = -1 # Set to 0 to disable the anime mascot wallpapers
+          force_default_wallpaper = 0 # Set to 0 to disable the anime mascot wallpapers
       }
     '';
   };
