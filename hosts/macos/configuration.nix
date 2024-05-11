@@ -10,7 +10,6 @@
     vscode
     cargo
     discord
-
   ];
 
   # Auto upgrade nix package and the daemon service.
@@ -55,6 +54,12 @@
     global.autoUpdate = true;
     casks = [
       "whatsapp"
+      "hackintool"
+      "soulseek"
+      "karabiner-elements"
+      "opencore-configurator"
+      "the-unarchiver"
+      "autodesk-fusion"
     ];
   };
 
