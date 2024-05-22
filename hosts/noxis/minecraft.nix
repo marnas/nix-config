@@ -29,7 +29,7 @@
             uuid = "99b2b8c3-02f9-468c-b384-b30bcb0dbc11";
             name = "marnas1";
             level = 4;
-          },
+          }
           {
             uuid = "7988a16b-09f8-3d10-8d65-d0abd7edc00a";
             name = "marnas1";
