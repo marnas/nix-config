@@ -24,6 +24,7 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  services.tailscale.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -55,7 +56,8 @@
 
   networking.firewall = {
 	allowedTCPPorts = [ 7777 25570 25565 6443 ];
-    allowedUDPPorts = [ 7777 25570 25565 19132 ];
+	allowedUDPPorts = [ 7777 25570 25565 19132 config.services.tailscale.port ];
+	trustedInterfaces = [ "tailscale0" ];
   };
 
   environment.systemPackages = with pkgs; [
