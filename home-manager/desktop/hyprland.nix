@@ -10,7 +10,7 @@
 
     settings = {
       monitor = [
-        "DP-1,2560x1440@75,0x0,1"
+        "DP-1,2560x1440@360,0x0,1"
         "DP-2,2560x1440@360,2560x0,1"
       ];
       general = {
@@ -46,7 +46,8 @@
           natural_scroll = true;
         };
 
-        sensitivity = 0;
+        sensitivity = "-0.8";
+		accel_profile = "adaptive";
       };
 
       decoration = {
