@@ -10,11 +10,12 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./virtmanager.nix
+      # ./virtmanager.nix
       ./greetd.nix
 	  ./udev-rules.nix
 
       ../shared/fish.nix
+      ../shared/nix.nix
     ];
 
   nixpkgs = {
