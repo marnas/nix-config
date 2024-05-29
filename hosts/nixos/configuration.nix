@@ -12,6 +12,7 @@
       ./hardware-configuration.nix
       ./virtmanager.nix
       ./greetd.nix
+	  ./udev-rules.nix
 
       ../shared/fish.nix
     ];
@@ -57,7 +58,7 @@
   virtualisation.docker.enable = true;
 
   boot.kernelParams = [
-    "video=DP-1:2560x1440@75"
+    "video=DP-1:2560x1440@360"
     "video=DP-2:2560x1440@360"
     "clearcpuid=304" # The Finals
   ];
@@ -190,6 +191,7 @@
     natscli
 	nmap
 	wowup
+    cifs-utils
   ];
 
   programs.thunar.enable = true;
