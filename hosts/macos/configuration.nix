@@ -1,4 +1,4 @@
-{ pkgs, lib, inputs, config, ... }: 
+{ pkgs, lib, inputs, config, ... }:
 {
   # inputs.self, inputs.nix-darwin, and inputs.nixpkgs can be accessed here
 

@@ -11,7 +11,7 @@
     eula = true;
     servers.survival = {
       enable = true;
-	  package = pkgs.paperServers.paper-1_20_6;
+      package = pkgs.paperServers.paper-1_20_6;
       autoStart = true;
       enableReload = true;
       serverProperties = {
@@ -25,7 +25,7 @@
 
       files = {
         "ops.json".value = [
-	      {
+          {
             uuid = "99b2b8c3-02f9-468c-b384-b30bcb0dbc11";
             name = "marnas1";
             level = 4;
@@ -35,10 +35,10 @@
             name = "marnas1";
             level = 4;
           }
-		];
+        ];
       };
 
-	  symlinks = {
+      symlinks = {
         "plugins/SkinsRestorer.jar" = pkgs.fetchurl rec {
           pname = "SkinsRestorer";
           version = "15.0.13";

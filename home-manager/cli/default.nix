@@ -19,6 +19,7 @@
     jq # JSON pretty printer and manipulator
 
     nil # Nix LSP
+    stable.rnix-lsp
     nixfmt-classic # Nix formatter
     nvd # Differ
     nix-output-monitor

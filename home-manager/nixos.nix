@@ -50,7 +50,6 @@
     gnome.eog
     swaybg
     lens
-	mullvad-vpn
     zathura
     texliveFull
     pulsemixer

@@ -6,7 +6,7 @@
       ./hardware-configuration.nix
       ./minecraft.nix
       ./terraria.nix
-	  ./k3s.nix
+      ./k3s.nix
 
       ../shared/fish.nix
       ../shared/openssh.nix
@@ -55,9 +55,9 @@
   };
 
   networking.firewall = {
-	allowedTCPPorts = [ 7777 25570 25565 6443 ];
-	allowedUDPPorts = [ 7777 25570 25565 19132 config.services.tailscale.port ];
-	trustedInterfaces = [ "tailscale0" ];
+    allowedTCPPorts = [ 7777 25570 25565 6443 ];
+    allowedUDPPorts = [ 7777 25570 25565 19132 config.services.tailscale.port ];
+    trustedInterfaces = [ "tailscale0" ];
   };
 
   environment.systemPackages = with pkgs; [

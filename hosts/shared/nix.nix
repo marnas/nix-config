@@ -1,7 +1,7 @@
 { ... }: {
   nix = {
     settings.auto-optimise-store = true;
-	gc = {
+    gc = {
       automatic = true;
       dates = "weekly";
       # Keep the last 3 generations

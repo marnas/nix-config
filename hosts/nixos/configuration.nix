@@ -12,7 +12,7 @@
       ./hardware-configuration.nix
       # ./virtmanager.nix
       ./greetd.nix
-	  ./udev-rules.nix
+      ./udev-rules.nix
 
       ../shared/fish.nix
       ../shared/nix.nix
@@ -52,7 +52,7 @@
     # Mesa
     enable = true;
     # Vulkan
-	driSupport = true;
+    driSupport = true;
     driSupport32Bit = true;
   };
 
@@ -173,8 +173,8 @@
     git
     gcc
     go
-	python3
-	python311Packages.nats-python
+    python3
+    python311Packages.nats-python
     sshfs
     cargo
     nodejs
@@ -190,8 +190,8 @@
     kubectl
     soulseekqt
     natscli
-	nmap
-	wowup
+    nmap
+    wowup
     cifs-utils
   ];
 

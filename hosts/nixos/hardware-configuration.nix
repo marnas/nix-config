@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
@@ -14,30 +15,44 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/ba02abb9-f863-4e6a-bafd-9d7e879e030f";
+    {
+      device = "/dev/disk/by-uuid/ba02abb9-f863-4e6a-bafd-9d7e879e030f";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/89FD-33DC";
+    {
+      device = "/dev/disk/by-uuid/89FD-33DC";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/41f22055-5583-4890-ba3e-632b5803fcc6"; }
-    ];
-  
+    [{ device = "/dev/disk/by-uuid/41f22055-5583-4890-ba3e-632b5803fcc6"; }];
+
   # Network devices
   fileSystems."/mnt/smb_shares/Games" = {
     device = "//10.13.37.12/Games";
     fsType = "cifs";
-    options = let
-    # this line prevents hanging on network split
-    automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+    options =
+      let
+        # this line prevents hanging on network split
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
 
-    in ["${automount_opts},credentials=/home/marnas/.credentials,uid=1000,gid=100"];
+      in
+      [ "${automount_opts},credentials=/home/marnas/.credentials,uid=1000,gid=100" ];
   };
 
+  fileSystems."/mnt/smb_shares/SteamLibrary" = {
+    device = "//10.13.37.12/SteamLibrary";
+    fsType = "cifs";
+    options =
+      let
+        # this line prevents hanging on network split
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+
+      in
+      [ "${automount_opts},credentials=/home/marnas/.credentials,uid=1000,gid=100" ];
+  };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
