@@ -2,8 +2,8 @@
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
-	package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    plugins = [inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces];
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    plugins = [ inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces ];
     # plugins = [
     #   inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
     # ];
@@ -47,7 +47,7 @@
         };
 
         sensitivity = "-0.8";
-		accel_profile = "adaptive";
+        accel_profile = "adaptive";
       };
 
       decoration = {

@@ -30,8 +30,8 @@
     [{ device = "/dev/disk/by-uuid/41f22055-5583-4890-ba3e-632b5803fcc6"; }];
 
   # Network devices
-  fileSystems."/mnt/smb_shares/Games" = {
-    device = "//10.13.37.12/Games";
+  fileSystems."/mnt/smb_shares/media" = {
+    device = "//truenas.marnas.sh/media";
     fsType = "cifs";
     options =
       let
@@ -42,16 +42,9 @@
       [ "${automount_opts},credentials=/home/marnas/.credentials,uid=1000,gid=100" ];
   };
 
-  fileSystems."/mnt/smb_shares/SteamLibrary" = {
-    device = "//10.13.37.12/SteamLibrary";
-    fsType = "cifs";
-    options =
-      let
-        # this line prevents hanging on network split
-        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-
-      in
-      [ "${automount_opts},credentials=/home/marnas/.credentials,uid=1000,gid=100" ];
+  fileSystems."/mnt/smb_shares/Games" = {
+    device = "truenas.marnas.sh:/mnt/Pool0/Games";
+    fsType = "nfs";
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

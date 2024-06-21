@@ -50,6 +50,7 @@
     gnome.eog
     swaybg
     lens
+    libreoffice
     zathura
     texliveFull
     pulsemixer
