@@ -1,16 +1,17 @@
 { config
 , pkgs
+, inputs
 , ...
 }:
 let
-  global = import ../global-var.nix;
+  hyprland-session = "${inputs.hyprland.packages.${pkgs.system}.hyprland}/share/wayland-sessions";
 in
 {
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --remember --sessions ${hyprland-session}";
         user = "greeter";
       };
     };

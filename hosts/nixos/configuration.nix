@@ -45,24 +45,14 @@
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
 
-  hardware.opengl = {
-    # Mesa
+  hardware.graphics = {
     enable = true;
-    # Vulkan
-    driSupport = true;
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 
   virtualisation.docker.enable = true;
-
-  boot.kernelParams = [
-    "video=DP-1:2560x1440@360"
-    "video=DP-2:2560x1440@360"
-    "clearcpuid=304" # The Finals
-  ];
 
   programs.steam = {
     enable = true;
@@ -141,7 +131,7 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  sound.enable = true;
+  # sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -191,7 +181,6 @@
     soulseekqt
     natscli
     nmap
-    wowup
     cifs-utils
   ];
 

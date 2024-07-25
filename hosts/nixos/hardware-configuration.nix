@@ -10,9 +10,14 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "thunderbolt" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
+
+  boot.kernelParams = [
+    "video=DP-1:2560x1440@360"
+    "video=DP-2:2560x1440@360"
+  ];
 
   fileSystems."/" =
     {

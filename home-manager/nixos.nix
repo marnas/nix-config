@@ -47,7 +47,8 @@
     plexamp
     gimp
     nextcloud-client
-    gnome.eog
+    eog
+    clonehero
     swaybg
     lens
     libreoffice
