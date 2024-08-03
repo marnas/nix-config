@@ -21,18 +21,18 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/ba02abb9-f863-4e6a-bafd-9d7e879e030f";
+      device = "/dev/disk/by-uuid/e105daca-11af-4c6f-a56c-b04df968ac88";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/89FD-33DC";
+      device = "/dev/disk/by-uuid/5CCB-A8F5";
       fsType = "vfat";
+      options = [ "fmask=0022" "dmask=0022" ];
     };
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/41f22055-5583-4890-ba3e-632b5803fcc6"; }];
+  swapDevices = [ ];
 
   # Network devices
   fileSystems."/mnt/smb_shares/media" = {
