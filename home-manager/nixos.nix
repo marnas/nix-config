@@ -32,37 +32,35 @@
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     chromium
-    teams-for-linux
     postman
     orca-slicer
     kubernetes-helm
-    gamemode
-    slack
-    telegram-desktop
-    discord
-    element-desktop
-    whatsapp-for-linux
-    steam
-    lutris
     plexamp
     gimp
     nextcloud-client
     eog
-    clonehero
-    wowup-cf
     swaybg
     lens
     libreoffice
     zathura
-    texliveFull
     pulsemixer
     vlc
     yt-dlp
+
+    # messaging
+    teams-for-linux
+    slack
+    telegram-desktop
+    discord
+    whatsapp-for-linux
+
+    # gaming
+    gamemode
+    steam
+    lutris
+    clonehero
+    wowup-cf
     prismlauncher
-    sunshine
-    # inputs.nix-gaming.packages.${pkgs.system}.star-citizen
-    inputs.nix-citizen.packages.${pkgs.system}.star-citizen
-    inputs.nix-citizen.packages.${pkgs.system}.lug-helper
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

@@ -66,11 +66,9 @@
       allowedTCPPorts = [ ];
       allowedTCPPortRanges = [
         # { from = 47984; to = 48010; } # Sunshine
-        # { from = 1714; to = 1764; } # KDE Connect
       ];
       allowedUDPPortRanges = [
         # { from = 47984; to = 48010; } # Sunshine
-        # { from = 1714; to = 1764; } # KDE Connect
       ];
     };
     extraHosts = "127.0.0.1 modules-cdn.eac-prod.on.epicgames.com"; # Patch for Star Citizen
@@ -79,7 +77,6 @@
   programs = {
     adb.enable = true;
     dconf.enable = true;
-    kdeconnect.enable = true;
   };
 
   services.dbus.enable = true;
@@ -164,23 +161,17 @@
     gcc
     go
     python3
-    python311Packages.nats-python
-    sshfs
     cargo
     nodejs
     alacritty
     wine
     winetricks
     protonup-qt
-    bottles
     unzip
     btop
     docker
     docker-compose
     kubectl
-    soulseekqt
-    natscli
-    nmap
     cifs-utils
   ];
 
@@ -210,12 +201,6 @@
         TimeoutStopSec = 10;
       };
     };
-  };
-
-  # NixOS configuration for Star Citizen requirements
-  boot.kernel.sysctl = {
-    "vm.max_map_count" = 16777216;
-    "fs.file-max" = 524288;
   };
 
   # This value determines the NixOS release from which the default
