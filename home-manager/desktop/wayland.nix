@@ -2,6 +2,7 @@
 {
   imports = [
     ./hyprland.nix
+    ./waybar.nix
   ];
 
   xdg.portal = {
@@ -44,7 +45,7 @@
     xdg-desktop-portal-gtk
     mesa
     wayland
-    waybar
+    # waybar
     wl-clipboard
     wofi
     meson
