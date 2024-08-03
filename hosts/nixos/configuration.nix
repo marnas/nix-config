@@ -163,7 +163,6 @@
     python3
     cargo
     nodejs
-    alacritty
     wine
     winetricks
     protonup-qt
