@@ -3,6 +3,7 @@
   imports = [
     ./hyprland.nix
     ./waybar.nix
+    ./tofi.nix
   ];
 
   xdg.portal = {
@@ -33,7 +34,6 @@
     mimeo
     xwayland
     pulseaudio
-    slurp
     waypipe
     wf-recorder
     wl-clipboard
@@ -45,9 +45,7 @@
     xdg-desktop-portal-gtk
     mesa
     wayland
-    # waybar
     wl-clipboard
-    wofi
     meson
     wayland-protocols
     wayland-utils

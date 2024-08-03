@@ -4,9 +4,6 @@
     systemd.enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     plugins = [ inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces ];
-    # plugins = [
-    #   inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
-    # ];
 
     settings = {
       monitor = [
@@ -32,7 +29,6 @@
 
       # Execute your favorite apps at launch
       exec-once = [
-        "waybar"
         "1password --silent"
       ];
 
@@ -116,10 +112,6 @@
           # playerctl = "${config.services.playerctld.package}/bin/playerctl";
           # playerctld = "${config.services.playerctld.package}/bin/playerctld";
           # makoctl = "${config.services.mako.package}/bin/makoctl";
-          # wofi = "${config.programs.wofi.package}/bin/wofi";
-          # pass-wofi = "${pkgs.pass-wofi.override {
-          #   pass = config.programs.password-store.package;
-          # }}/bin/pass-wofi";
           #
           # grimblast = "${pkgs.inputs.hyprwm-contrib.grimblast}/bin/grimblast";
           # tesseract = "${pkgs.tesseract}/bin/tesseract";
@@ -132,7 +124,7 @@
           browser = "firefox";
           passmanager = "1password";
           mod = "SUPER";
-          menu = "wofi --show drun";
+          menu = "tofi-drun --drun-launch=true";
           # editor = defaultApp "text/plain";
         in
         [
@@ -155,6 +147,7 @@
           ",XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
           ",XF86AudioMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
           # # Screenshotting
+          "${mod} CTRL, p, exec, grim -g \"$(slurp -d)\" - | wl-copy -t image/png"
           # ",Print,exec,${grimblast} --notify --freeze copy output"
           # "SUPER,Print,exec,${grimblast} --notify --freeze copy area"
 
@@ -172,8 +165,6 @@
           # Example special workspace (scratchpad)
           "${mod}, S, togglespecialworkspace, magic"
           "${mod} SHIFT, S, movetoworkspace, special:magic"
-
-          "${mod} CTRL, p, exec, grim -g \"$(slurp -d)\" - | wl-copy -t image/png"
 
           # Workspaces
           "${mod}, 1, split-workspace, 1"

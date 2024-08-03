@@ -2,6 +2,7 @@
 
   programs.waybar = {
     enable = true;
+    systemd.enable = true;
     settings = [{
       height = 24;
       modules-left = [ "hyprland/workspaces" ];
