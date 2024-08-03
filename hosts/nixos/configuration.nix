@@ -11,8 +11,9 @@
     [
       ./hardware-configuration.nix
       # ./virtmanager.nix
-      ./greetd.nix
+      # ./greetd.nix
       ./udev-rules.nix
+      ./gnome.nix
 
       ../shared/fish.nix
       ../shared/nix.nix
@@ -71,7 +72,6 @@
         # { from = 47984; to = 48010; } # Sunshine
       ];
     };
-    extraHosts = "127.0.0.1 modules-cdn.eac-prod.on.epicgames.com"; # Patch for Star Citizen
   };
 
   programs = {
@@ -115,8 +115,7 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "amdgpu" ];
+  # services.xserver.videoDrivers = [ "amdgpu" ];
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -175,6 +174,7 @@
   ];
 
   programs.thunar.enable = true;
+  programs.hyprland.enable = true;
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
 
@@ -200,6 +200,12 @@
         TimeoutStopSec = 10;
       };
     };
+  };
+
+  # NixOS configuration for Star Citizen requirements
+  boot.kernel.sysctl = {
+    "vm.max_map_count" = 16777216;
+    "fs.file-max" = 524288;
   };
 
   # This value determines the NixOS release from which the default

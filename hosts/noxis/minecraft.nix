@@ -11,12 +11,12 @@
     eula = true;
     servers.survival = {
       enable = true;
-      package = pkgs.paperServers.paper-1_20_6;
+      package = pkgs.paperServers.paper-1_21;
       autoStart = true;
       enableReload = true;
       serverProperties = {
         server-port = 25570;
-        online-mode = true;
+        online-mode = false;
         view-distance = 25;
         difficulty = 2;
         gamemode = "survival";

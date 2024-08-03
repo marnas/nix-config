@@ -80,7 +80,6 @@
 
   home.sessionVariables = {
     EDITOR = "nvim";
-    XDG_CURRENT_DESKTOP = "hyprland";
     TERMINAL = "alacritty";
   };
 

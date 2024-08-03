@@ -14,11 +14,6 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  boot.kernelParams = [
-    "video=DP-1:2560x1440@360"
-    "video=DP-2:2560x1440@360"
-  ];
-
   fileSystems."/" =
     {
       device = "/dev/disk/by-uuid/e105daca-11af-4c6f-a56c-b04df968ac88";

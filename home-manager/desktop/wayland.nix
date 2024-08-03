@@ -8,7 +8,7 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr ];
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gnome ];
     # configPackages = [ pkgs.hyprland ];
     config.common.default = "*";
   };
@@ -58,6 +58,7 @@
   home.sessionVariables = {
     MOZ_ENABLE_WAYLAND = 1;
     QT_QPA_PLATFORM = "wayland";
+    XDG_CURRENT_DESKTOP = "hyprland";
     LIBSEAT_BACKEND = "logind";
   };
 
