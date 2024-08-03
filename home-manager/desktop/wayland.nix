@@ -11,7 +11,19 @@
     config.common.default = "*";
   };
 
-  xdg.mimeApps.enable = true;
+  xdg.configFile."mimeapps.list".force = true;
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      "text/html" = "firefox.desktop";
+      "image/png" = "org.gnome.eog.desktop";
+      "image/jpeg" = "org.gnome.eog.desktop";
+    };
+    associations.added = {
+      # others...
+    };
+  };
+
   home.packages = with pkgs; [
     grim
     slurp

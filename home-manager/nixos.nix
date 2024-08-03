@@ -49,6 +49,7 @@
     nextcloud-client
     eog
     clonehero
+    wowup-cf
     swaybg
     lens
     libreoffice
@@ -86,7 +87,11 @@
   };
 
   programs.home-manager.enable = true;
-  programs.git.enable = true;
+  programs.git = {
+    enable = true;
+    userName = "Marco Santonastaso";
+    userEmail = "marco@santonastaso.com";
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
