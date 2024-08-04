@@ -27,6 +27,10 @@
       #   new_is_master = false;
       # };
 
+      windowrulev2 = [
+        "idleinhibit fullscreen, fullscreen:1"
+      ];
+
       # Execute your favorite apps at launch
       exec-once = [
         "1password --silent"

@@ -11,16 +11,18 @@ in
     enable = true;
     timeouts = [
       {
+        # 10 minutes
         timeout = 600;
         command = "${lockCommand}";
       }
       {
-        # timeout = 600;
+        # 12 minutes
         timeout = 720;
         command = "${dpmsCommand} off";
         resumeCommand = "${dpmsCommand} on";
       }
       {
+        # 15 minutes
         timeout = 900;
         command = "${pkgs.systemd}/bin/systemctl suspend";
       }
