@@ -71,7 +71,8 @@
       };
 
       exec = [
-        "${pkgs.swaybg}/bin/swaybg -i /home/marnas/Pictures/Mountains.png --mode fill"
+        "${pkgs.swaybg}/bin/swaybg -o DP-1 -i /home/marnas/Pictures/Mountains.png --mode fill"
+        "${pkgs.swaybg}/bin/swaybg -o DP-2 -i /home/marnas/Pictures/Neon_Japanese.png --mode fill"
       ];
 
       animations = {

@@ -38,6 +38,7 @@
     plexamp
     gimp
     nextcloud-client
+    nemo
     eog
     swaybg
     lens

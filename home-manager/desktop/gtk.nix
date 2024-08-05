@@ -16,13 +16,13 @@
     };
     # font.name = "TeX Gyre Adventor 10";
     theme = {
-      name = "Juno-mirage";
-      package = pkgs.juno-theme;
+      name = "Andromeda";
+      package = pkgs.andromeda-gtk-theme;
     };
-    iconTheme = {
-      name = "Nordic-bluish";
-      package = pkgs.nordic;
-    };
+    # iconTheme = {
+    #   name = "Kora";
+    #   package = pkgs.kora-icon-theme;
+    # };
   };
 
   qt.enable = true;

@@ -18,12 +18,16 @@
           '';
         }
         tmuxPlugins.better-mouse-mode
+        tmuxPlugins.vim-tmux-navigator
       ];
     extraConfig = ''
       bind -n S-Up resize-pane -U 5
       bind -n S-Down resize-pane -D 5
       bind -n S-Left resize-pane -L 5
       bind -n S-Right resize-pane -R 5
+
+      # new shortcut to clean terminal
+      bind -n C-p send-keys C-l
     '';
   };
 }

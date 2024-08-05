@@ -14,8 +14,17 @@
     geary # email reader
     evince # document viewer
     totem # video player
+    nautilus
+    gnome-text-editor
+    gnome-calendar
+    gnome-system-monitor
+    yelp
   ]) ++ (with pkgs.gnome; [
     gnome-music
+    gnome-maps
+    gnome-clocks
+    gnome-weather
+    gnome-contacts
     gnome-characters
     tali # poker game
     iagno # go game
