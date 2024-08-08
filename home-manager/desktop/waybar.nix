@@ -11,11 +11,6 @@
         format = "{icon}";
         disable-scroll = true;
         format-icons = {
-          "1" = "1";
-          "2" = "2";
-          "3" = "3";
-          "4" = "4";
-          "5" = "5";
           "6" = "1";
           "7" = "2";
           "8" = "3";
@@ -40,15 +35,11 @@
         # on-click = pavucontrol;
         tooltip = false;
       };
-
-
       clock = {
-        tooltip-format = "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>";
+        # tooltip-format = "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>";
         format = "{:%a , %d %b %H:%M}";
-        format-alt = "{:%H:%M}";
         interval = 1;
       };
-
       tray = {
         icon-size = 18;
         spacing = 7;
@@ -102,8 +93,6 @@
         color: #dddddd;
       }
 
-      window .modules-right #custom-gpu-usage,
-      window .modules-right #temperature,
       window .modules-right #pulseaudio,
       window .modules-right #clock{
         border: none;
