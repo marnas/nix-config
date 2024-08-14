@@ -1,11 +1,17 @@
 { pkgs, config, ... }: {
     system = {
         defaults = {
-            finder.AppleShowAllExtensions = true;
-            finder.FXPreferredViewStyle = "clmv";
             loginwindow.LoginwindowText = "";
             screencapture.location = "~/Pictures/screenshots";
             screensaver.askForPasswordDelay = 10;
+
+            finder = {
+                AppleShowAllExtensions = true;
+                AppleShowAllFiles = true;
+                FXPreferredViewStyle = "clmv";
+                _FXShowPosixPathInTitle = true;
+                ShowPathbar = true;
+            };
 
             dock = {
                 autohide = false;

@@ -76,17 +76,8 @@
         };
       };
 
-      # Build darwin flake using:
-      # $ darwin-rebuild build --flake .#evombp05evolvere-techcom
       darwinConfigurations = {
-        evombp05evolvere-techcom = nix-darwin.lib.darwinSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./hosts/evo/configuration.nix
-          ];
-        };
-
-        # $ darwin-rebuild build --flake .#macos
+        # darwin-rebuild switch --flake .#macos
         macos = nix-darwin.lib.darwinSystem {
           # system = "x86_64-darwin";
           specialArgs = { inherit inputs; };

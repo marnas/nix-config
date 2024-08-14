@@ -3,6 +3,9 @@
   imports =
   [
     ./system.nix
+
+    ../shared/fish.nix
+    ../shared/nix.nix
   ];
 
   services.nix-daemon.enable = true;
