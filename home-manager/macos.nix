@@ -1,11 +1,14 @@
 { inputs
 , outputs
 , pkgs
+, lib
+, config
 , ...
 }: {
 
   imports = [
     ./cli
+    ./desktop/alacritty.nix
   ];
 
   nixpkgs = {
@@ -36,6 +39,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     TERMINAL = "alacritty";
+    SHELL = "${pkgs.fish}/bin/fish";
   };
 
   programs.home-manager.enable = true;

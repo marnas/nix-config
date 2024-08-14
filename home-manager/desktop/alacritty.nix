@@ -1,16 +1,21 @@
-{ ... }: {
+{ pkgs, ... }: {
 
   programs.alacritty = {
     enable = true;
     settings = {
+      shell = "${pkgs.fish}/bin/fish";
+
+      font = {
+        normal = {
+          family = "MesloLGL Nerd Font";
+          #style = "Regular";
+        };
+        size = 13;
+      };
 
       scrolling = {
         history = 10000;
       };
-
-      # font = {
-      # size = 12;
-      # };
 
       window = {
         option_as_alt = "Both";
