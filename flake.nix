@@ -123,7 +123,7 @@
 
         "marnas@macos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
-          pkgs = nixpkgs.legacyPackages.x86_64-darwin; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [
             # > main home-manager configuration file <
