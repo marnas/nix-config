@@ -80,7 +80,6 @@
   services.dbus.enable = true;
   services.mullvad-vpn.enable = true;
 
-
   fonts.packages = with pkgs; [
     nerdfonts
     meslo-lgs-nf
@@ -164,6 +163,9 @@
     docker
     docker-compose
     kubectl
+    terraform
+    # awscli2
+    talosctl
     cifs-utils
   ];
 

@@ -30,7 +30,7 @@
         format-muted = "婢";
         format-icons = {
           headphone = "";
-          default = [ "" "" "" ];
+          default = [ "" " " "  " ];
         };
         # on-click = pavucontrol;
         tooltip = false;
@@ -39,11 +39,12 @@
         # tooltip-format = "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>";
         format = "{:%a , %d %b %H:%M}";
         interval = 1;
+        tooltip = false;
       };
       tray = {
         icon-size = 18;
         spacing = 7;
-        tooltip = "false";
+        reverse-direction = true;
       };
     }];
 

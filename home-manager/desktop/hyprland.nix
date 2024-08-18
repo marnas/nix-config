@@ -103,6 +103,7 @@
       plugin = {
         split-monitor-workspaces = {
           count = 5;
+          enable_persistent_workspaces = false;
         };
       };
 
