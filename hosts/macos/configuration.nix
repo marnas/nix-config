@@ -1,12 +1,12 @@
 { pkgs, lib, inputs, config, ... }:
 {
   imports =
-  [
-    ./system.nix
+    [
+      ./system.nix
 
-    ../shared/fish.nix
-    ../shared/nix.nix
-  ];
+      ../shared/fish.nix
+      ../shared/nix.nix
+    ];
 
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
@@ -34,7 +34,7 @@
       eval "$(/opt/homebrew/bin/brew shellenv)"
     '';
   };
-  
+
   environment = {
     shells = [ pkgs.bash pkgs.zsh pkgs.fish ];
     loginShell = pkgs.fish;
