@@ -27,7 +27,14 @@
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs.zsh.enable = true; # default shell on catalina
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    # Add Brew path to shell
+    interactiveShellInit = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
+  };
+  
   environment = {
     shells = [ pkgs.bash pkgs.zsh pkgs.fish ];
     loginShell = pkgs.fish;
@@ -52,16 +59,18 @@
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
     kubectl
-    vscode
+    talosctl
     cargo
-    discord
     docker
-    alacritty
   ];
 
   homebrew = {
     enable = true;
     global.autoUpdate = true;
+    brews = [
+      "helm"
+    ];
+
     casks = [
       #"hackintool"
       #"soulseek"

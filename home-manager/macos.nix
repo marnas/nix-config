@@ -34,6 +34,10 @@
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     neovim
+    vscode
+    discord
+    alacritty
+    lens
   ];
 
   home.sessionVariables = {

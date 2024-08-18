@@ -34,6 +34,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+    };
+
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
 
   };
@@ -44,6 +48,7 @@
     , home-manager
     , hyprland
     , nix-darwin
+    , mac-app-util
     , ...
     }@ inputs:
     let
@@ -92,6 +97,7 @@
           specialArgs = { inherit inputs; };
           modules = [
             ./hosts/macos/configuration.nix
+            mac-app-util.darwinModules.default
           ];
         };
       };
@@ -128,6 +134,7 @@
           modules = [
             # > main home-manager configuration file <
             ./home-manager/macos.nix
+            mac-app-util.homeManagerModules.default
           ];
         };
       };
