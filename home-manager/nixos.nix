@@ -47,6 +47,7 @@
     pulsemixer
     vlc
     yt-dlp
+    soulseekqt
 
     # messaging
     teams-for-linux

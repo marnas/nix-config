@@ -78,10 +78,14 @@
   };
 
   services.dbus.enable = true;
-  services.mullvad-vpn.enable = true;
+  services.tailscale.enable = true;
 
   fonts.packages = with pkgs; [
+    fira-code
+    fira-code-symbols
+    mplus-outline-fonts.githubRelease
     nerdfonts
+    noto-fonts-emoji
     meslo-lgs-nf
   ];
 

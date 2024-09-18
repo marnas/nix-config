@@ -19,7 +19,6 @@
     gnome-calendar
     gnome-system-monitor
     yelp
-  ]) ++ (with pkgs.gnome; [
     gnome-music
     gnome-maps
     gnome-clocks
@@ -32,6 +31,7 @@
     atomix # puzzle game
   ]);
 
+  # Setting the right resolution and refresh rate for GDM
   systemd.tmpfiles.rules = [
     "L+ /run/gdm/.config/monitors.xml - - - - ${pkgs.writeText "gdm-monitors.xml" ''
       <!-- this should all be copied from your ~/.config/monitors.xml -->

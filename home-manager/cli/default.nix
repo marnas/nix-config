@@ -27,4 +27,9 @@
 
     ltex-ls # Spell checking LSP
   ];
+
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
 }
