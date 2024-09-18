@@ -1,11 +1,11 @@
-{ pkgs, ... }: {
+{ pkgs, lib, vars, ... }: {
 
   programs.alacritty = {
     enable = true;
     settings = {
       shell = "${pkgs.fish}/bin/fish";
 
-      font = {
+      font = lib.mkIf (vars.hostname == "macos") {
         normal = {
           family = "MesloLGL Nerd Font";
           #style = "Regular";

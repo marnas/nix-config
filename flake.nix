@@ -111,7 +111,12 @@
         "marnas@nixos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            vars = {
+              hostname = "nixos";
+            };
+          };
           modules = [
             # > main home-manager configuration file <
             ./home-manager/nixos.nix
@@ -120,7 +125,12 @@
         "marnas@noxis" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            vars = {
+              hostname = "noxis";
+            };
+          };
           modules = [
             # > main home-manager configuration file <
             ./home-manager/noxis.nix
@@ -130,7 +140,12 @@
         "marnas@macos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
           pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = {
+            inherit inputs outputs;
+            vars = {
+              hostname = "macos";
+            };
+          };
           modules = [
             # > main home-manager configuration file <
             ./home-manager/macos.nix
