@@ -168,6 +168,7 @@
     docker-compose
     kubectl
     terraform
+    fluxcd
     # awscli2
     talosctl
     cifs-utils

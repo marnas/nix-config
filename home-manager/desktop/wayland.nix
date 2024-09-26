@@ -18,6 +18,7 @@
     enable = true;
     defaultApplications = {
       "text/html" = "firefox.desktop";
+      "application/pdf" = "firefox.desktop";
       "image/png" = "org.gnome.eog.desktop";
       "image/jpeg" = "org.gnome.eog.desktop";
     };

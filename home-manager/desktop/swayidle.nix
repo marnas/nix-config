@@ -9,7 +9,7 @@ let
   dpmsCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms";
 
   isLocked = "${pgrep} -x ${swaylock}";
-  lockTime = 5 * 60;
+  lockTime = 10 * 60;
   suspendTime = 5 * 60; # This is added on top of lockTime
 
   # Makes two timeouts: one for when the screen is not locked (lockTime+timeout) and one for when it is.
@@ -34,17 +34,17 @@ in
     }) ++
     (afterLockTimeout {
       timeout = suspendTime;
-      command = "${pkgs.systemd}/bin/systemctl suspend";
+      command = "${dpmsCommand} on; sleep 1; ${pkgs.systemd}/bin/systemctl suspend";
     });
     events = [
       {
         event = "before-sleep";
         command = "${lockCommand}";
       }
-      # {
-      #   event = "lock";
-      #   command = "${lockCommand}";
-      # }
+      {
+        event = "after-resume";
+        command = "${dpmsCommand} on";
+      }
     ];
   };
 }
