@@ -11,10 +11,11 @@
     ../shared/openssh.nix
   ];
 
-  overlays = [ inputs.marnas-nvim.overlays.default ];
-
   nix.settings.trusted-users = [ "marnas" ];
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs = {
+    config.allowUnfree = true;
+    overlays = [ inputs.marnas-nvim.overlays.default ];
+  };
 
   # Bootloader.
   boot.loader.grub.enable = true;
