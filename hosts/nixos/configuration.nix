@@ -1,34 +1,27 @@
-{ inputs
-, outputs
-, config
-, lib
-, pkgs
-, ...
-}:
+{ inputs, outputs, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      # ./virtmanager.nix
-      # ./greetd.nix
-      ./udev-rules.nix
-      ./gnome.nix
+  imports = [
+    ./hardware-configuration.nix
+    # ./virtmanager.nix
+    # ./greetd.nix
+    ./udev-rules.nix
+    ./gnome.nix
 
-      ../shared/fish.nix
-      ../shared/nix.nix
-    ];
+    ../shared/fish.nix
+    ../shared/nix.nix
+  ];
 
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.stable-packages
+
+      inputs.marnas-nvim.overlays.default
     ];
 
-    config = {
-      allowUnfree = true;
-    };
+    config = { allowUnfree = true; };
   };
 
   # This will additionally add your inputs to the system's legacy channels
@@ -55,7 +48,8 @@
 
   programs.steam = {
     enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    remotePlay.openFirewall =
+      true; # Open ports in the firewall for Steam Remote Play
     # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
@@ -95,7 +89,8 @@
   networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot =
+    true; # powers up the default Bluetooth controller on boot
 
   # Set your time zone.
   time.timeZone = "Europe/London";
@@ -145,13 +140,11 @@
     description = "marnas";
     shell = pkgs.fish;
     extraGroups = [ "networkmanager" "wheel" "docker" ];
-    packages = with pkgs; [
-      home-manager
-    ];
+    packages = with pkgs; [ home-manager ];
   };
 
   environment.systemPackages = with pkgs; [
-    neovim
+    nvim-pkg
     wget
     git
     gcc
@@ -193,7 +186,8 @@
       after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        ExecStart =
+          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;

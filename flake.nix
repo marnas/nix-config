@@ -1,8 +1,6 @@
 {
   nixConfig = {
-    extra-substituters = [
-      "https://nix-community.cachix.org"
-    ];
+    extra-substituters = [ "https://nix-community.cachix.org" ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
@@ -34,39 +32,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-    };
+    marnas-nvim = { url = "github:marnas/nvim-flake"; };
 
-    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    mac-app-util = { url = "github:hraban/mac-app-util"; };
+
+    nix-minecraft = { url = "github:Infinidoge/nix-minecraft"; };
 
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , home-manager
-    , hyprland
-    , nix-darwin
-    , mac-app-util
-    , ...
-    }@ inputs:
-    let
-      inherit (self) outputs;
-
-      lib = nixpkgs.lib;
-      system = "x86_64-linux";
-
-      pkgs = import nixpkgs {
-        inherit system;
-        config = {
-          allowUnfree = true;
-          allowUnfreePredicate = (_: true);
-        };
-      };
-
-    in
-    {
+    { self, nixpkgs, home-manager, nix-darwin, mac-app-util, ... }@inputs:
+    let inherit (self) outputs;
+    in {
 
       overlays = import ./overlays { inherit inputs; };
 
@@ -110,12 +87,11 @@
 
         "marnas@nixos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs =
+            nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
             inherit inputs outputs;
-            vars = {
-              hostname = "nixos";
-            };
+            vars = { hostname = "nixos"; };
           };
           modules = [
             # > main home-manager configuration file <
@@ -124,12 +100,11 @@
         };
         "marnas@noxis" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
-          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs =
+            nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
             inherit inputs outputs;
-            vars = {
-              hostname = "noxis";
-            };
+            vars = { hostname = "noxis"; };
           };
           modules = [
             # > main home-manager configuration file <
@@ -139,12 +114,11 @@
 
         "marnas@macos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+          pkgs =
+            nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
             inherit inputs outputs;
-            vars = {
-              hostname = "macos";
-            };
+            vars = { hostname = "macos"; };
           };
           modules = [
             # > main home-manager configuration file <

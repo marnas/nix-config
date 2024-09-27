@@ -1,16 +1,17 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      ./minecraft.nix
-      ./terraria.nix
-      ./k3s.nix
+  imports = [
+    ./hardware-configuration.nix
+    ./minecraft.nix
+    ./terraria.nix
+    # ./k3s.nix
 
-      ../shared/fish.nix
-      ../shared/openssh.nix
-    ];
+    ../shared/fish.nix
+    ../shared/openssh.nix
+  ];
+
+  overlays = [ inputs.marnas-nvim.overlays.default ];
 
   nix.settings.trusted-users = [ "marnas" ];
   nixpkgs.config.allowUnfree = true;
@@ -49,9 +50,7 @@
     description = "marnas";
     shell = pkgs.fish;
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      home-manager
-    ];
+    packages = with pkgs; [ home-manager ];
   };
 
   networking.firewall = {
@@ -60,10 +59,7 @@
     trustedInterfaces = [ "tailscale0" ];
   };
 
-  environment.systemPackages = with pkgs; [
-    neovim
-    git
-  ];
+  environment.systemPackages = with pkgs; [ nvim-pkg git ];
 
   system.stateVersion = "23.11";
 

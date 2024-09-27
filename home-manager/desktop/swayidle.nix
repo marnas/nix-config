@@ -35,6 +35,7 @@ in
     (afterLockTimeout {
       timeout = suspendTime;
       command = "${dpmsCommand} on; sleep 1; ${pkgs.systemd}/bin/systemctl suspend";
+      resumeCommand = "${dpmsCommand} on";
     });
     events = [
       {
