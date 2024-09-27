@@ -1,21 +1,13 @@
-{ inputs
-, outputs
-, pkgs
-, lib
-, config
-, ...
-}: {
+{ inputs, outputs, pkgs, ... }: {
 
-  imports = [
-    ./cli
-    ./desktop/alacritty.nix
-  ];
+  imports = [ ./cli ./desktop/alacritty.nix ];
 
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.stable-packages
+      inputs.marnas-nvim.overlays.default
     ];
 
     config = {
@@ -33,11 +25,13 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
-    neovim
+    nvim-pkg
     vscode
     discord
     alacritty
     lens
+    ffmpeg
+    yt-dlp
   ];
 
   home.sessionVariables = {

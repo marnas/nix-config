@@ -1,4 +1,4 @@
-{ pkgs, config, ... }: {
+{ ... }: {
   system = {
     defaults = {
       loginwindow.LoginwindowText = "";
@@ -15,7 +15,8 @@
 
       dock = {
         autohide = false;
-        mru-spaces = false; #disable auto rearrange spaces based on most recent use
+        mru-spaces =
+          false; # disable auto rearrange spaces based on most recent use
         show-recents = false;
         launchanim = true;
         mouse-over-hilite-stack = true;

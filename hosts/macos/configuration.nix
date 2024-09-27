@@ -1,12 +1,10 @@
-{ pkgs, lib, inputs, config, ... }:
-{
-  imports =
-    [
-      ./system.nix
+{ pkgs, inputs, ... }: {
+  imports = [
+    ./system.nix
 
-      ../shared/fish.nix
-      ../shared/nix.nix
-    ];
+    ../shared/fish.nix
+    ../shared/nix.nix
+  ];
 
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
@@ -47,13 +45,7 @@
     '';
   };
 
-  fonts = {
-    packages = with pkgs; [
-      nerdfonts
-      jetbrains-mono
-      meslo-lgs-nf
-    ];
-  };
+  fonts = { packages = with pkgs; [ nerdfonts jetbrains-mono meslo-lgs-nf ]; };
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -62,14 +54,14 @@
     talosctl
     cargo
     docker
+    fluxcd
+    python3
   ];
 
   homebrew = {
     enable = true;
     global.autoUpdate = true;
-    brews = [
-      "helm"
-    ];
+    brews = [ "helm" ];
 
     casks = [
       #"hackintool"
@@ -82,12 +74,15 @@
       "autodesk-fusion"
       "1password"
       "firefox"
+      "garmin-express"
+      "tailscale"
     ];
   };
 
   # home-manager.useUserPackages = true;
   # Set Git commit hash for darwin-version.
-  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
+  system.configurationRevision =
+    inputs.self.rev or inputs.self.dirtyRev or null;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
