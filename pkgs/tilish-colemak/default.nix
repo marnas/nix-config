@@ -6,8 +6,8 @@ tmuxPlugins.mkTmuxPlugin {
   src = fetchFromGitHub {
     owner = "marnas";
     repo = "tmux-tilish-colemak";
-    rev = "d81c007f29aa3d81f1381eda58dc1fd0524d55f1";
-    sha256 = "sha256-HgzYBn0eEkG/HNGSZkWzFufnMDqxBfYUgAl6XzKT+zQ=";
+    rev = "304206474734db2d5b1e773697f83d40a449b833";
+    sha256 = "sha256-PIANPBgiABHFYhQ9crB2a3pqsVhSf9hzVWINQWzvTCE=";
   };
 
   meta = with lib; {

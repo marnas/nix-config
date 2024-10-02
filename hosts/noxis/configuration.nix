@@ -8,6 +8,7 @@
     # ./k3s.nix
 
     ../shared/fish.nix
+    ../shared/nix.nix
     ../shared/openssh.nix
   ];
 
