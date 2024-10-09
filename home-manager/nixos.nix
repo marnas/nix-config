@@ -1,19 +1,14 @@
-{ inputs
-, outputs
-, pkgs
-, ...
-}: {
+{ inputs, outputs, pkgs, ... }: {
 
-  imports = [
-    ./cli
-    ./desktop
-  ];
+  imports = [ ./cli ./desktop ];
 
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.stable-packages
+
+      inputs.marnas-nvim.overlays.default
     ];
 
     config = {
@@ -31,6 +26,7 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
+    nvim-pkg
     chromium
     postman
     orca-slicer

@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   programs.tmux = {
     enable = true;
     mouse = true;
@@ -7,19 +6,18 @@
     baseIndex = 1;
     terminal = "tmux-256color";
     historyLimit = 100000;
-    plugins = with pkgs;
-      [
-        {
-          plugin = tilish-colemak;
-          extraConfig = ''
-            set -g @tilish-default 'main-vertical'
-            set -g @tilish-colemak 'on'
-            set -g @tilish-navigator 'on'
-          '';
-        }
-        tmuxPlugins.better-mouse-mode
-        tmuxPlugins.vim-tmux-navigator
-      ];
+    plugins = with pkgs; [
+      {
+        plugin = tilish-colemak;
+        extraConfig = ''
+          set -g @tilish-default 'main-vertical'
+          set -g @tilish-colemak 'on'
+          set -g @tilish-navigator 'on'
+        '';
+      }
+      tmuxPlugins.better-mouse-mode
+      tmuxPlugins.vim-tmux-navigator
+    ];
     extraConfig = ''
       bind -n S-Up resize-pane -U 5
       bind -n S-Down resize-pane -D 5
@@ -28,6 +26,9 @@
 
       # new shortcut to clean terminal
       bind -n C-p send-keys C-l
+        
+      # to forward Ctrl-Tab
+      set -g extended-keys always
     '';
   };
 }

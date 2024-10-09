@@ -1,4 +1,4 @@
-{ inputs, outputs, pkgs, ... }:
+{ outputs, pkgs, ... }:
 
 {
   imports = [
@@ -17,8 +17,6 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.stable-packages
-
-      inputs.marnas-nvim.overlays.default
     ];
 
     config = { allowUnfree = true; };
@@ -144,7 +142,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    nvim-pkg
     wget
     git
     gcc
@@ -163,6 +160,7 @@
     terraform
     fluxcd
     # awscli2
+    transgui
     talosctl
     cifs-utils
   ];
