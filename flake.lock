@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1728337164,
-        "narHash": "sha256-VdRTjJFyq4Q9U7Z/UoC2Q5jK8vSo6E86lHc2OanXtvc=",
+        "lastModified": 1728791962,
+        "narHash": "sha256-nr5QiXwQcZmf6/auC1UpX8iAtINMtdi2mH+OkqJQVmU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "038630363e7de57c36c417fd2f5d7c14773403e4",
+        "rev": "64c6325b28ebd708653dd41d88f306023f296184",
         "type": "github"
       },
       "original": {
@@ -362,11 +362,11 @@
         "xdph": "xdph"
       },
       "locked": {
-        "lastModified": 1728464443,
-        "narHash": "sha256-SeA097hJe8gYtXLo+c7OdcNe1L+obe+g4ICpJ0r/2Ac=",
+        "lastModified": 1728825236,
+        "narHash": "sha256-5BKg6tsbX6Ch7QffScQbsCOFbNG0qs4pMeyFNaqnmro=",
         "ref": "refs/heads/main",
-        "rev": "6ce07ee86453e8ef01faa7b4e1eb8f09475f32b7",
-        "revCount": 5320,
+        "rev": "05a5e0b4f1ced12f2a0330132f37b0081d7a5e4d",
+        "revCount": 5335,
         "submodules": true,
         "type": "git",
         "url": "https://github.com/hyprwm/Hyprland"
@@ -525,11 +525,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1728331683,
-        "narHash": "sha256-Yyyk//gJGaIOKxgr60iaqhVoWmbpniPe9UWDLFQlPy8=",
+        "lastModified": 1728828675,
+        "narHash": "sha256-91iiw2YA65hbx5/zEAWYZZUQzVq4j5cx4u8+gBAhgo0=",
         "owner": "marnas",
         "repo": "nvim-flake",
-        "rev": "99cb960e50f99dc9cda1259f45978e86d5fca105",
+        "rev": "810e74382eaebbdc1f0d6dfa51f0fc8b8ab1942e",
         "type": "github"
       },
       "original": {
@@ -545,11 +545,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1728385805,
-        "narHash": "sha256-mUd38b0vhB7yzgAjNOaFz7VY9xIVzlbn3P2wjGBcVV0=",
+        "lastModified": 1728769175,
+        "narHash": "sha256-KtE4F2wTzIpE6fI9diD5dDkUgGAt7IG80TnFqkCD8Ws=",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "48b50b3b137be5cfb9f4d006835ce7c3fe558ccc",
+        "rev": "fd0e3ed30b75ddf7f3d94829d80a078b413b6244",
         "type": "github"
       },
       "original": {
@@ -580,11 +580,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1728438322,
-        "narHash": "sha256-vVMMJaoYGjrsXzUzXCsoF5cbqq3aV44RHIoQPxzLAGs=",
+        "lastModified": 1728784327,
+        "narHash": "sha256-Ib1rAnxE4ZZtO3WE7E4+mwivz37gwNOW5qPToJb9RPQ=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "6f3e79295e2ded5f13076fa99cec6abf59a8d9fe",
+        "rev": "14f679c6eaba1ef43b6f6092ba82e24cba97c858",
         "type": "github"
       },
       "original": {
@@ -687,11 +687,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1728018373,
-        "narHash": "sha256-NOiTvBbRLIOe5F6RbHaAh6++BNjsb149fGZd1T4+KBg=",
+        "lastModified": 1728492678,
+        "narHash": "sha256-9UTxR8eukdg+XZeHgxW5hQA9fIKHsKCdOIUycTryeVw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bc947f541ae55e999ffdb4013441347d83b00feb",
+        "rev": "5633bcff0c6162b9e4b5f1264264611e950c8ec7",
         "type": "github"
       },
       "original": {
@@ -719,11 +719,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1728241625,
-        "narHash": "sha256-yumd4fBc/hi8a9QgA9IT8vlQuLZ2oqhkJXHPKxH/tRw=",
+        "lastModified": 1728492678,
+        "narHash": "sha256-9UTxR8eukdg+XZeHgxW5hQA9fIKHsKCdOIUycTryeVw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "c31898adf5a8ed202ce5bea9f347b1c6871f32d1",
+        "rev": "5633bcff0c6162b9e4b5f1264264611e950c8ec7",
         "type": "github"
       },
       "original": {
@@ -778,11 +778,11 @@
         "nix-filter": "nix-filter"
       },
       "locked": {
-        "lastModified": 1728413360,
-        "narHash": "sha256-0YQnm4VFTdJvUwkK97W2805I0L7Retkhsh19/Nil3cQ=",
+        "lastModified": 1728502823,
+        "narHash": "sha256-fDakOtUruC76M7pU04czQxB43ZBfffIxY4r+F+UAMic=",
         "owner": "Duckonaut",
         "repo": "split-monitor-workspaces",
-        "rev": "7c0cec6e8661facf252b2c974f214b60c4f87466",
+        "rev": "f5805a868543358adeb5f24fd411c2f72455c88c",
         "type": "github"
       },
       "original": {

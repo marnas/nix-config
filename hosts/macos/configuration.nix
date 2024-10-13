@@ -70,12 +70,15 @@
       #"opencore-configurator"
 
       "whatsapp"
-      "the-unarchiver"
       "autodesk-fusion"
       "1password"
       "firefox"
       "garmin-express"
       "tailscale"
+      "nextcloud"
+      "orcaslicer"
+      "plexamp"
+      "transmission-remote-gui"
     ];
   };
 

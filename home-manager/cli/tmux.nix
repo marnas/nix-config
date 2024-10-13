@@ -4,6 +4,7 @@
     mouse = true;
     escapeTime = 10;
     baseIndex = 1;
+    sensibleOnTop = false;
     terminal = "tmux-256color";
     historyLimit = 100000;
     plugins = with pkgs; [
