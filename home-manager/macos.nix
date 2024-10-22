@@ -47,6 +47,11 @@
     userEmail = "marco@santonastaso.com";
   };
 
+  targets.darwin.defaults."com.apple.desktopservices" = {
+    DSDontWriteUSBStores = true;
+    DSDontWriteNetworkStores = true;
+  };
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 

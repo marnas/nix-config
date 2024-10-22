@@ -7,9 +7,10 @@
 
       finder = {
         AppleShowAllExtensions = true;
-        AppleShowAllFiles = true;
+        AppleShowAllFiles = false;
         FXPreferredViewStyle = "clmv";
         _FXShowPosixPathInTitle = true;
+        _FXSortFoldersFirst = true;
         ShowPathbar = true;
       };
 
@@ -32,6 +33,8 @@
         Clicking = true;
         TrackpadThreeFingerDrag = false;
       };
+
+      WindowManager.EnableStandardClickToShowDesktop = false;
     };
 
     keyboard = {
