@@ -26,20 +26,12 @@
   swapDevices = [ ];
 
   # Network devices
-  fileSystems."/mnt/smb_shares/media" = {
-    device = "//truenas.marnas.sh/media";
-    fsType = "cifs";
-    options = let
-      # this line prevents hanging on network split
-      automount_opts =
-        "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-
-    in [
-      "${automount_opts},credentials=/home/marnas/.credentials,uid=1000,gid=100"
-    ];
+  fileSystems."/mnt/media" = {
+    device = "truenas.marnas.sh:/mnt/Pool1/media";
+    fsType = "nfs";
   };
 
-  fileSystems."/mnt/smb_shares/Games" = {
+  fileSystems."/mnt/Games" = {
     device = "truenas.marnas.sh:/mnt/Pool0/Games";
     fsType = "nfs";
   };
