@@ -33,8 +33,7 @@
     kubernetes-helm
     plexamp
     gimp
-    nextcloud-client
-    nemo
+    nemo-with-extensions
     eog
     swaybg
     lens
@@ -87,6 +86,8 @@
     userName = "Marco Santonastaso";
     userEmail = "marco@santonastaso.com";
   };
+
+  services.nextcloud-client.enable = true;
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
