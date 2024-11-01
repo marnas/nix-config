@@ -1,4 +1,4 @@
-{ inputs, outputs, pkgs, ... }: {
+{ inputs, outputs, pkgs, vars, ... }: {
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
@@ -17,27 +17,28 @@
 
   home = {
     username = "marnas";
-    homeDirectory = "/home/marnas";
-  };
+    homeDirectory =
+      if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
 
-  home.packages = with pkgs; [
-    nvim-pkg
-    kubernetes-helm
-    lens
+    packages = with pkgs; [
+      nvim-pkg
+      kubernetes-helm
+      terraform
+      lens
 
-    # media
-    plexamp
-    yt-dlp
+      # media
+      yt-dlp
 
-    # messaging
-    slack
-    telegram-desktop
-    discord
-  ];
+      # messaging
+      slack
+      discord
+    ];
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    TERMINAL = "alacritty";
+    sessionVariables = {
+      EDITOR = "nvim";
+      TERMINAL = "alacritty";
+      SHELL = "${pkgs.fish}/bin/fish";
+    };
   };
 
   programs.home-manager.enable = true;

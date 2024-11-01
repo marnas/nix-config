@@ -15,12 +15,14 @@
     libreoffice
     zathura
     pulsemixer
+    plexamp
     vlc
     soulseekqt
 
     # messaging
     teams-for-linux
     whatsapp-for-linux
+    telegram-desktop
 
     # gaming
     gamemode
