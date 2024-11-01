@@ -1,54 +1,25 @@
-{ inputs, outputs, pkgs, ... }: {
+{ pkgs, ... }: {
 
-  imports = [ ./cli ./desktop ];
-
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.stable-packages
-
-      inputs.marnas-nvim.overlays.default
-    ];
-
-    config = {
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
-    };
-  };
-
-  home = {
-    username = "marnas";
-    homeDirectory = "/home/marnas";
-  };
+  imports = [ ./cli ./desktop ./shared.nix ];
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
-    nvim-pkg
     chromium
     postman
     orca-slicer
-    kubernetes-helm
-    plexamp
     gimp
     nemo-with-extensions
     eog
     swaybg
-    lens
     libreoffice
     zathura
     pulsemixer
     vlc
-    yt-dlp
     soulseekqt
 
     # messaging
     teams-for-linux
-    slack
-    telegram-desktop
-    discord
     whatsapp-for-linux
 
     # gaming
@@ -73,18 +44,6 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
-  };
-
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    TERMINAL = "alacritty";
-  };
-
-  programs.home-manager.enable = true;
-  programs.git = {
-    enable = true;
-    userName = "Marco Santonastaso";
-    userEmail = "marco@santonastaso.com";
   };
 
   services.nextcloud-client.enable = true;

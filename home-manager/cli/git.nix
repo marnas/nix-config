@@ -1,4 +1,4 @@
-{ ... }: {
+{ pkgs, ... }: {
   programs.git = {
     enable = true;
     userName = "Marco Santonastaso";
@@ -10,8 +10,7 @@
     };
     extraConfig = {
       gpg.format = "ssh";
-      "gpg \"ssh\"".program =
-        "/Applications/1Password.app/Contents/MacOS/op-ssh-sign";
+      "gpg \"ssh\"".program = "${pkgs._1password-gui}/bin/op-ssh-sign";
     };
   };
 }
