@@ -10,6 +10,7 @@
       filter_mode_shell_up_key_binding = "directory";
       search_mode_shell_up_key_binding = "prefix";
       enter_accept = true;
+      sync = { records = true; };
     };
   };
 }

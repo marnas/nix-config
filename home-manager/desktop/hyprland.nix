@@ -15,6 +15,8 @@
         border_size = 2;
 
         # layout = dwindle;
+        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
+        "col.inactive_border" = "rgba(595959aa)";
 
         # Please see https://wiki.hyprland.org/Configuring/Tearing/ before you turn this on
         allow_tearing = false;
@@ -54,11 +56,13 @@
           new_optimizations = true;
           ignore_opacity = true;
         };
-        drop_shadow = true;
-        shadow_range = 12;
-        shadow_offset = "3 3";
-        "col.shadow" = "0x44000000";
-        "col.shadow_inactive" = "0x66000000";
+        shadow = {
+          enabled = true;
+          range = 12;
+          color = "0x44000000";
+          color_inactive = "0x66000000";
+          offset = "3 3";
+        };
       };
 
       exec = [
@@ -79,6 +83,8 @@
           "workspaces, 1, 6, default"
         ];
       };
+
+      misc = { force_default_wallpaper = 0; };
 
       gestures = { workspace_swipe = true; };
 
@@ -149,7 +155,7 @@
         "${mod}, e, movefocus, u"
         "${mod}, n, movefocus, d"
 
-        # Example special workspace (scratchpad)
+        # Example special workspace (scratchpad)col.sha
         "${mod}, S, togglespecialworkspace, magic"
         "${mod} SHIFT, S, movetoworkspace, special:magic"
 
@@ -168,18 +174,6 @@
       ];
 
     };
-
-    extraConfig = ''
-      general {
-          col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
-          col.inactive_border = rgba(595959aa)
-      }
-
-      misc {
-          # See https://wiki.hyprland.org/Configuring/Variables/ for more
-          force_default_wallpaper = 0 # Set to 0 to disable the anime mascot wallpapers
-      }
-    '';
   };
 
 }
