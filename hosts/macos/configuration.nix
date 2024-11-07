@@ -35,7 +35,6 @@
 
   environment = {
     shells = [ pkgs.bash pkgs.zsh pkgs.fish ];
-    loginShell = pkgs.fish;
 
     #Allow touchIdAuth with tmux
     etc."pam.d/sudo_local".text = ''
@@ -54,8 +53,10 @@
     talosctl
     cargo
     docker
+    docker-compose
     fluxcd
     python3
+    teleport
   ];
 
   homebrew = {
@@ -70,14 +71,16 @@
       #"opencore-configurator"
 
       "whatsapp"
-      "autodesk-fusion"
+      #"autodesk-fusion"
       "1password"
       "firefox"
-      "garmin-express"
+      #"garmin-express"
       "tailscale"
       "nextcloud"
       "orcaslicer"
       "plexamp"
+      "gather"
+      "docker"
       "transmission-remote-gui"
     ];
   };

@@ -38,6 +38,8 @@
 
     mac-app-util = { url = "github:hraban/mac-app-util"; };
 
+    yazi = { url = "github:sxyazi/yazi"; };
+
     nix-minecraft = { url = "github:Infinidoge/nix-minecraft"; };
 
   };
