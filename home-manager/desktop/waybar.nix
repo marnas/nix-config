@@ -6,7 +6,8 @@
     settings = [{
       height = 24;
       modules-left = [ "hyprland/workspaces" ];
-      modules-right = [ "tray" "custom/separator" "pulseaudio" "custom/separator" "clock" ];
+      modules-right =
+        [ "tray" "custom/separator" "pulseaudio" "custom/separator" "clock" ];
       "hyprland/workspaces" = {
         format = "{icon}";
         disable-scroll = true;
@@ -111,5 +112,4 @@
     '';
   };
 }
-
 

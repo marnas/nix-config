@@ -562,11 +562,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1730963783,
-        "narHash": "sha256-I5l9aMkCQi0CHCrE4tol+31z74ZfnYDaeGoK1Bi9Qrk=",
+        "lastModified": 1731032247,
+        "narHash": "sha256-OjLft7fwkmiRLXQsGAudGFZxEYXOT0nHwrQ9GbsBqJ4=",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "158198a6e3690facf15718b24571789c0756d43a",
+        "rev": "2fbf4a8417c28cf45bae6e6e97248cbbd9b78632",
         "type": "github"
       },
       "original": {
@@ -582,11 +582,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1730943870,
-        "narHash": "sha256-zdAZobSt/p2ODqLJtc8By2NIEQqdHa79GFdY3b3cYoA=",
+        "lastModified": 1731030299,
+        "narHash": "sha256-PwtzMWPJhz9Rn/0rzQfMb6icSA6DtJZKCuK88IwFSos=",
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "a44ab4c42025d98575a8c527fed2ba6b913ac61b",
+        "rev": "11ca743d2e4602d5b8bfc8d65303f969d58ec338",
         "type": "github"
       },
       "original": {
@@ -948,11 +948,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1730896092,
-        "narHash": "sha256-Zanhn1VoHKneoJBowpOALYHhRkm5rhVFiIEHrtMMFhY=",
+        "lastModified": 1730992119,
+        "narHash": "sha256-5rCVpxNNRnaA5mmKExaxO4TJLq7nuhS5657+EkFnIW4=",
         "owner": "sxyazi",
         "repo": "yazi",
-        "rev": "6001f3c619d1fc726d75d93d74e53ce4670c1e34",
+        "rev": "baf062f3b159648d5969dcfb837ea9b48245e153",
         "type": "github"
       },
       "original": {

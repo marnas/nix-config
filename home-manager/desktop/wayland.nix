@@ -1,14 +1,14 @@
-{ pkgs, ... }:
-{
-  imports = [
-    ./hyprland.nix
-    ./waybar.nix
-    ./tofi.nix
-  ];
+{ pkgs, ... }: {
+  imports = [ ./hyprland.nix ./waybar.nix ./tofi.nix ./mako.nix ./avizo.nix ];
 
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk pkgs.xdg-desktop-portal-wlr pkgs.xdg-desktop-portal-gnome ];
+    extraPortals = [
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.xdg-desktop-portal-gnome
+    ];
     # configPackages = [ pkgs.hyprland ];
     config.common.default = "*";
   };
@@ -34,6 +34,7 @@
     imv
     mimeo
     xwayland
+    libnotify
     pulseaudio
     waypipe
     wf-recorder
