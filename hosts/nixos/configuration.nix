@@ -22,20 +22,13 @@
     config = { allowUnfree = true; };
   };
 
-  # This will additionally add your inputs to the system's legacy channels
-  # Making legacy nix commands consistent as well, awesome!
-  # nix.nixPath = [ "/etc/nix/path" ];
-  # environment.etc =
-  #   lib.mapAttrs'
-  #     (name: value: {
-  #       name = "nix/path/${name}";
-  #       value.source = value.flake;
-  #     })
-  #     config.nix.registry;
-
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
+  boot = {
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+  };
 
   hardware.graphics = {
     enable = true;
@@ -43,13 +36,6 @@
   };
 
   virtualisation.docker.enable = true;
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall =
-      true; # Open ports in the firewall for Steam Remote Play
-    # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  };
 
   networking = {
     firewall = {
@@ -64,13 +50,29 @@
     };
   };
 
-  programs = {
-    adb.enable = true;
-    dconf.enable = true;
-  };
+  services = {
+    dbus.enable = true;
+    tailscale.enable = true;
 
-  services.dbus.enable = true;
-  services.tailscale.enable = true;
+    xserver.xkb = {
+      layout = "us";
+      variant = "altgr-intl";
+    };
+    # Enable CUPS to print documents.
+    printing.enable = true;
+
+    pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      wireplumber.enable = true;
+      jack.enable = true;
+    };
+
+    gvfs.enable = true; # Mount, trash, and other functionalities
+    tumbler.enable = true; # Thumbnail support for images
+  };
 
   fonts.packages = with pkgs; [
     fira-code
@@ -108,29 +110,9 @@
     LC_TIME = "en_GB.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  # services.xserver.videoDrivers = [ "amdgpu" ];
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "altgr-intl";
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    wireplumber.enable = true;
-    jack.enable = true;
-  };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.marnas = {
@@ -141,38 +123,60 @@
     packages = with pkgs; [ home-manager ];
   };
 
-  environment.systemPackages = with pkgs; [
-    wget
-    git
-    gcc
-    go
-    python3
-    cargo
-    nodejs
-    wine
-    winetricks
-    protonup-qt
-    unzip
-    btop
-    docker
-    docker-compose
-    kubectl
-    terraform
-    fluxcd
-    # awscli2
-    transgui
-    talosctl
-    cifs-utils
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      wget
+      git
+      gcc
+      gnumake
+      go
+      golangci-lint
+      python3
+      cargo
+      nodejs
+      protonup-qt
+      unzip
+      btop
+      docker
+      docker-compose
+      kubectl
+      terraform
+      fluxcd
+      # awscli2
+      transgui
+      talosctl
+      cifs-utils
+    ];
 
-  programs.hyprland.enable = true;
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; # Thumbnail support for images
+    etc = {
+      "1password/custom_allowed_browsers" = {
+        text = ''
+          .zen-wrapped
+        '';
+        mode = "0755";
+      };
+    };
+  };
 
-  programs._1password.enable = true;
-  programs._1password-gui = {
-    enable = true;
-    polkitPolicyOwners = [ "marnas" ];
+  programs = {
+    adb.enable = true;
+    dconf.enable = true;
+
+    hyprland.enable = true;
+
+    _1password.enable = true;
+    _1password-gui = {
+      enable = true;
+      polkitPolicyOwners = [ "marnas" ];
+
+    };
+
+    steam = {
+      enable = true;
+      remotePlay.openFirewall =
+        true; # Open ports in the firewall for Steam Remote Play
+      # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    };
   };
 
   security.polkit.enable = true;

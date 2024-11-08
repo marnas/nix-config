@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, inputs, ... }: {
 
   imports = [ ./cli ./desktop ./shared.nix ];
 
@@ -7,11 +7,10 @@
   home.packages = with pkgs; [
     chromium
     postman
-    orca-slicer
+    # orca-slicer
     gimp
     nemo-with-extensions
     eog
-    swaybg
     libreoffice
     zathura
     pulsemixer
@@ -19,8 +18,9 @@
     vlc
     soulseekqt
 
+    inputs.zen-browser.packages."${system}".default
+
     # messaging
-    teams-for-linux
     whatsapp-for-linux
     telegram-desktop
 

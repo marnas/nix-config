@@ -84,7 +84,10 @@
         ];
       };
 
-      misc = { force_default_wallpaper = 0; };
+      misc = {
+        focus_on_activate = true;
+        force_default_wallpaper = 0;
+      };
 
       gestures = { workspace_swipe = true; };
 
@@ -115,7 +118,7 @@
         # notify-send = "${pkgs.libnotify}/bin/notify-send";
         #
         terminal = config.home.sessionVariables.TERMINAL;
-        browser = "firefox";
+        browser = "zen";
         passmanager = "1password";
         mod = "SUPER";
         menu = "tofi-drun --drun-launch=true";

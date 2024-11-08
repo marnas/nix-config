@@ -40,6 +40,8 @@
 
     yazi = { url = "github:sxyazi/yazi"; };
 
+    zen-browser = { url = "github:MarceColl/zen-browser-flake"; };
+
     nix-minecraft = { url = "github:Infinidoge/nix-minecraft"; };
 
   };

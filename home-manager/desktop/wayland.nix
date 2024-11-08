@@ -17,10 +17,14 @@
   xdg.mimeApps = {
     enable = true;
     defaultApplications = {
-      "text/html" = "firefox.desktop";
-      "application/pdf" = "firefox.desktop";
       "image/png" = "org.gnome.eog.desktop";
       "image/jpeg" = "org.gnome.eog.desktop";
+
+      "text/html" = "zen.desktop";
+      "text/xml" = [ "zen.desktop" ];
+      "application/pdf" = "zen.desktop";
+      "x-scheme-handler/http" = [ "zen.desktop" ];
+      "x-scheme-handler/https" = [ "zen.desktop" ];
     };
     associations.added = {
       # others...
