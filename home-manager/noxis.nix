@@ -1,12 +1,6 @@
-{ inputs
-, outputs
-, pkgs
-, ...
-}: {
+{ outputs, ... }: {
 
-  imports = [
-    ./cli
-  ];
+  imports = [ ./cli ];
 
   nixpkgs = {
     overlays = [
@@ -27,15 +21,8 @@
     homeDirectory = "/home/marnas";
   };
 
-  # Add stuff for your user as you see fit:
-  # programs.neovim.enable = true;
-  home.packages = with pkgs; [
-
-  ];
-
   home.sessionVariables = {
     EDITOR = "nvim";
-    XDG_CURRENT_DESKTOP = "hyprland";
     TERMINAL = "alacritty";
   };
 
