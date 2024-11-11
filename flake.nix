@@ -32,6 +32,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     vpn-confinement = { url = "github:Maroka-chan/VPN-Confinement"; };
 
     marnas-nvim = { url = "github:marnas/nvim-flake"; };
@@ -39,8 +44,6 @@
     mac-app-util = { url = "github:hraban/mac-app-util"; };
 
     yazi = { url = "github:sxyazi/yazi"; };
-
-    zen-browser = { url = "github:MarceColl/zen-browser-flake"; };
 
     nix-minecraft = { url = "github:Infinidoge/nix-minecraft"; };
 

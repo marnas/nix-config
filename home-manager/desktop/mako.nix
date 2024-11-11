@@ -1,35 +1,30 @@
 { ... }: {
 
   services.mako = {
-    enable = false;
-    sort = "-time";
-    layer = "overlay";
-    backgroundColor = "#2e3440";
-    width = 300;
-    height = 110;
-    borderSize = 1;
-    borderColor = "#88c0d0";
-    borderRadius = 10;
+    enable = true;
+    actions = true;
     icons = true;
-    maxIconSize = 64;
+    # maxIconSize = 64;
+    sort = "-time";
+    # layer = "overlay";
+    padding = "20";
+    margin = "10,10,0";
+    width = 400;
+    # height = 110;
+    borderSize = 1;
+    borderColor = "#2d2a2e";
+    borderRadius = 10;
+    backgroundColor = "#eff1f5";
+    progressColor = "over #ccd0da";
     defaultTimeout = 10000;
     ignoreTimeout = true;
-    font = "monospace 12";
+    font = "Helvetica 11";
+    textColor = "#4c4f69";
 
     extraConfig = ''
-      [urgency=low]
-      border-color=#cccccc
-
-      [urgency=normal]
-      border-color=#d08770
-
       [urgency=high]
-      border-color=#bf616a
+      border-color=#f01326
       default-timeout=0
-
-      [category=mpd]
-      default-timeout=2000
-      group-by=category
     '';
   };
 }

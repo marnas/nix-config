@@ -21,9 +21,7 @@
     httpie # Better curl
     jq # JSON pretty printer and manipulator
 
-    nil # Nix LSP
-    stable.rnix-lsp
-    nixfmt-classic # Nix formatter
+    # stable.rnix-lsp
     nvd # Differ
     nix-output-monitor
     nh # Nice wrapper for NixOS and HM

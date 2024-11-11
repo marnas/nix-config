@@ -156,6 +156,9 @@
         mode = "0755";
       };
     };
+
+    # To  run slack under wayland
+    sessionVariables.NIXOS_OZONE_WL = "1";
   };
 
   programs = {
