@@ -1,4 +1,4 @@
-{ lib, buildGoModule, fetchFromGitHub, platforms }:
+{ lib, buildGoModule, fetchFromGitHub }:
 buildGoModule rec {
   pname = "conduktor-ctl";
   version = "0.3.1";
@@ -24,9 +24,9 @@ buildGoModule rec {
     description =
       "Conduktor CLI to perform operations directly from your command line or a CI/CD pipeline";
     homepage = "https://github.com/conduktor/ctl";
-    # license = lib.licenses.apache-2;
+    license = lib.licenses.asl20;
     maintainers = with lib.maintainers; [ marnas ];
-    # platforms = platforms.linux ++ platforms.darwin;
+    platforms = lib.platforms.linux ++ lib.platforms.darwin;
   };
 }
 
