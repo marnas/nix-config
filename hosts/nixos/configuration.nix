@@ -140,6 +140,7 @@
       docker
       docker-compose
       kubectl
+      conduktor-ctl
       terraform
       fluxcd
       # awscli2
