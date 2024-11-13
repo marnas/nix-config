@@ -81,7 +81,7 @@
         # darwin-rebuild switch --flake .#macos
         macos = nix-darwin.lib.darwinSystem {
           # system = "x86_64-darwin";
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs outputs; };
           modules = [
             ./hosts/macos/configuration.nix
             mac-app-util.darwinModules.default

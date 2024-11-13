@@ -1,4 +1,4 @@
-{ outputs, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -11,16 +11,6 @@
     ../shared/fish.nix
     ../shared/nix.nix
   ];
-
-  nixpkgs = {
-    overlays = [
-      outputs.overlays.additions
-      outputs.overlays.modifications
-      outputs.overlays.stable-packages
-    ];
-
-    config = { allowUnfree = true; };
-  };
 
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;

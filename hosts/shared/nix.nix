@@ -1,8 +1,18 @@
-{ ... }: {
+{ outputs, ... }: {
+  nixpkgs = {
+    overlays = [
+      outputs.overlays.additions
+      outputs.overlays.modifications
+      outputs.overlays.stable-packages
+    ];
+
+    config = { allowUnfree = true; };
+  };
+
   nix = {
     settings = {
       experimental-features = "nix-command flakes";
-      auto-optimise-store = true;
+      # auto-optimise-store = true;
       trusted-users = [ "root" "@wheel" ];
       trusted-substituters = [ "https://nix-community.cachix.org" ];
       trusted-public-keys = [
@@ -10,6 +20,7 @@
       ];
     };
 
+    optimise.automatic = true;
     gc = {
       automatic = true;
       #dates = "weekly";

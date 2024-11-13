@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -13,10 +13,6 @@
   ];
 
   nix.settings.trusted-users = [ "marnas" ];
-  nixpkgs = {
-    config.allowUnfree = true;
-    overlays = [ inputs.marnas-nvim.overlays.default ];
-  };
 
   # Bootloader.
   boot.loader.grub.enable = true;

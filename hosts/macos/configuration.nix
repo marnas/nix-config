@@ -9,10 +9,7 @@
   services.nix-daemon.enable = true;
   # nix.package = pkgs.nix;
 
-  nixpkgs = {
-    hostPlatform = "aarch64-darwin";
-    config.allowUnfree = true;
-  };
+  nixpkgs = { hostPlatform = "aarch64-darwin"; };
 
   # Necessary for using flakes on this system.
   nix = {
@@ -57,6 +54,9 @@
     fluxcd
     python3
     teleport
+    kubelogin
+    awscli2
+    conduktor-ctl
   ];
 
   homebrew = {
@@ -74,6 +74,7 @@
       #"autodesk-fusion"
       "1password"
       "firefox"
+      "zen-browser"
       #"garmin-express"
       "tailscale"
       "nextcloud"
