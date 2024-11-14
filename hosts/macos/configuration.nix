@@ -41,16 +41,16 @@
     '';
   };
 
-  fonts = { packages = with pkgs; [ nerdfonts jetbrains-mono meslo-lgs-nf ]; };
+  fonts = { packages = with pkgs; [ jetbrains-mono meslo-lgs-nf nerdfonts ]; };
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
+    awscli2
     cargo
+    kubelogin
     python3
     teleport
-    kubelogin
-    awscli2
   ];
 
   homebrew = {
@@ -59,24 +59,23 @@
     brews = [ "helm" ];
 
     casks = [
+      "1password"
+      #"autodesk-fusion"
+      "docker"
+      #"garmin-express"
+      "gather"
       #"hackintool"
-      #"soulseek"
       "karabiner-elements"
       #"opencore-configurator"
-
-      "whatsapp"
-      #"autodesk-fusion"
-      "1password"
-      "firefox"
-      "zen-browser"
-      #"garmin-express"
-      "tailscale"
       "nextcloud"
+      "obsidian"
       "orcaslicer"
       "plexamp"
-      "gather"
-      "docker"
+      #"soulseek"
+      "tailscale"
       "transmission-remote-gui"
+      "whatsapp"
+      "zen-browser"
     ];
   };
 
