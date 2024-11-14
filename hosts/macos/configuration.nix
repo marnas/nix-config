@@ -46,17 +46,11 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
-    kubectl
-    talosctl
     cargo
-    docker
-    docker-compose
-    fluxcd
     python3
     teleport
     kubelogin
     awscli2
-    conduktor-ctl
   ];
 
   homebrew = {
@@ -67,7 +61,7 @@
     casks = [
       #"hackintool"
       #"soulseek"
-      #"karabiner-elements"
+      "karabiner-elements"
       #"opencore-configurator"
 
       "whatsapp"

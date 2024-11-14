@@ -120,22 +120,13 @@
       gcc
       gnumake
       go
-      golangci-lint
       python3
       cargo
       nodejs
       protonup-qt
       unzip
-      btop
-      docker
-      docker-compose
-      kubectl
-      conduktor-ctl
-      terraform
-      fluxcd
       # awscli2
       transgui
-      talosctl
       cifs-utils
     ];
 

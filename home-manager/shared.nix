@@ -21,10 +21,11 @@
       if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
 
     packages = with pkgs; [
+      btop
       nvim-pkg
-      kubernetes-helm
-      terraform
-      lens
+      docker
+      docker-compose
+      golangci-lint
 
       # media
       yt-dlp
@@ -32,6 +33,15 @@
       # messaging
       slack
       discord
+
+      # kubernetes
+      talosctl
+      kubectl
+      kubernetes-helm
+      conduktor-ctl
+      terraform
+      lens
+      fluxcd
     ];
 
     sessionVariables = {

@@ -7,10 +7,10 @@
 
       font = lib.mkIf (vars.hostname == "macos") {
         normal = {
-          family = "MesloLGL Nerd Font";
-          #style = "Regular";
+          family = "FiraCode Nerd Font";
+          # style = "Regular";
         };
-        size = 13;
+        size = 12;
       };
 
       scrolling = { history = 10000; };
