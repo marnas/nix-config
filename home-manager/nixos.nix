@@ -6,31 +6,28 @@
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     chromium
-    postman
-    # orca-slicer
-    gimp
-    nemo-with-extensions
-    eog
-    libreoffice
-    zathura
-    pulsemixer
-    plexamp
-    vlc
-    soulseekqt
-
-    inputs.zen-browser.packages."${system}".default
-
-    # messaging
-    whatsapp-for-linux
-    telegram-desktop
-
-    # gaming
-    gamemode
-    steam
-    lutris
     clonehero
-    wowup-cf
+    eog
+    freetube
+    gamemode
+    gimp
+    inputs.zen-browser.packages."${system}".default
+    libreoffice
+    lutris
+    nemo-with-extensions
+    obsidian
+    orca-slicer
+    plexamp
+    postman
     prismlauncher
+    pulsemixer
+    soulseekqt
+    steam
+    telegram-desktop
+    vlc
+    whatsapp-for-linux
+    wowup-cf
+    zathura
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

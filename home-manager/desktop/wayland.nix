@@ -33,32 +33,30 @@
 
   home.packages = with pkgs; [
     grim
-    slurp
-    gtk3 # For gtk-launch
+    gtk3
     imv
-    mimeo
-    xwayland
     libnotify
-    pulseaudio
-    waypipe
-    wf-recorder
-    wl-clipboard
-    wl-mirror
-    ydotool
-
-    polkit
-    xdg-desktop-portal-hyprland
-    xdg-desktop-portal-gtk
+    libsForQt5.qt5.qtwayland
+    mimeo
     mesa
-    wayland
-    wl-clipboard
     meson
+    polkit
+    polkit-kde-agent
+    pulseaudio
+    qt6.qtwayland
+    slurp
+    wayland
     wayland-protocols
     wayland-utils
+    waypipe
+    wl-clipboard
+    wl-mirror
+    wf-recorder
     wlroots
-    libsForQt5.qt5.qtwayland
-    qt6.qtwayland
-    polkit-kde-agent
+    xdg-desktop-portal-hyprland
+    xdg-desktop-portal-gtk
+    xwayland
+    ydotool
   ];
 
   home.sessionVariables = {

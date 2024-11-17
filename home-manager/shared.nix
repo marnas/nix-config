@@ -22,26 +22,20 @@
 
     packages = with pkgs; [
       btop
-      nvim-pkg
+      conduktor-ctl
       docker
       docker-compose
+      fluxcd
       golangci-lint
-
-      # media
-      yt-dlp
-
-      # messaging
-      slack
-      discord
-
-      # kubernetes
-      talosctl
       kubectl
       kubernetes-helm
-      conduktor-ctl
-      terraform
       lens
-      fluxcd
+      nvim-pkg
+      slack
+      talosctl
+      terraform
+      vesktop
+      yt-dlp
     ];
 
     sessionVariables = {
