@@ -2,7 +2,7 @@
   # Define VPN network namespace
   vpnNamespaces.wg = {
     enable = true;
-    wireguardConfigFile = /. + "wg0.conf";
+    wireguardConfigFile = "/secrets/wg0.conf";
     accessibleFrom = [ "192.168.0.0/24" ];
     portMappings = [{
       from = 9091;
@@ -22,8 +22,13 @@
 
   services.transmission = {
     enable = true;
+    openRPCPort = true;
     settings = {
-      "rpc-bind-address" = "192.168.15.1"; # Bind RPC/WebUI to bridge address
+      rpc-bind-address = "0.0.0.0"; # Bind RPC/WebUI to bridge address
+      download-dir = "/mnt/media/";
+      incomplete-dir-enabled = false;
+      download-queue-enabled = false;
+      upload-limit-enabled = true;
     };
   };
 }

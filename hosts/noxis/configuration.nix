@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -6,11 +6,14 @@
     ./minecraft.nix
     ./terraria.nix
     # ./k3s.nix
+    ./vpn.nix
 
     ../shared/fish.nix
     ../shared/nix.nix
     ../shared/openssh.nix
   ];
+
+  nixpkgs = { overlays = [ inputs.marnas-nvim.overlays.default ]; };
 
   nix.settings.trusted-users = [ "marnas" ];
 
@@ -57,7 +60,11 @@
     trustedInterfaces = [ "tailscale0" ];
   };
 
-  environment.systemPackages = with pkgs; [ nvim-pkg git ];
+  environment.systemPackages = with pkgs; [
+    nvim-pkg
+    update-systemd-resolved
+    git
+  ];
 
   system.stateVersion = "23.11";
 
