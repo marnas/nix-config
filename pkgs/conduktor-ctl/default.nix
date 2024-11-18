@@ -6,15 +6,11 @@ buildGoModule rec {
   src = fetchFromGitHub {
     owner = "conduktor";
     repo = "ctl";
-    rev = "v${version}";
+    rev = "refs/tags/v${version}";
     hash = "sha256-1keo9nL+vC8jYSvKkEyj2ridhKyu7ekyTJTk0/7gTHY=";
   };
 
   vendorHash = "sha256-HoIRw72Rxonwozqqz8z+YtZDKIJ6k5pqjf/EQFkhDik=";
-
-  # ldflags = [ "-o" "conduktor" ];
-
-  doCheck = false;
 
   postInstall = ''
     mv $out/bin/ctl $out/bin/conduktor
