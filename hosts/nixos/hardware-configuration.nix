@@ -31,6 +31,11 @@
     fsType = "nfs";
   };
 
+  fileSystems."/mnt/backup" = {
+    device = "truenas.marnas.sh:/mnt/Pool0/backup";
+    fsType = "nfs";
+  };
+
   fileSystems."/mnt/Games" = {
     device = "truenas.marnas.sh:/mnt/Pool0/Games";
     fsType = "nfs";

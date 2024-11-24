@@ -2,14 +2,15 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
-    # ./virtmanager.nix
-    # ./greetd.nix
-    ./udev-rules.nix
-    ./gnome.nix
-
     ../shared/fish.nix
     ../shared/nix.nix
+    ../shared/restic.nix
+
+    ./gnome.nix
+    # ./greetd.nix
+    ./hardware-configuration.nix
+    ./udev-rules.nix
+    # ./virtmanager.nix
   ];
 
   boot = {
