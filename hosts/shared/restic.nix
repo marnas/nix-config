@@ -1,6 +1,6 @@
 let
   user = "marnas";
-  backupFolder = "/mnt/backup/home";
+  backupRepo = "/mnt/backup/home";
   secretFile = "/secrets/restic";
 in { ... }: {
   services.restic.backups = {
@@ -17,7 +17,7 @@ in { ... }: {
         "/home/${user}/Templates/"
         "/home/${user}/Videos/"
       ];
-      repository = "${backupFolder}";
+      repository = "${backupRepo}";
     };
   };
 }
