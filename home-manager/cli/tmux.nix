@@ -4,7 +4,7 @@
     mouse = true;
     escapeTime = 10;
     baseIndex = 1;
-    sensibleOnTop = false;
+    sensibleOnTop = true;
     terminal = "tmux-256color";
     historyLimit = 100000;
     plugins = with pkgs; [
@@ -29,7 +29,7 @@
       bind -n C-p send-keys C-l
         
       # to forward Ctrl-Tab
-      set -g extended-keys always
+      # set -g extended-keys on
     '';
   };
 }

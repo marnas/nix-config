@@ -3,7 +3,10 @@
     enable = true;
     systemd.enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    plugins = [ inputs.hyprsplit.packages.${pkgs.system}.hyprsplit ];
+    plugins = [
+      inputs.split-monitor-workspaces.packages.${pkgs.system}.split-monitor-workspaces
+      # inputs.hyprsplit.packages.${pkgs.system}.hyprsplit
+    ];
 
     settings = {
       monitor = [ "DP-1,2560x1440@360,0x0,1" "DP-2,2560x1440@360,2560x0,1" ];
@@ -97,9 +100,13 @@
       };
 
       plugin = {
-        hyprsplit = {
-          num_workspaces = 5;
-          # enable_persistent_workspaces = false;
+        # hyprsplit = {
+        #   num_workspaces = 5;
+        #   # enable_persistent_workspaces = false;
+        # };
+        split-monitor-workspaces = {
+          count = 5;
+          enable_persistent_workspaces = 0;
         };
       };
 
@@ -166,17 +173,17 @@
         "${mod} SHIFT, S, movetoworkspace, special:magic"
 
         # Workspaces
-        "${mod}, 1, split:workspace, 1"
-        "${mod}, 2, split:workspace, 2"
-        "${mod}, 3, split:workspace, 3"
-        "${mod}, 4, split:workspace, 4"
-        "${mod}, 5, split:workspace, 5"
+        "${mod}, 1, split-workspace, 1"
+        "${mod}, 2, split-workspace, 2"
+        "${mod}, 3, split-workspace, 3"
+        "${mod}, 4, split-workspace, 4"
+        "${mod}, 5, split-workspace, 5"
 
-        "${mod} SHIFT, 1, split:movetoworkspace, 1"
-        "${mod} SHIFT, 2, split:movetoworkspace, 2"
-        "${mod} SHIFT, 3, split:movetoworkspace, 3"
-        "${mod} SHIFT, 4, split:movetoworkspace, 4"
-        "${mod} SHIFT, 5, split:movetoworkspace, 5"
+        "${mod} SHIFT, 1, split-movetoworkspace, 1"
+        "${mod} SHIFT, 2, split-movetoworkspace, 2"
+        "${mod} SHIFT, 3, split-movetoworkspace, 3"
+        "${mod} SHIFT, 4, split-movetoworkspace, 4"
+        "${mod} SHIFT, 5, split-movetoworkspace, 5"
       ];
 
     };
