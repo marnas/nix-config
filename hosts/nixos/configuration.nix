@@ -38,6 +38,8 @@
       allowedUDPPortRanges = [
         # { from = 47984; to = 48010; } # Sunshine
       ];
+      # To allow tailscale exit nodes without losing internet access.
+      checkReversePath = "loose";
     };
   };
 
@@ -69,7 +71,7 @@
     fira-code
     fira-code-symbols
     mplus-outline-fonts.githubRelease
-    nerdfonts
+    nerd-fonts.fira-code
     noto-fonts-emoji
     meslo-lgs-nf
   ];

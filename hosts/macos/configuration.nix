@@ -41,7 +41,9 @@
     '';
   };
 
-  fonts = { packages = with pkgs; [ jetbrains-mono meslo-lgs-nf nerdfonts ]; };
+  fonts = {
+    packages = with pkgs; [ jetbrains-mono meslo-lgs-nf nerd-fonts.fira-code ];
+  };
 
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
@@ -66,9 +68,9 @@
       "gather"
       #"hackintool"
       "karabiner-elements"
-      #"opencore-configurator"
       "nextcloud"
       "obsidian"
+      #"opencore-configurator"
       "orcaslicer"
       "plexamp"
       #"soulseek"
