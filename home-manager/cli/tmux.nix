@@ -1,10 +1,10 @@
-{ pkgs, ... }: {
+{ pkgs, vars, ... }: {
   programs.tmux = {
     enable = true;
     mouse = true;
     escapeTime = 10;
     baseIndex = 1;
-    sensibleOnTop = true;
+    sensibleOnTop = if (vars.hostname == "macos") then false else true;
     terminal = "tmux-256color";
     historyLimit = 100000;
     plugins = with pkgs; [
