@@ -23,7 +23,6 @@
     pulsemixer
     soulseekqt
     steam
-    telegram-desktop
     vlc
     whatsapp-for-linux
     wowup-cf

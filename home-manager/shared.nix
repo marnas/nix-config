@@ -33,6 +33,7 @@
       nvim-pkg
       slack
       talosctl
+      telegram-desktop
       terraform
       vesktop
       yt-dlp
