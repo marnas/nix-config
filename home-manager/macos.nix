@@ -3,7 +3,7 @@
   imports = [ ./cli ./desktop/alacritty.nix ./shared.nix ];
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [ vscode alacritty ffmpeg ];
+  home.packages = with pkgs; [ vscode alacritty ffmpeg raycast ];
 
   programs.go.enable = true;
 

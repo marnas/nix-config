@@ -15,7 +15,7 @@
       };
 
       dock = {
-        autohide = false;
+        autohide = true;
         mru-spaces =
           false; # disable auto rearrange spaces based on most recent use
         show-recents = false;

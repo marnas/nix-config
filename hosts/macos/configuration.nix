@@ -1,5 +1,6 @@
 { pkgs, inputs, ... }: {
   imports = [
+    ./aerospace.nix
     ./system.nix
 
     ../shared/fish.nix
