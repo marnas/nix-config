@@ -24,6 +24,16 @@
         cmd-shift-k = "move up";
         cmd-shift-l = "move right";
 
+        cmd-left = "focus left";
+        cmd-down = "focus down";
+        cmd-up = "focus up";
+        cmd-right = "focus right";
+
+        cmd-shift-left = "move left";
+        cmd-shift-down = "move down";
+        cmd-shift-up = "move up";
+        cmd-shift-right = "move right";
+
         cmd-1 = "workspace 1";
         cmd-2 = "workspace 2";
         cmd-3 = "workspace 3";
@@ -48,7 +58,20 @@
 
         cmd-shift-f = "fullscreen";
 
-        cmd-r = "mode resize";
+        cmd-shift-r = "mode resize";
+      };
+
+      workspace-to-monitor-force-assignment = {
+        "1" = "main";
+        "2" = "main";
+        "3" = "main";
+        "4" = "main";
+        "5" = "main";
+        "6" = "secondary";
+        "7" = "secondary";
+        "8" = "secondary";
+        "9" = "secondary";
+        "10" = "secondary";
       };
 
       mode.resize.binding = {
