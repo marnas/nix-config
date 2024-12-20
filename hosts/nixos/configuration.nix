@@ -29,6 +29,8 @@
   virtualisation.docker.enable = true;
 
   networking = {
+    hostName = "nixos"; # Define your hostname.
+    networkmanager.enable = true;
     firewall = {
       enable = true;
       allowedTCPPorts = [ ];
@@ -75,11 +77,6 @@
     noto-fonts-emoji
     meslo-lgs-nf
   ];
-
-  networking.hostName = "nixos"; # Define your hostname.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot =

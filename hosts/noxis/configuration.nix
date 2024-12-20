@@ -1,12 +1,11 @@
-{ config, pkgs, inputs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ./minecraft.nix
-    ./terraria.nix
-    # ./k3s.nix
-    ./vpn.nix
+    ./transmission.nix
+    # ./terraria.nix
 
     ../shared/fish.nix
     ../shared/nix.nix
@@ -22,10 +21,6 @@
   boot.loader.grub.device = "/dev/sda";
   boot.loader.grub.useOSProber = true;
 
-  networking.hostName = "noxis"; # Define your hostname.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
   services.tailscale.enable = true;
 
   # Set your time zone.
@@ -54,10 +49,19 @@
     packages = with pkgs; [ home-manager ];
   };
 
-  networking.firewall = {
-    allowedTCPPorts = [ 7777 25570 25565 6443 ];
-    allowedUDPPorts = [ 7777 25570 25565 19132 config.services.tailscale.port ];
-    trustedInterfaces = [ "tailscale0" ];
+  networking = {
+    hostName = "noxis"; # Define your hostname.
+    networkmanager.enable = true;
+
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 25570 25565 ];
+      allowedUDPPorts = [ 25570 25565 19132 ];
+      allowedTCPPortRanges = [ ];
+      allowedUDPPortRanges = [ ];
+      # To allow tailscale exit nodes without losing internet access.
+      checkReversePath = "loose";
+    };
   };
 
   environment.systemPackages = with pkgs; [

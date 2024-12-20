@@ -42,8 +42,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    vpn-confinement = { url = "github:Maroka-chan/VPN-Confinement"; };
-
     marnas-nvim = { url = "github:marnas/nvim-flake"; };
 
     mac-app-util = { url = "github:hraban/mac-app-util"; };
@@ -54,8 +52,8 @@
 
   };
 
-  outputs = { self, nixpkgs, home-manager, nix-darwin, vpn-confinement
-    , mac-app-util, ... }@inputs:
+  outputs =
+    { self, nixpkgs, home-manager, nix-darwin, mac-app-util, ... }@inputs:
     let inherit (self) outputs;
     in {
 
@@ -77,7 +75,6 @@
           modules = [
             # > main nixos configuration file <
             ./hosts/noxis/configuration.nix
-            vpn-confinement.nixosModules.default
           ];
         };
       };
