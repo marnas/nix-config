@@ -46,5 +46,16 @@
     };
   };
 
-  programs.home-manager.enable = true;
+  programs = {
+    home-manager.enable = true;
+
+    gh = {
+      enable = true;
+      settings = {
+        git_protocol = "ssh";
+        # prompt = "enabled";
+      };
+    };
+  };
+
 }
