@@ -16,7 +16,7 @@
     lutris
     nemo-with-extensions
     obsidian
-    orca-slicer
+    # orca-slicer
     plexamp
     postman
     prismlauncher
@@ -24,7 +24,7 @@
     soulseekqt
     steam
     vlc
-    whatsapp-for-linux
+    stable.whatsapp-for-linux
     wowup-cf
     zathura
   ];

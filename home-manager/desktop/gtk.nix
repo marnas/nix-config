@@ -1,18 +1,17 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   home.pointerCursor = {
     gtk.enable = true;
-    name = "breeze_cursors";
-    package = pkgs.breeze-gtk;
-    size = 30;
+    name = "macOS";
+    package = pkgs.apple-cursor;
+    # size = 30;
   };
 
   gtk = {
     enable = true;
     cursorTheme = {
-      package = pkgs.breeze-gtk;
-      name = "breeze_cursors";
-      size = 30;
+      package = pkgs.apple-cursor;
+      name = "macOS";
+      # size = 30;
     };
     # font.name = "TeX Gyre Adventor 10";
     theme = {
