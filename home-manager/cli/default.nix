@@ -12,21 +12,18 @@
   ];
   home.packages = with pkgs; [
     comma # Install and run programs by sticking a , before them
-
     bc # Calculator
     bottom # System viewer
-    ncdu # TUI disk usage
-    ripgrep # Better grep
+    btop
     fd # Better find
-    httpie # Better curl
+    ffmpeg
     jq # JSON pretty printer and manipulator
-
-    # stable.rnix-lsp
-    nvd # Differ
-    nix-output-monitor
+    httpie # Better curl
+    ncdu # TUI disk usage
     nh # Nice wrapper for NixOS and HM
-
-    ltex-ls # Spell checking LSP
+    nix-output-monitor
+    nvd # Differ
+    ripgrep # Better grep
   ];
 
   programs.direnv = {

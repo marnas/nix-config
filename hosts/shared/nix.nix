@@ -23,7 +23,7 @@
     optimise.automatic = true;
     gc = {
       automatic = true;
-      dates = "weekly";
+      # dates = "weekly";
       # Keep the last 5 generations
       options = "--delete-older-than +7d";
     };

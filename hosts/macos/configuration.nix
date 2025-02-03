@@ -1,6 +1,7 @@
 { pkgs, inputs, ... }: {
   imports = [
     ./aerospace.nix
+    ./brew.nix
     ./system.nix
 
     ../shared/fish.nix
@@ -8,7 +9,6 @@
   ];
 
   services.nix-daemon.enable = true;
-  # nix.package = pkgs.nix;
 
   nixpkgs = { hostPlatform = "aarch64-darwin"; };
 
@@ -22,13 +22,15 @@
   security.pam.enableSudoTouchIdAuth = true;
 
   # Create /etc/zshrc that loads the nix-darwin environment.
-  programs.zsh.enable = true; # default shell on catalina
-  programs.fish = {
-    enable = true;
-    # Add Brew path to shell
-    interactiveShellInit = ''
-      eval "$(/opt/homebrew/bin/brew shellenv)"
-    '';
+  programs = {
+    zsh.enable = true; # default shell on catalina
+    fish = {
+      enable = true;
+      # Add Brew path to shell
+      interactiveShellInit = ''
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+      '';
+    };
   };
 
   environment = {
@@ -40,47 +42,14 @@
       auth       optional       ${pkgs.pam-reattach}/lib/pam/pam_reattach.so ignore_ssh
       auth       sufficient     pam_tid.so
     '';
+
+    # List packages installed in system profile. To search by name, run:
+    # $ nix-env -qaP | grep wget
+    systemPackages = with pkgs; [ awscli2 cargo kubelogin python3 teleport ];
   };
 
   fonts = {
     packages = with pkgs; [ jetbrains-mono meslo-lgs-nf nerd-fonts.fira-code ];
-  };
-
-  # List packages installed in system profile. To search by name, run:
-  # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    awscli2
-    cargo
-    kubelogin
-    python3
-    teleport
-  ];
-
-  homebrew = {
-    enable = true;
-    global.autoUpdate = true;
-    brews = [ "helm" ];
-
-    casks = [
-      "1password"
-      #"autodesk-fusion"
-      "docker"
-      #"garmin-express"
-      "gather"
-      #"hackintool"
-      # "karabiner-elements"
-      "nextcloud"
-      "obsidian"
-      #"opencore-configurator"
-      "orcaslicer"
-      "plex"
-      "plexamp"
-      #"soulseek"
-      "tailscale"
-      "transmission-remote-gui"
-      "whatsapp"
-      "zen-browser"
-    ];
   };
 
   # home-manager.useUserPackages = true;

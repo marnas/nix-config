@@ -15,13 +15,15 @@
     };
   };
 
+  services = { ollama = { enable = true; }; };
+
   home = {
     username = "marnas";
     homeDirectory =
       if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
 
     packages = with pkgs; [
-      btop
+      _1password-cli
       conduktor-ctl
       docker
       docker-compose
@@ -36,6 +38,7 @@
       telegram-desktop
       terraform
       vesktop
+      vlc-bin-universal
       yt-dlp
     ];
 
