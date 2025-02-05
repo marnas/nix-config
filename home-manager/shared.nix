@@ -38,7 +38,6 @@
       telegram-desktop
       terraform
       vesktop
-      vlc-bin-universal
       yt-dlp
     ];
 

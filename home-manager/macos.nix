@@ -3,7 +3,12 @@
   imports = [ ./cli ./desktop/alacritty.nix ./shared.nix ];
 
   # Add stuff for your user as you see fit:
-  home.packages = with pkgs; [ raycast ];
+  home.packages = with pkgs; [
+
+    raycast
+    vlc-bin-universal
+
+  ];
 
   programs.go.enable = true;
 
