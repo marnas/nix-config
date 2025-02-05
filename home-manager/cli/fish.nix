@@ -4,11 +4,10 @@ let
   packageNames = map (p: p.pname or p.name or null) config.home.packages;
   hasPackage = name: lib.any (x: x == name) packageNames;
   hasBat = hasPackage "bat";
-in
-{
+in {
   programs.fish = {
     enable = true;
-    shellAbbrs = rec {
+    shellAbbrs = {
 
       n = "nix";
       nd = "nix develop -c $SHELL";
@@ -34,6 +33,16 @@ in
       k = "kubectl";
 
     };
+    plugins = [
+      {
+        name = "z";
+        src = pkgs.fishPlugins.z.src;
+      }
+      {
+        name = "git";
+        src = pkgs.fishPlugins.plugin-git.src;
+      }
+    ];
     functions = {
       # Disable greeting
       fish_greeting = "";
