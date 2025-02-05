@@ -4,6 +4,7 @@
     mouse = true;
     escapeTime = 10;
     baseIndex = 1;
+    keyMode = "vi";
     sensibleOnTop = if (vars.hostname == "macos") then false else true;
     terminal = "tmux-256color";
     historyLimit = 100000;
