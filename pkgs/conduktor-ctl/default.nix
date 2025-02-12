@@ -1,24 +1,28 @@
 { lib, buildGoModule, fetchFromGitHub, installShellFiles, stdenv
-, versionCheckHook }:
+, versionCheckHook, }:
 buildGoModule rec {
   pname = "conduktor-ctl";
-  version = "0.3.2";
+  version = "0.4.0";
 
   src = fetchFromGitHub {
     owner = "conduktor";
     repo = "ctl";
     rev = "refs/tags/v${version}";
-    hash = "sha256-gG9ntmvlN/XUayHJHNGM1XdM5g0Q/1ywAuhP8wIoYyQ=";
+    hash = "sha256-NNhaYBhLCCVXBbZKKefPRk1CD8GQm98FvChgeHvPDKs=";
   };
 
-  vendorHash = "sha256-HoIRw72Rxonwozqqz8z+YtZDKIJ6k5pqjf/EQFkhDik=";
+  vendorHash = "sha256-kPCBzLU6aH6MNlKZcKKFcli99ZmdOtPV5+5gxPs5GH4=";
 
   nativeBuildInputs = [ installShellFiles ];
 
-  ldflags = [ "-X=utils.version=${version}" ];
+  ldflags = [ "-X github.com/conduktor/ctl/utils.version=${version}" ];
+
+  checkPhase = ''
+    go test ./...
+  '';
 
   postInstall = ''
-    mv $out/bin/ctl $out/bin/conduktor 
+    mv $out/bin/ctl $out/bin/conduktor
   '' + lib.optionalString
     (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
       installShellCompletion --cmd conduktor \
@@ -29,7 +33,11 @@ buildGoModule rec {
 
   doInstallCheck = true;
 
-  # nativeInstallCheckInputs = [ versionCheckHook ];
+  nativeInstallCheckInputs = [ versionCheckHook ];
+
+  versionCheckProgram = "${placeholder "out"}/bin/conduktor";
+
+  versionCheckProgramArg = "version";
 
   meta = {
     description = "CLI tool to interact with the Conduktor Console and Gateway";

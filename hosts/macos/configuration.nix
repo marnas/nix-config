@@ -8,8 +8,6 @@
     ../shared/nix.nix
   ];
 
-  services.nix-daemon.enable = true;
-
   nixpkgs = { hostPlatform = "aarch64-darwin"; };
 
   # Necessary for using flakes on this system.
@@ -18,6 +16,8 @@
       extra-platforms = x86_64-darwin aarch64-darwin
     '';
   };
+
+  ids.gids.nixbld = 350;
 
   security.pam.enableSudoTouchIdAuth = true;
 

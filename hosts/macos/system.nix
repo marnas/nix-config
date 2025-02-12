@@ -35,6 +35,8 @@
       };
 
       WindowManager.EnableStandardClickToShowDesktop = false;
+
+      controlcenter.BatteryShowPercentage = true;
     };
 
     keyboard = {
