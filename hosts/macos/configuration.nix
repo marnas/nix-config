@@ -19,7 +19,7 @@
 
   ids.gids.nixbld = 350;
 
-  security.pam.enableSudoTouchIdAuth = true;
+  # security.pam.enableSudoTouchIdAuth = true;
 
   # Create /etc/zshrc that loads the nix-darwin environment.
   programs = {
