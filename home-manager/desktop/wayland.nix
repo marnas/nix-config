@@ -4,7 +4,6 @@
   xdg.portal = {
     enable = true;
     extraPortals = [
-      pkgs.xdg-desktop-portal-hyprland
       pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-wlr
       pkgs.xdg-desktop-portal-gnome
@@ -40,9 +39,6 @@
     mimeo
     mesa
     meson
-    polkit
-    polkit-kde-agent
-    pulseaudio
     qt6.qtwayland
     slurp
     wayland
@@ -53,7 +49,6 @@
     wl-mirror
     wf-recorder
     wlroots
-    xdg-desktop-portal-hyprland
     xdg-desktop-portal-gtk
     xwayland
     ydotool

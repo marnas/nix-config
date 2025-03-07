@@ -10,8 +10,6 @@
 
   ];
 
-  programs.go.enable = true;
-
   targets.darwin.defaults."com.apple.desktopservices" = {
     DSDontWriteUSBStores = true;
     DSDontWriteNetworkStores = true;

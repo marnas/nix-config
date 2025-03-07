@@ -5,7 +5,6 @@
     ./eza.nix
     ./fish.nix
     ./git.nix
-    ./yazi.nix
     ./starship.nix
     ./tmux.nix
     ./zsh.nix
@@ -26,8 +25,11 @@
     ripgrep # Better grep
   ];
 
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;
+  programs = {
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+    yazi.enable = true;
   };
 }

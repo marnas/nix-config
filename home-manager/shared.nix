@@ -58,6 +58,7 @@
         # prompt = "enabled";
       };
     };
+    go.enable = true;
   };
 
 }

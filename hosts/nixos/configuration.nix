@@ -21,9 +21,15 @@
     };
   };
 
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
+  hardware = {
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
+    amdgpu.amdvlk = {
+      enable = false;
+      support32Bit.enable = false;
+    };
   };
 
   virtualisation.docker.enable = true;
@@ -67,6 +73,12 @@
 
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
+
+    open-webui = {
+      port = 9077;
+      enable = true;
+    };
+
   };
 
   fonts.packages = with pkgs; [
@@ -101,7 +113,6 @@
   };
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -119,11 +130,10 @@
       git
       gcc
       gnumake
-      go
       python3
       cargo
       nodejs
-      protonup-qt
+      stable.protonup-qt
       unzip
       # awscli2
       transgui
@@ -158,10 +168,12 @@
 
     steam = {
       enable = true;
+      gamescopeSession.enable = true;
       remotePlay.openFirewall =
         true; # Open ports in the firewall for Steam Remote Play
       # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     };
+    gamemode.enable = true;
   };
 
   security.polkit.enable = true;

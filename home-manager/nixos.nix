@@ -9,7 +9,6 @@
     clonehero
     eog
     freetube
-    gamemode
     gimp
     inputs.zen-browser.packages."${system}".default
     libreoffice
@@ -22,7 +21,6 @@
     prismlauncher
     pulsemixer
     soulseekqt
-    steam
     vlc
     stable.whatsapp-for-linux
     wowup-cf
