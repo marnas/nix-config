@@ -7,49 +7,11 @@
     ../shared/restic.nix
 
     ./gnome.nix
-    # ./greetd.nix
-    ./hardware-configuration.nix
-    ./udev-rules.nix
+    ./hardware.nix
     # ./virtmanager.nix
   ];
 
-  boot = {
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-  };
-
-  hardware = {
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-    amdgpu.amdvlk = {
-      enable = false;
-      support32Bit.enable = false;
-    };
-  };
-
   virtualisation.docker.enable = true;
-
-  networking = {
-    hostName = "nixos"; # Define your hostname.
-    networkmanager.enable = true;
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ ];
-      allowedTCPPortRanges = [
-        # { from = 47984; to = 48010; } # Sunshine
-      ];
-      allowedUDPPortRanges = [
-        # { from = 47984; to = 48010; } # Sunshine
-      ];
-      # To allow tailscale exit nodes without losing internet access.
-      checkReversePath = "loose";
-    };
-  };
 
   services = {
     dbus.enable = true;
@@ -76,9 +38,8 @@
 
     open-webui = {
       port = 9077;
-      enable = true;
+      enable = false;
     };
-
   };
 
   fonts.packages = with pkgs; [
@@ -90,30 +51,23 @@
     meslo-lgs-nf
   ];
 
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot =
-    true; # powers up the default Bluetooth controller on boot
-
-  # Set your time zone.
   time.timeZone = "Europe/London";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "en_GB.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "en_GB.UTF-8";
-    LC_IDENTIFICATION = "en_GB.UTF-8";
-    LC_MEASUREMENT = "en_GB.UTF-8";
-    LC_MONETARY = "en_GB.UTF-8";
-    LC_NAME = "en_GB.UTF-8";
-    LC_NUMERIC = "en_GB.UTF-8";
-    LC_PAPER = "en_GB.UTF-8";
-    LC_TELEPHONE = "en_GB.UTF-8";
-    LC_TIME = "en_GB.UTF-8";
+  i18n = {
+    defaultLocale = "en_GB.UTF-8";
+    extraLocaleSettings = {
+      LC_ADDRESS = "en_GB.UTF-8";
+      LC_IDENTIFICATION = "en_GB.UTF-8";
+      LC_MEASUREMENT = "en_GB.UTF-8";
+      LC_MONETARY = "en_GB.UTF-8";
+      LC_NAME = "en_GB.UTF-8";
+      LC_NUMERIC = "en_GB.UTF-8";
+      LC_PAPER = "en_GB.UTF-8";
+      LC_TELEPHONE = "en_GB.UTF-8";
+      LC_TIME = "en_GB.UTF-8";
+    };
   };
-
-  # Enable sound with pipewire.
-  security.rtkit.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.marnas = {
@@ -171,12 +125,15 @@
       gamescopeSession.enable = true;
       remotePlay.openFirewall =
         true; # Open ports in the firewall for Steam Remote Play
-      # dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
     };
     gamemode.enable = true;
   };
 
-  security.polkit.enable = true;
+  security = {
+    rtkit.enable = true; # Enable sound with pipewire.
+    polkit.enable = true;
+  };
+
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";
@@ -192,12 +149,6 @@
         TimeoutStopSec = 10;
       };
     };
-  };
-
-  # NixOS configuration for Star Citizen requirements
-  boot.kernel.sysctl = {
-    "vm.max_map_count" = 16777216;
-    "fs.file-max" = 524288;
   };
 
   # This value determines the NixOS release from which the default

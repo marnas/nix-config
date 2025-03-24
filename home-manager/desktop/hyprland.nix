@@ -9,7 +9,12 @@
     ];
 
     settings = {
-      monitor = [ "DP-1,2560x1440@360,0x0,1" "DP-2,2560x1440@360,2560x0,1" ];
+      monitor = [
+        "DP-1,2560x1440@360,0x0,1"
+        "DP-2,2560x1440@360,2560x0,1"
+        "HDMI-A-1, disable"
+        # "HDMI-A-1,4096x2160@120,5120x0,1"
+      ];
       general = {
         # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
@@ -149,9 +154,6 @@
         ",XF86AudioRaiseVolume,exec,volumectl -u up"
         ",XF86AudioLowerVolume,exec,volumectl -u down"
         ",XF86AudioMute,exec,volumectl toggle-mute"
-        # ",XF86AudioRaiseVolume,exec,wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
-        # ",XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-        # ",XF86AudioMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
         # # Screenshotting
         ''${mod} CTRL, p, exec, grim -g "$(slurp -d)" - | wl-copy -t image/png''
         # ",Print,exec,${grimblast} --notify --freeze copy output"
