@@ -1,5 +1,6 @@
 { ... }: {
 
+  # Enable and config the avizo notification daemon for multimedia keys
   services.avizo = {
     enable = true;
     settings = {

@@ -1,5 +1,12 @@
 { pkgs, ... }: {
-  imports = [ ./hyprland.nix ./waybar.nix ./tofi.nix ./mako.nix ./avizo.nix ];
+  imports = [
+    ./hyprland.nix
+    ./waybar.nix
+    ./tofi.nix
+    ./mako.nix
+    ./avizo.nix
+    ./swayidle.nix
+  ];
 
   xdg.portal = {
     enable = true;

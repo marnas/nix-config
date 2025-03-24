@@ -1,5 +1,6 @@
 { ... }: {
 
+  # Enable and config the mako notification daemon
   services.mako = {
     enable = true;
     actions = true;
