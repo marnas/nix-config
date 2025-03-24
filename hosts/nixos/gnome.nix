@@ -75,6 +75,24 @@
                 </mode>
               </monitor>
             </logicalmonitor>
+            <logicalmonitor>
+              <x>5120</x>
+              <y>0</y>
+              <scale>1</scale>
+              <monitor>
+                <monitorspec>
+                  <connector>HDMI-1</connector>
+                  <vendor>GSM</vendor>
+                  <product>LG TV SSCR2</product>
+                  <serial>0x01010101</serial>
+                </monitorspec>
+                <mode>
+                  <width>4096</width>
+                  <height>2160</height>
+                  <rate>120.000</rate>
+                </mode>
+              </monitor>
+            </logicalmonitor>
           </configuration>
         </monitors>
       ''

@@ -7,9 +7,8 @@
   };
 
   inputs = {
-
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
 
     home-manager = {
       url = "github:nix-community/home-manager/master";
@@ -20,11 +19,6 @@
       # url = "github:hyprwm/hyprland";
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    hyprsplit = {
-      url = "github:shezdy/hyprsplit";
-      inputs.hyprland.follows = "hyprland";
     };
 
     split-monitor-workspaces = {
@@ -47,7 +41,6 @@
     mac-app-util = { url = "github:hraban/mac-app-util"; };
 
     nix-minecraft = { url = "github:Infinidoge/nix-minecraft"; };
-
   };
 
   outputs =
@@ -121,7 +114,6 @@
             ./home-manager/noxis.nix
           ];
         };
-
         "marnas@macos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
           pkgs =

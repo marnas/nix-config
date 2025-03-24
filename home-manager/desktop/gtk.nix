@@ -10,9 +10,10 @@
     enable = true;
     cursorTheme = {
       package = pkgs.apple-cursor;
-      name = "macOS";
-      # size = 30;
+      name = "macOS-BigSur";
+      size = 24;
     };
+
     # font.name = "TeX Gyre Adventor 10";
     theme = {
       name = "Andromeda";

@@ -38,7 +38,7 @@
   };
 
   home.packages = with pkgs; [
-    grim
+    # grim
     gtk3
     imv
     libnotify
@@ -47,7 +47,7 @@
     mesa
     meson
     qt6.qtwayland
-    slurp
+    # slurp
     wayland
     wayland-protocols
     wayland-utils

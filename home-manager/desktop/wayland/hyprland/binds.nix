@@ -1,24 +1,14 @@
-{ config, ... }: {
+{ pkgs, config, ... }: {
   wayland.windowManager.hyprland.settings = {
     bindm = [ "SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow" ];
     bind = let
-      # swaylock = "${config.programs.swaylock.package}/bin/swaylock";
-      # playerctl = "${config.services.playerctld.package}/bin/playerctl";
-      # playerctld = "${config.services.playerctld.package}/bin/playerctld";
-      # makoctl = "${config.services.mako.package}/bin/makoctl";
-      #
-      # grimblast = "${pkgs.inputs.hyprwm-contrib.grimblast}/bin/grimblast";
-      # tesseract = "${pkgs.tesseract}/bin/tesseract";
-      #
-      # tly = "${pkgs.tly}/bin/tly";
-      # gtk-play = "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play";
-      # notify-send = "${pkgs.libnotify}/bin/notify-send";
-      #
-      terminal = config.home.sessionVariables.TERMINAL;
       browser = "zen";
-      passmanager = "1password";
-      mod = "SUPER";
+      grim = "${pkgs.grim}/bin/grim";
       menu = "tofi-drun --drun-launch=true";
+      mod = "SUPER";
+      passmanager = "1password";
+      slurp = "${pkgs.slurp}/bin/slurp";
+      terminal = config.home.sessionVariables.TERMINAL;
       # editor = defaultApp "text/plain";
     in [
       # Program bindings
@@ -40,9 +30,9 @@
       ",XF86AudioLowerVolume,exec,volumectl -u down"
       ",XF86AudioMute,exec,volumectl toggle-mute"
       # # Screenshotting
-      ''${mod} CTRL, p, exec, grim -g "$(slurp -d)" - | wl-copy -t image/png''
-      # ",Print,exec,${grimblast} --notify --freeze copy output"
-      # "SUPER,Print,exec,${grimblast} --notify --freeze copy area"
+      ''
+        ${mod} CTRL, p, exec, ${grim} -g "$(${slurp} -d)" - | wl-copy -t image/png
+      ''
 
       # Move focus with mod + arrow keys
       "${mod}, left, movefocus, l"
