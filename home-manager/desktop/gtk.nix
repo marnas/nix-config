@@ -3,14 +3,14 @@
     gtk.enable = true;
     name = "macOS";
     package = pkgs.apple-cursor;
-    # size = 30;
+    size = 24;
   };
 
   gtk = {
     enable = true;
     cursorTheme = {
       package = pkgs.apple-cursor;
-      name = "macOS-BigSur";
+      name = "macOS";
       size = 24;
     };
 

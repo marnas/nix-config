@@ -35,11 +35,6 @@
 
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
-
-    open-webui = {
-      port = 9077;
-      enable = false;
-    };
   };
 
   fonts.packages = with pkgs; [
@@ -79,20 +74,7 @@
   };
 
   environment = {
-    systemPackages = with pkgs; [
-      wget
-      git
-      gcc
-      gnumake
-      python3
-      cargo
-      nodejs
-      stable.protonup-qt
-      unzip
-      # awscli2
-      transgui
-      cifs-utils
-    ];
+    systemPackages = with pkgs; [ wget gcc gnumake python3 cargo nodejs unzip ];
 
     etc = {
       "1password/custom_allowed_browsers" = {
@@ -111,20 +93,19 @@
     adb.enable = true;
     dconf.enable = true;
 
-    hyprland.enable = true;
+    hyprland.enable = true; # To show hyprland in GDM
 
     _1password.enable = true;
     _1password-gui = {
       enable = true;
       polkitPolicyOwners = [ "marnas" ];
-
     };
 
     steam = {
       enable = true;
       gamescopeSession.enable = true;
       remotePlay.openFirewall =
-        true; # Open ports in the firewall for Steam Remote Play
+        false; # Open ports in the firewall for Steam Remote Play
     };
     gamemode.enable = true;
   };

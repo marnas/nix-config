@@ -12,7 +12,7 @@
       #"garmin-express"
       "gather"
       #"hackintool"
-      # "karabiner-elements"
+      #"karabiner-elements"
       "nextcloud"
       "obsidian"
       #"opencore-configurator"

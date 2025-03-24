@@ -15,8 +15,6 @@
     };
   };
 
-  services = { ollama = { enable = true; }; };
-
   home = {
     username = "marnas";
     homeDirectory =
@@ -24,6 +22,7 @@
 
     packages = with pkgs; [
       _1password-cli
+      awscli2
       conduktor-ctl
       docker
       docker-compose

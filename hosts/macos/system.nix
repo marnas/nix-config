@@ -35,7 +35,6 @@
       };
 
       WindowManager.EnableStandardClickToShowDesktop = false;
-
       controlcenter.BatteryShowPercentage = true;
     };
 
@@ -43,8 +42,6 @@
       enableKeyMapping = true;
       remapCapsLockToEscape = true;
     };
-
   };
-
 }
 
