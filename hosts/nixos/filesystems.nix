@@ -1,5 +1,7 @@
 { ... }: {
 
+  imports = [ ../shared/nfs.nix ];
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/e105daca-11af-4c6f-a56c-b04df968ac88";
     fsType = "ext4";
@@ -12,21 +14,5 @@
   };
 
   swapDevices = [ ];
-
-  # Network devices
-  fileSystems."/mnt/media" = {
-    device = "truenas.marnas.sh:/mnt/Pool1/media";
-    fsType = "nfs";
-  };
-
-  fileSystems."/mnt/backup" = {
-    device = "truenas.marnas.sh:/mnt/Pool0/backup";
-    fsType = "nfs";
-  };
-
-  fileSystems."/mnt/Games" = {
-    device = "truenas.marnas.sh:/mnt/Pool0/Games";
-    fsType = "nfs";
-  };
 
 }
