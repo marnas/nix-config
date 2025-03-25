@@ -24,12 +24,12 @@
 
       keyboard.bindings = [
         {
-          chars = "\\u001B[9;5u";
+          chars = "\\u2310";
           key = "Tab";
           mods = "Control";
         }
         {
-          chars = "\\u001B[9;6u";
+          chars = "\\u00AC";
           key = "Tab";
           mods = "Control|Shift";
         }
