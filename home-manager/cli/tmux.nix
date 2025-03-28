@@ -26,6 +26,8 @@
       bind -n S-Left resize-pane -L 5
       bind -n S-Right resize-pane -R 5
 
+      set-option -g focus-events on
+
       # new shortcut to clean terminal
       bind -n C-p send-keys C-l
         
