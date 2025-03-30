@@ -27,11 +27,11 @@
         "image/png" = "org.gnome.eog.desktop";
         "image/jpeg" = "org.gnome.eog.desktop";
 
-        "text/html" = "zen.desktop";
-        "text/xml" = [ "zen.desktop" ];
-        "application/pdf" = "zen.desktop";
-        "x-scheme-handler/http" = [ "zen.desktop" ];
-        "x-scheme-handler/https" = [ "zen.desktop" ];
+        "text/html" = "firefox.desktop";
+        "text/xml" = [ "firefox.desktop" ];
+        "application/pdf" = "firefox.desktop";
+        "x-scheme-handler/http" = [ "firefox.desktop" ];
+        "x-scheme-handler/https" = [ "firefox.desktop" ];
       };
       associations.added = {
         # others...

@@ -38,6 +38,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     marnas-nvim = { url = "github:marnas/nvim-flake"; };
 
     mac-app-util = { url = "github:hraban/mac-app-util"; };

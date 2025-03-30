@@ -2,7 +2,7 @@
   wayland.windowManager.hyprland.settings = {
     bindm = [ "SUPER,mouse:272,movewindow" "SUPER,mouse:273,resizewindow" ];
     bind = let
-      browser = "zen";
+      browser = "firefox";
       grim = "${pkgs.grim}/bin/grim";
       menu = "tofi-drun --drun-launch=true";
       mod = "SUPER";
