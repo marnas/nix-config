@@ -27,6 +27,7 @@
       bind -n S-Right resize-pane -R 5
 
       set-option -g focus-events on
+      set-option -a terminal-features 'alacritty:RGB'
 
       # new shortcut to clean terminal
       bind -n C-p send-keys C-l

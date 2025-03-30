@@ -1,11 +1,9 @@
-{ inputs, outputs, pkgs, vars, ... }: {
+{ outputs, pkgs, vars, ... }: {
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.stable-packages
-
-      inputs.marnas-nvim.overlays.default
     ];
 
     config = {
@@ -31,7 +29,6 @@
       kubectl
       kubernetes-helm
       lens
-      nvim-pkg
       slack
       talosctl
       telegram-desktop
@@ -41,7 +38,6 @@
     ];
 
     sessionVariables = {
-      EDITOR = "nvim";
       TERMINAL = "alacritty";
       SHELL = "${pkgs.fish}/bin/fish";
     };

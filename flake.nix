@@ -38,8 +38,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    marnas-nvim = { url = "github:marnas/nvim-flake"; };
-
     mac-app-util = { url = "github:hraban/mac-app-util"; };
 
     nix-minecraft = { url = "github:Infinidoge/nix-minecraft"; };

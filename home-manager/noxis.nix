@@ -20,10 +20,7 @@
     username = "marnas";
     homeDirectory = "/home/marnas";
 
-    sessionVariables = {
-      EDITOR = "nvim";
-      TERMINAL = "alacritty";
-    };
+    sessionVariables = { TERMINAL = "alacritty"; };
   };
 
   programs.home-manager.enable = true;

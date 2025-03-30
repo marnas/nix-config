@@ -5,6 +5,7 @@
     ./eza.nix
     ./fish.nix
     ./git.nix
+    ./nvim
     ./starship.nix
     ./tmux.nix
     ./zsh.nix
