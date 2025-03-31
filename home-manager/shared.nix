@@ -15,6 +15,9 @@
     };
   };
 
+  imports =
+    [ ./desktop/alacritty.nix ./desktop/firefox.nix ./desktop/thunderbird.nix ];
+
   home = {
     username = "marnas";
     homeDirectory =

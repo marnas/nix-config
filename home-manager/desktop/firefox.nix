@@ -18,15 +18,17 @@
           "Bing".metaData.hidden = true;
         };
       };
-      bookmarks = { };
       extensions.packages =
         with inputs.firefox-addons.packages.${pkgs.system}; [
           adaptive-tab-bar-colour
           ublock-origin
+          skip-redirect
+          sponsorblock
+          canvasblocker
           privacy-badger
           clearurls
+          istilldontcareaboutcookies
         ];
-      bookmarks = { };
       settings = {
         "browser.startup.homepage" = "about:home";
         "general.autoScroll" = true;

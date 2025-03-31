@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 
-  imports = [ ./cli ./desktop/alacritty.nix ./shared.nix ];
+  imports = [ ./cli ./shared.nix ];
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
