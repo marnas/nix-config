@@ -21,13 +21,18 @@
       extensions.packages =
         with inputs.firefox-addons.packages.${pkgs.system}; [
           adaptive-tab-bar-colour
-          ublock-origin
+          canvasblocker
+          clearurls
+          facebook-container
+          istilldontcareaboutcookies
+          multi-account-containers
+          privacy-badger
+          return-youtube-dislikes
           skip-redirect
           sponsorblock
-          canvasblocker
-          privacy-badger
-          clearurls
-          istilldontcareaboutcookies
+          translate-web-pages
+          ublock-origin
+          vimium
         ];
       settings = {
         "browser.startup.homepage" = "about:home";
