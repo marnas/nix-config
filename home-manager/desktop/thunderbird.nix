@@ -3,7 +3,7 @@
 {
   programs.thunderbird = {
     enable = true;
-    profiles = { default_profile = { isDefault = true; }; };
+    profiles = { marnas = { isDefault = true; }; };
   };
   accounts.email = {
     maildirBasePath = "Mail";
@@ -11,7 +11,7 @@
       marnas = {
         address = "marco@santonastaso.com";
         primary = true;
-        userName = "marnas";
+        userName = "marco@santonastaso.com";
         flavor = "plain";
         imap = {
           host = "imap.gmail.com";
@@ -27,7 +27,13 @@
             useStartTls = true;
           };
         };
-        thunderbird = { enable = true; };
+        thunderbird = {
+          enable = true;
+          settings = id: {
+            "mail.server.server_${id}.delete_model" = 1;
+            "mail.server.server_${id}.authMethod" = 10;
+          };
+        };
       };
     };
   };
