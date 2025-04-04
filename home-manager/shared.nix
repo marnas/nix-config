@@ -61,6 +61,7 @@
       };
     };
     go.enable = true;
+    k9s.enable = true;
   };
 
 }

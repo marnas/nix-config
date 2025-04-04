@@ -9,6 +9,7 @@
       "arc"
       #"autodesk-fusion"
       "docker"
+      "firefox"
       #"garmin-express"
       "gather"
       #"hackintool"

@@ -25,6 +25,8 @@
           clearurls
           facebook-container
           istilldontcareaboutcookies
+          kagi-privacy-pass
+          kagi-search
           multi-account-containers
           privacy-badger
           return-youtube-dislikes
