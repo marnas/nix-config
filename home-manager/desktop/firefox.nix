@@ -104,6 +104,8 @@
         "toolkit.telemetry.unifiedIsOptIn" = false;
         "toolkit.telemetry.updatePing.enabled" = false;
 
+        "extensions.openPopupWithoutUserGesture.enabled" = true;
+
         # Disable fx accounts
         "identity.fxaccounts.enabled" = false;
         # Disable "save password" prompt

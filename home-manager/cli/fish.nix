@@ -5,6 +5,7 @@ let
   hasPackage = name: lib.any (x: x == name) packageNames;
   hasBat = hasPackage "bat";
   hasEza = hasPackage "eza";
+  hasGit = hasPackage "git";
   hasKubectl = hasPackage "kubectl";
   hasTerraform = hasPackage "terraform";
 in {
@@ -20,6 +21,10 @@ in {
       nbn = "nix build nixpkgs#";
       nf = "nix flake";
 
+      # Git abbreviations
+      ga = mkIf hasGit "git add";
+      gc = mkIf hasGit "git commit -m";
+
     };
     shellAliases = {
       # Clear screen and scrollback
@@ -30,17 +35,17 @@ in {
       k = mkIf hasKubectl "kubectl";
       tf = mkIf hasTerraform "terraform";
 
+      # Git aliases
+      g = mkIf hasGit "git";
+      gs = mkIf hasGit "git status";
+      gd = mkIf hasGit "git diff :!flake.lock";
+      gdc = mkIf hasGit "git diff --cached :!flake.lock";
+
     };
-    plugins = [
-      {
-        name = "z";
-        src = pkgs.fishPlugins.z.src;
-      }
-      {
-        name = "git";
-        src = pkgs.fishPlugins.plugin-git.src;
-      }
-    ];
+    plugins = [{
+      name = "z";
+      src = pkgs.fishPlugins.z.src;
+    }];
     functions = {
       # Disable greeting
       fish_greeting = "";
