@@ -1,4 +1,6 @@
-{ pkgs, vars, ... }: {
+{ pkgs, vars, ... }:
+let terminal = "alacritty";
+in {
   programs.tmux = {
     enable = true;
     mouse = true;
@@ -27,6 +29,8 @@
       bind -n S-Right resize-pane -R 5
 
       set-option -g focus-events on
+
+      set-option -ga terminal-overrides ",xterm-256color:Tc"
 
       # new shortcut to clean terminal
       bind -n C-p send-keys C-l

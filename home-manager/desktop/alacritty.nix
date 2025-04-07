@@ -15,7 +15,10 @@
 
       scrolling = { history = 10000; };
 
-      window = { option_as_alt = "Both"; };
+      window = {
+        option_as_alt = "OnlyLeft";
+        decorations = "Buttonless";
+      };
 
       mouse.bindings = [{
         mouse = "Middle";

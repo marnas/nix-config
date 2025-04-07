@@ -114,6 +114,7 @@
         "privacy.trackingprotection.enabled" = true;
         "dom.security.https_only_mode" = true;
         # Layout
+        "browser.uidensity" = 1;
         "browser.uiCustomization.state" = builtins.toJSON {
           currentVersion = 20;
           newElementCount = 5;
@@ -126,8 +127,7 @@
           ];
           placements = {
             PersonalToolbar = [ "personal-bookmarks" ];
-            TabsToolbar =
-              [ "tabbrowser-tabs" "new-tab-button" "alltabs-button" ];
+            TabsToolbar = [ ];
             nav-bar = [
               "back-button"
               "forward-button"

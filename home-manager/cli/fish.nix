@@ -24,6 +24,7 @@ in {
       # Git abbreviations
       ga = mkIf hasGit "git add";
       gc = mkIf hasGit "git commit -m";
+      gd = mkIf hasGit "git diff";
 
     };
     shellAliases = {
@@ -38,8 +39,7 @@ in {
       # Git aliases
       g = mkIf hasGit "git";
       gs = mkIf hasGit "git status";
-      gd = mkIf hasGit "git diff :!flake.lock";
-      gdc = mkIf hasGit "git diff --cached :!flake.lock";
+      gdf = mkIf hasGit "git diff :!flake.lock";
 
     };
     plugins = [{
