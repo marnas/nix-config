@@ -19,12 +19,12 @@
     plexamp
     postman
     prismlauncher
-    stable.protonup-qt
+    protonup-qt
     pulsemixer
     soulseekqt
     transgui
     vlc
-    whatsapp-for-linux
+    whatsie
     wowup-cf
     zathura
   ];

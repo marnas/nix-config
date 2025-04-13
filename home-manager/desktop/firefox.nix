@@ -127,7 +127,7 @@
           ];
           placements = {
             PersonalToolbar = [ "personal-bookmarks" ];
-            TabsToolbar = [ ];
+            TabsToolbar = [ "tabbrowser-tabs" "new-tab-button" ];
             nav-bar = [
               "back-button"
               "forward-button"

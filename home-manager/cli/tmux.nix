@@ -1,5 +1,7 @@
 { pkgs, vars, ... }:
-let terminal = "alacritty";
+let
+  terminal =
+    if (vars.hostname == "macos") then "xterm-256color" else "alacritty";
 in {
   programs.tmux = {
     enable = true;
@@ -30,7 +32,7 @@ in {
 
       set-option -g focus-events on
 
-      set-option -ga terminal-overrides ",xterm-256color:Tc"
+      set-option -ga terminal-overrides ",${terminal}:Tc"
 
       # new shortcut to clean terminal
       bind -n C-p send-keys C-l
