@@ -1,4 +1,4 @@
-{ outputs, ... }: {
+{ inputs, outputs, pkgs, ... }: {
 
   imports = [ ./cli ];
 
@@ -7,6 +7,8 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.stable-packages
+
+      inputs.marnas-nvim.overlays.default
     ];
 
     config = {
@@ -24,6 +26,8 @@
       EDITOR = "nvim";
       TERMINAL = "alacritty";
     };
+
+    packages = with pkgs; [ nvim-pkg ];
   };
 
   programs.home-manager.enable = true;
