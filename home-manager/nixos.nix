@@ -14,6 +14,7 @@
     libreoffice
     lutris
     nemo-with-extensions
+    nicotine-plus
     obsidian
     # orca-slicer
     plexamp
@@ -21,7 +22,7 @@
     prismlauncher
     protonup-qt
     pulsemixer
-    soulseekqt
+    # soulseekqt
     transgui
     vlc
     whatsie

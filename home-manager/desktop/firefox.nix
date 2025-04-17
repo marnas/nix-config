@@ -23,7 +23,7 @@
           adaptive-tab-bar-colour
           canvasblocker
           clearurls
-          facebook-container
+          floccus
           istilldontcareaboutcookies
           kagi-privacy-pass
           kagi-search
