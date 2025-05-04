@@ -25,7 +25,8 @@
     # soulseekqt
     transgui
     vlc
-    whatsie
+    # whatsie
+    whatsapp-for-linux
     wowup-cf
     zathura
   ];

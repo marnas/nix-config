@@ -78,6 +78,7 @@
       gamescopeSession.enable = true;
       remotePlay.openFirewall =
         false; # Open ports in the firewall for Steam Remote Play
+      protontricks.enable = true;
     };
     gamemode.enable = true;
   };

@@ -13,6 +13,6 @@
       ".." = "cd ..";
       "k" = "kubectl";
     };
-    initExtra = "source <(kubectl completion zsh)";
+    initContent = "source <(kubectl completion zsh)";
   };
 }

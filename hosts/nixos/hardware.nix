@@ -53,6 +53,8 @@
 
     xpadneo.enable = true; # Enable support for Xbox controllers
 
+    new-lg4ff.enable = true; # Enable support for Logitech driving wheels
+
     cpu.intel.updateMicrocode =
       lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
