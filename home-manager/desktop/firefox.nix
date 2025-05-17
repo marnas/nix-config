@@ -107,7 +107,9 @@
         "extensions.openPopupWithoutUserGesture.enabled" = true;
 
         # Disable fx accounts
-        "identity.fxaccounts.enabled" = false;
+        "identity.fxaccounts.enabled" = true;
+        "identity.sync.tokenserver.uri" =
+          "https://syncstorage.marnas.sh/v1/sync/1.5";
         # Disable "save password" prompt
         "signon.rememberSignons" = false;
         # Harden
