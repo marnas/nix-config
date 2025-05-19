@@ -1,8 +1,13 @@
-{ ... }: {
+{ ... }:
+let
+  user = "marnas";
+  screenshotsLocation = "~/Pictures/screenshots";
+in {
   system = {
+    primaryUser = "${user}";
     defaults = {
       loginwindow.LoginwindowText = "";
-      screencapture.location = "~/Pictures/screenshots";
+      screencapture.location = "${screenshotsLocation}";
       screensaver.askForPasswordDelay = 10;
 
       finder = {

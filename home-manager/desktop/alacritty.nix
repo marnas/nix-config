@@ -10,7 +10,7 @@
           family = "FiraCode Nerd Font";
           # style = "Regular";
         };
-        size = 12;
+        size = 14;
       };
 
       scrolling = { history = 10000; };
