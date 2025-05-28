@@ -52,6 +52,8 @@ in {
     };
     interactiveShellInit = ''
       bind \ey edit_command_buffer
+      set fish_cursor_insert block
+      fish_vi_key_bindings
     '';
   };
 }
