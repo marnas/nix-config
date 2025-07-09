@@ -4,10 +4,9 @@
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
-
+    # colima
     raycast
     vlc-bin-universal
-
   ];
 
   targets.darwin.defaults."com.apple.desktopservices" = {

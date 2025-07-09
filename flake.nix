@@ -78,12 +78,12 @@
       };
 
       darwinConfigurations = {
-        # darwin-rebuild switch --flake .#macos
-        macos = nix-darwin.lib.darwinSystem {
+        # darwin-rebuild switch --flake .#conduktOS
+        conduktOS = nix-darwin.lib.darwinSystem {
           # system = "x86_64-darwin";
           specialArgs = { inherit inputs outputs; };
           modules = [
-            ./hosts/macos/configuration.nix
+            ./hosts/conduktOS/configuration.nix
             mac-app-util.darwinModules.default
           ];
         };
@@ -121,7 +121,7 @@
             ./home-manager/noxis.nix
           ];
         };
-        "marnas@macos" = home-manager.lib.homeManagerConfiguration {
+        "marnas@conduktOS" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
           pkgs =
             nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
@@ -131,7 +131,7 @@
           };
           modules = [
             # > main home-manager configuration file <
-            ./home-manager/macos.nix
+            ./home-manager/conduktOS.nix
             mac-app-util.homeManagerModules.default
           ];
         };
