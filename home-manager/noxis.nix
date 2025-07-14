@@ -25,6 +25,7 @@
     sessionVariables = {
       EDITOR = "nvim";
       TERMINAL = "alacritty";
+      SHELL = "${pkgs.fish}/bin/fish";
     };
 
     packages = with pkgs; [ nvim-pkg ];

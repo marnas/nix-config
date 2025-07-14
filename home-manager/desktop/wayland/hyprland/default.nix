@@ -103,8 +103,8 @@
       # Execute your favorite apps at launch
       exec-once = [ "1password --silent" ];
       exec = [
-        "${pkgs.swaybg}/bin/swaybg -o DP-1 -i /home/marnas/Pictures/wallpapers/Mountains.png --mode fill"
-        "${pkgs.swaybg}/bin/swaybg -o DP-2 -i /home/marnas/Pictures/wallpapers/Neon_Japanese.png --mode fill"
+        "${pkgs.swaybg}/bin/swaybg -o DP-1 -i /home/marnas/Pictures/wallpapers/Ocean_Spray_-_MacBook_Wallpaper.jpg --mode fill"
+        "${pkgs.swaybg}/bin/swaybg -o DP-2 -i /home/marnas/Pictures/wallpapers/Wallpaper2.jpg --mode fill"
         "hyprctl setcursor ${config.gtk.cursorTheme.name} ${
           toString config.gtk.cursorTheme.size
         }"

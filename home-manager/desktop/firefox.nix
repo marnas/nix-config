@@ -37,7 +37,7 @@
           vimium
         ];
       settings = {
-        "browser.startup.homepage" = "about:home";
+        "browser.startup.homepage" = "about:blank";
         "general.autoScroll" = true;
 
         # Disable irritating first-run stuff
@@ -51,6 +51,7 @@
         "browser.startup.homepage_override.mstone" = "ignore";
         "browser.uitour.enabled" = false;
         "startup.homepage_override_url" = "";
+        "startup.homepage_welcome_url" = "about:blank";
         "trailhead.firstrun.didSeeAboutWelcome" = true;
         "browser.bookmarks.restore_default_bookmarks" = false;
         "browser.bookmarks.addedImportButton" = true;

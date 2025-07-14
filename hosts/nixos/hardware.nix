@@ -9,7 +9,7 @@
   ];
 
   boot = {
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [ "kvm-intel" "amdgpu" ];
     initrd = {
       availableKernelModules = [
         "xhci_pci"
@@ -20,7 +20,6 @@
         "usb_storage"
         "sd_mod"
       ];
-      kernelModules = [ "amdgpu" ];
     };
     extraModulePackages = [ ];
 
@@ -29,6 +28,7 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
+    kernelParams = [ "video=DP-1:2560x1440@360" "video=DP-2:2560x1440@360" ];
     # NixOS configuration for Star Citizen requirements
     kernel.sysctl = {
       "vm.max_map_count" = 16777216;

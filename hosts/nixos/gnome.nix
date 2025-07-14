@@ -1,6 +1,6 @@
 { pkgs, ... }: {
-  services.xserver = {
-    enable = true;
+  services = {
+    xserver.enable = true;
     displayManager.gdm.enable = true;
     desktopManager.gnome.enable = true;
   };
@@ -38,6 +38,7 @@
         <!-- this should all be copied from your ~/.config/monitors.xml -->
         <monitors version="2">
           <configuration>
+            <layoutmode>physical</layoutmode>
             <logicalmonitor>
               <x>0</x>
               <y>0</y>
@@ -53,7 +54,7 @@
                 <mode>
                   <width>2560</width>
                   <height>1440</height>
-                  <rate>359.979</rate>
+                  <rate>143.912</rate>
                 </mode>
               </monitor>
             </logicalmonitor>
@@ -75,24 +76,14 @@
                 </mode>
               </monitor>
             </logicalmonitor>
-            <logicalmonitor>
-              <x>5120</x>
-              <y>0</y>
-              <scale>1</scale>
-              <monitor>
-                <monitorspec>
-                  <connector>HDMI-1</connector>
-                  <vendor>GSM</vendor>
-                  <product>LG TV SSCR2</product>
-                  <serial>0x01010101</serial>
-                </monitorspec>
-                <mode>
-                  <width>4096</width>
-                  <height>2160</height>
-                  <rate>120.000</rate>
-                </mode>
-              </monitor>
-            </logicalmonitor>
+            <disabled>
+              <monitorspec>
+                <connector>HDMI-1</connector>
+                <vendor>GSM</vendor>
+                <product>LG TV SSCR2</product>
+                <serial>0x01010101</serial>
+              </monitorspec>
+            </disabled>
           </configuration>
         </monitors>
       ''

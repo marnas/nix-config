@@ -3,14 +3,15 @@
 {
 
   # Enable dconf (System Management Tool)
-  programs.dconf.enable = true;
+  programs = {
+    dconf.enable = true;
+    virt-manager.enable = true;
+  };
 
-  # Add user to libvirtd group
   users.users.marnas.extraGroups = [ "libvirtd" ];
 
   # Install necessary packages
   environment.systemPackages = with pkgs; [
-    virt-manager
     virt-viewer
     virglrenderer
     spice
@@ -18,7 +19,7 @@
     spice-protocol
     win-virtio
     win-spice
-    gnome.adwaita-icon-theme
+    adwaita-icon-theme
   ];
 
   # Manage the virtualisation services
@@ -34,5 +35,11 @@
     spiceUSBRedirection.enable = true;
   };
   services.spice-vdagentd.enable = true;
+
+  boot.extraModprobeConfig = ''
+    options kvm_intel nested=1
+    options kvm_intel emulate_invalid_guest_state=0
+    options kvm ignore_msrs=1
+  '';
 
 }

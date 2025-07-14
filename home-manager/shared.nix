@@ -15,8 +15,7 @@
     };
   };
 
-  imports =
-    [ ./desktop/alacritty.nix ./desktop/firefox.nix ./desktop/thunderbird.nix ];
+  imports = [ ./desktop/alacritty.nix ./desktop/firefox.nix ];
 
   home = {
     username = "marnas";
@@ -35,6 +34,7 @@
       kubernetes-helm
       lens
       nvim-pkg
+      rustdesk-flutter
       slack
       talosctl
       telegram-desktop

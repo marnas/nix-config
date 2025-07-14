@@ -4,8 +4,8 @@
     ./waybar.nix
     ./tofi.nix
     ./mako.nix
-    ./avizo.nix
     ./swayidle.nix
+
   ];
 
   xdg = {
