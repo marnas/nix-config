@@ -13,6 +13,7 @@
     inputs.zen-browser.packages."${system}".default
     libreoffice
     lutris
+    mindustry-wayland
     nemo-with-extensions
     nicotine-plus
     obsidian
@@ -22,10 +23,9 @@
     prismlauncher
     protonup-qt
     pulsemixer
-    # soulseekqt
+    runelite
     transgui
     vlc
-    # whatsie
     whatsapp-for-linux
     wowup-cf
     zathura

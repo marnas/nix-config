@@ -4,24 +4,20 @@
   services.mako = {
     enable = true;
     settings = {
-      actions = "true";
-      icons = "true";
-      # maxIconSize = 64;
-      sort = "-time";
-      # layer = "overlay";
-      padding = "20";
-      margin = "10,10,0";
-      width = "400";
-      # height = 110;
-      borderSize = "1";
-      borderColor = "#2d2a2e";
-      borderRadius = "10";
-      backgroundColor = "#eff1f5";
-      progressColor = "over #ccd0da";
-      defaultTimeout = "10000";
-      ignoreTimeout = "true";
+      actions = true;
+      anchor = "top-right";
+      background-color = "#2d2a2ec0";
+      # border-color = "#33ccffee";
+      border-size = 0;
+      border-radius = 10;
       font = "Helvetica 11";
-      textColor = "#4c4f69";
+      icons = true;
+      # margin = 10;
+      width = 400;
+      padding = 10;
+      markup = true;
+      default-timeout = 10000;
+      ignore-timeout = false;
     };
   };
 }
