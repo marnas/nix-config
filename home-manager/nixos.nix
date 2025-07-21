@@ -24,6 +24,7 @@
     protonup-qt
     pulsemixer
     runelite
+    rustdesk-flutter
     transgui
     vlc
     whatsapp-for-linux

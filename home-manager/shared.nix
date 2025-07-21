@@ -34,7 +34,6 @@
       kubernetes-helm
       lens
       nvim-pkg
-      rustdesk-flutter
       slack
       talosctl
       telegram-desktop

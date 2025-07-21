@@ -45,7 +45,7 @@
 
     # List packages installed in system profile. To search by name, run:
     # $ nix-env -qaP | grep wget
-    systemPackages = with pkgs; [ cargo kubelogin python3 ];
+    systemPackages = with pkgs; [ cargo kubelogin ];
   };
 
   fonts = {
