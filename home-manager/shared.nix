@@ -23,7 +23,6 @@
       if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
 
     packages = with pkgs; [
-      _1password-cli
       awscli2
       conduktor-ctl
       docker

@@ -5,10 +5,8 @@
     brews = [ "helm" ];
 
     casks = [
-      "1password"
       "arc"
       #"autodesk-fusion"
-      "firefox"
       #"garmin-express"
       "gather"
       "nextcloud"
