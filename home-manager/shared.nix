@@ -29,13 +29,17 @@
       docker-compose
       fluxcd
       golangci-lint
+      yq-go
+      k3d
       kubectl
       kubernetes-helm
       lens
       nvim-pkg
+      powershell
       slack
       talosctl
       telegram-desktop
+      teleport
       terraform
       vesktop
       yt-dlp

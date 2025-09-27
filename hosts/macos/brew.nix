@@ -7,18 +7,20 @@
     casks = [
       "arc"
       #"autodesk-fusion"
+      "docker-desktop"
       #"garmin-express"
       "gather"
+      "kicad"
       "nextcloud"
       "obsidian"
       "orcaslicer"
       "plex"
       "plexamp"
       #"soulseek"
-      "tailscale"
+      "tailscale-app"
       "transmission-remote-gui"
       "whatsapp"
-      "zen-browser"
+      "zen"
     ];
   };
 }

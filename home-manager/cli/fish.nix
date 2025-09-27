@@ -29,7 +29,7 @@ in {
     };
     shellAliases = {
       # Clear screen and scrollback
-      clear = "printf '\\033[2J\\033[3J\\033[1;1H'";
+      cls = "printf '\\033[2J\\033[3J\\033[1;1H'";
 
       cat = mkIf hasBat "bat";
       ls = mkIf hasEza "eza";
@@ -38,7 +38,7 @@ in {
 
       # Git aliases
       g = mkIf hasGit "git";
-      gs = mkIf hasGit "git status";
+      gst = mkIf hasGit "git status";
       gdf = mkIf hasGit "git diff :!flake.lock";
 
     };
