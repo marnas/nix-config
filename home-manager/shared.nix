@@ -24,10 +24,14 @@
 
     packages = with pkgs; [
       awscli2
+      azure-cli
+      claude-code
       conduktor-ctl
       docker
       docker-compose
       fluxcd
+      yq-go
+      k3d
       golangci-lint
       yq-go
       k3d
