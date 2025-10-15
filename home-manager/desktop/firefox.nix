@@ -40,6 +40,17 @@
         "browser.startup.homepage" = "about:blank";
         "general.autoScroll" = true;
 
+        # Performance optimizations
+        "gfx.webrender.all" = true;
+        "media.ffmpeg.vaapi.enabled" = true;
+        "media.hardware-video-decoding.enabled" = true;
+        "layers.acceleration.force-enabled" = true;
+        "browser.cache.disk.enable" = true;
+        "browser.cache.memory.enable" = true;
+        "browser.sessionhistory.max_total_viewers" = 4;
+        "network.http.pipelining" = true;
+        "network.http.proxy.pipelining" = true;
+
         # Disable irritating first-run stuff
         "browser.disableResetPrompt" = true;
         "browser.download.panel.shown" = true;
