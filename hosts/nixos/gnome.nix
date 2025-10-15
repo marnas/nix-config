@@ -40,6 +40,24 @@
           <configuration>
             <layoutmode>physical</layoutmode>
             <logicalmonitor>
+              <x>2560</x>
+              <y>0</y>
+              <scale>1</scale>
+              <monitor>
+                <monitorspec>
+                  <connector>DP-2</connector>
+                  <vendor>DEL</vendor>
+                  <product>AW2725DF</product>
+                  <serial>DFL1ZZ3</serial>
+                </monitorspec>
+                <mode>
+                  <width>2560</width>
+                  <height>1440</height>
+                  <rate>359.979</rate>
+                </mode>
+              </monitor>
+            </logicalmonitor>
+            <logicalmonitor>
               <x>0</x>
               <y>0</y>
               <scale>1</scale>
@@ -50,24 +68,6 @@
                   <vendor>DEL</vendor>
                   <product>AW2725DF</product>
                   <serial>8ZK1ZZ3</serial>
-                </monitorspec>
-                <mode>
-                  <width>2560</width>
-                  <height>1440</height>
-                  <rate>143.912</rate>
-                </mode>
-              </monitor>
-            </logicalmonitor>
-            <logicalmonitor>
-              <x>2560</x>
-              <y>0</y>
-              <scale>1</scale>
-              <monitor>
-                <monitorspec>
-                  <connector>DP-2</connector>
-                  <vendor>DEL</vendor>
-                  <product>AW2725DF</product>
-                  <serial>DFL1ZZ3</serial>
                 </monitorspec>
                 <mode>
                   <width>2560</width>

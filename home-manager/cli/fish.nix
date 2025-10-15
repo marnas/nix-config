@@ -54,6 +54,8 @@ in {
       bind \ey edit_command_buffer
       set fish_cursor_insert block
       fish_vi_key_bindings
+      # TODO: Remove sed workaround once atuin fixes fish 4.0+ compatibility (deprecated -k flag)
+      atuin init fish | sed 's/-k up/up/' | source
     '';
   };
 }

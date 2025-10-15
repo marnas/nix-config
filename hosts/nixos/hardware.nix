@@ -41,10 +41,6 @@
       enable = true;
       enable32Bit = true;
     };
-    amdgpu.amdvlk = {
-      enable = false;
-      support32Bit.enable = false;
-    };
 
     bluetooth = {
       enable = true;

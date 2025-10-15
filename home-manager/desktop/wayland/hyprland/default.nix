@@ -22,8 +22,8 @@
       };
 
       monitor = [
-        "DP-1,2560x1440@360,0x0,1"
-        "DP-2,2560x1440@360,2560x0,1"
+        "DP-1,2560x1440@359.98,0x0,1"
+        "DP-2,2560x1440@359.98,2560x0,1"
         "HDMI-A-1, disable"
         # "HDMI-A-1,4096x2160@120,5120x0,1"
       ];
@@ -53,7 +53,7 @@
         sensitivity = "-0.8";
         accel_profile = "adaptive";
       };
-      gestures = { workspace_swipe = true; };
+      gestures = { workspace = true; };
 
       decoration = {
         active_opacity = 0.97;

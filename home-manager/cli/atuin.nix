@@ -1,7 +1,8 @@
 { ... }: {
   programs.atuin = {
     enable = true;
-    enableFishIntegration = true;
+    enableFishIntegration =
+      false; # Disabled due to fish 4.0+ compatibility issue
     settings = {
       auto_sync = true;
       sync_frequency = "5m";
