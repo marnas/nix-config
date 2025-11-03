@@ -5,6 +5,7 @@
     brews = [ "helm" ];
 
     casks = [
+      "altserver"
       "arc"
       #"autodesk-fusion"
       "docker-desktop"

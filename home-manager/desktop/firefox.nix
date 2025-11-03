@@ -19,7 +19,7 @@
         };
       };
       extensions.packages =
-        with inputs.firefox-addons.packages.${pkgs.system}; [
+        with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
           adaptive-tab-bar-colour
           canvasblocker
           clearurls
