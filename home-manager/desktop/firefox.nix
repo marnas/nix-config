@@ -15,7 +15,7 @@
             urls = [{ template = "https://kagi.com/search?q={searchTerms}"; }];
             icon = "https://kagi.com/favicon.ico";
           };
-          "Bing".metaData.hidden = true;
+          bing.metaData.hidden = true;
         };
       };
       extensions.packages =

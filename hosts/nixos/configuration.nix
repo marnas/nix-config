@@ -43,7 +43,7 @@
     fira-code-symbols
     mplus-outline-fonts.githubRelease
     nerd-fonts.fira-code
-    noto-fonts-emoji
+		noto-fonts-color-emoji
     meslo-lgs-nf
   ];
 
