@@ -32,6 +32,8 @@
         "application/pdf" = "firefox.desktop";
         "x-scheme-handler/http" = [ "firefox.desktop" ];
         "x-scheme-handler/https" = [ "firefox.desktop" ];
+
+				"audio/flac" = "vlc.desktop";
       };
       associations.added = {
         # others...
@@ -67,7 +69,6 @@
     sessionVariables = {
       MOZ_ENABLE_WAYLAND = 1;
       QT_QPA_PLATFORM = "wayland";
-      XDG_CURRENT_DESKTOP = "hyprland";
       LIBSEAT_BACKEND = "logind";
     };
   };

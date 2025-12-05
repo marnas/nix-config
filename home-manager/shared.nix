@@ -15,7 +15,8 @@
     };
   };
 
-  imports = [ ./desktop/alacritty.nix ./desktop/firefox.nix ];
+  imports =
+    [ ./desktop/alacritty.nix ./desktop/kitty.nix ./desktop/firefox.nix ];
 
   home = {
     username = "marnas";
@@ -28,17 +29,15 @@
       conduktor-ctl
       docker
       docker-compose
+      element-desktop
       fluxcd
       yq-go
-      k3d
       golangci-lint
-      yq-go
-      k3d
+      google-cloud-sdk
       kubectl
       kubernetes-helm
       lens
       nvim-pkg
-      powershell
       slack
       talosctl
       telegram-desktop
@@ -50,7 +49,7 @@
 
     sessionVariables = {
       EDITOR = "nvim";
-      TERMINAL = "alacritty";
+      TERMINAL = "kitty";
       SHELL = "${pkgs.fish}/bin/fish";
     };
   };

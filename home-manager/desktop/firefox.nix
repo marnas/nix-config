@@ -7,27 +7,18 @@
     profiles.marnas = {
       search = {
         force = true;
-        default = "Kagi";
+        default = "ddg";
         privateDefault = "ddg";
-        order = [ "kagi" "ddg" "google" ];
-        engines = {
-          "Kagi" = {
-            urls = [{ template = "https://kagi.com/search?q={searchTerms}"; }];
-            icon = "https://kagi.com/favicon.ico";
-          };
-          bing.metaData.hidden = true;
-        };
+        order = [ "ddg" ];
+        engines = { bing.metaData.hidden = true; };
       };
       extensions.packages =
         with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
-          adaptive-tab-bar-colour
           canvasblocker
-          clearurls
+          decentraleyes
           floccus
           istilldontcareaboutcookies
-          kagi-privacy-pass
-          kagi-search
-          multi-account-containers
+          libredirect
           privacy-badger
           return-youtube-dislikes
           skip-redirect
@@ -119,9 +110,7 @@
         "extensions.openPopupWithoutUserGesture.enabled" = true;
 
         # Disable fx accounts
-        "identity.fxaccounts.enabled" = true;
-        "identity.sync.tokenserver.uri" =
-          "https://syncstorage.marnas.sh/v1/sync/1.5";
+        "identity.fxaccounts.enabled" = false;
         # Disable "save password" prompt
         "signon.rememberSignons" = false;
         # Harden

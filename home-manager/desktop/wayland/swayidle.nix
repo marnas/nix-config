@@ -9,7 +9,7 @@ let
 
   isLocked = "${pgrep} -x ${swaylock}";
   lockTime = 10 * 60;
-  # suspendTime = 5 * 60; # This is added on top of lockTime
+  suspendTime = 10 * 60; # This is added on top of lockTime
 
   # Makes two timeouts: one for when the screen is not locked (lockTime+timeout) and one for when it is.
   afterLockTimeout = { timeout, command, resumeCommand ? null }: [
@@ -32,12 +32,11 @@ in {
       timeout = 20;
       command = "${dpmsCommand} off";
       resumeCommand = "${dpmsCommand} on";
+    }) ++ (afterLockTimeout {
+      timeout = suspendTime;
+      command = "${pkgs.stdenv.hostPlatform.system}/bin/systemctl suspend";
+      resumeCommand = "${dpmsCommand} on";
     });
-    # ++ (afterLockTimeout {
-    #      timeout = suspendTime;
-    #      command = "${pkgs.systemd}/bin/systemctl suspend";
-    #      resumeCommand = "${dpmsCommand} on";
-    #    });
     events = [
       {
         event = "before-sleep";

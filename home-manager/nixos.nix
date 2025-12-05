@@ -1,35 +1,29 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, ... }: {
 
   imports = [ ./cli ./desktop ./shared.nix ];
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
-    chromium
+    ungoogled-chromium
     clonehero
     eog
-    freetube
     gimp
-    inputs.zen-browser.packages."${system}".default
-    libreoffice
     lutris
-    mindustry-wayland
     nemo-with-extensions
     nicotine-plus
     obsidian
-    # orca-slicer
-    plexamp
-    postman
-    prismlauncher
+    stable.plexamp
+    picard
+    cameractrls-gtk4
+    # postman
+    # prismlauncher
     protonup-qt
     pulsemixer
-    runelite
     rustdesk-flutter
-    transgui
+    tor-browser
     vlc
-    whatsapp-for-linux
-    wowup-cf
-    zathura
+    wasistlos
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

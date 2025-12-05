@@ -29,6 +29,13 @@
       ",XF86AudioRaiseVolume,exec,wpctl set-volume -l 1.5 @DEFAULT_AUDIO_SINK@ 5%+"
       ",XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
       ",XF86AudioMute,exec,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+
+      # MPD Controls
+      ",XF86AudioPlay,exec,${pkgs.mpc}/bin/mpc toggle"
+      ",XF86AudioPause,exec,${pkgs.mpc}/bin/mpc toggle"
+      ",XF86AudioNext,exec,${pkgs.mpc}/bin/mpc next"
+      ",XF86AudioPrev,exec,${pkgs.mpc}/bin/mpc prev"
+      ",XF86AudioStop,exec,${pkgs.mpc}/bin/mpc stop"
       # # Screenshotting
       ''
         ${mod} CTRL, p, exec, ${grim} -g "$(${slurp} -d)" - | wl-copy -t image/png

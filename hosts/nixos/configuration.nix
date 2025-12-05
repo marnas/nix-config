@@ -4,8 +4,8 @@
   imports = [
     ../shared
     ../shared/restic.nix
+    ./gnome
 
-    ./gnome.nix
     ./hardware.nix
     # ./virtmanager.nix
   ];
@@ -30,6 +30,27 @@
       pulse.enable = true;
       wireplumber.enable = true;
       jack.enable = true;
+
+      # Audiophile configuration for high-quality audio and multiple sample rates
+      extraConfig.pipewire."99-audiophile" = {
+        "context.properties" = {
+          # Support multiple sample rates for bit-perfect playback
+          "default.clock.allowed-rates" =
+            [ 44100 48000 88200 96000 176400 192000 352800 384000 ];
+          # Default to 48kHz when idle
+          "default.clock.rate" = 48000;
+          # Reasonable quantum for non-real-time audiophile use
+          "default.clock.quantum" = 1024;
+        };
+      };
+
+      # High-quality resampling when needed
+      extraConfig.pipewire-pulse."99-audiophile" = {
+        "stream.properties" = {
+          # Resample quality: 10 = high quality, 15 = max (but 3x CPU load)
+          "resample.quality" = 10;
+        };
+      };
     };
 
     gvfs.enable = true; # Mount, trash, and other functionalities
@@ -43,7 +64,7 @@
     fira-code-symbols
     mplus-outline-fonts.githubRelease
     nerd-fonts.fira-code
-		noto-fonts-color-emoji
+    noto-fonts-color-emoji
     meslo-lgs-nf
   ];
 

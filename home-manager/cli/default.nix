@@ -6,8 +6,10 @@
     ./eza.nix
     ./fish.nix
     ./git.nix
+    ./music
     ./starship.nix
     ./tmux.nix
+    ./yazi.nix
     ./zsh.nix
   ];
   home.packages = with pkgs; [
@@ -31,6 +33,5 @@
       enable = true;
       nix-direnv.enable = true;
     };
-    yazi.enable = true;
   };
 }

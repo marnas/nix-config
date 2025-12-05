@@ -10,15 +10,23 @@
     portalPackage =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     plugins = [
-      inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
+      # inputs.split-monitor-workspaces.packages.${pkgs.stdenv.hostPlatform.system}.split-monitor-workspaces
+      # inputs.hyprsplit.packages.${pkgs.stdenv.hostPlatform.system}.hyprsplit
     ];
 
     settings = {
+      env = [
+        "XDG_CURRENT_DESKTOP,Hyprland"
+        "XDG_SESSION_TYPE,wayland"
+        "XDG_SESSION_DESKTOP,Hyprland"
+      ];
+
       plugin = {
         split-monitor-workspaces = {
           count = 5;
           enable_persistent_workspaces = 0;
         };
+        # hyprsplit = { num_workspaces = 5; };
       };
 
       monitor = [
@@ -43,7 +51,7 @@
       #   new_is_master = false;
       # };
 
-      windowrulev2 = [ "idleinhibit fullscreen, fullscreen:1" ];
+      # windowrulev2 = [ "idleinhibit focus, fullscreen:1" ];
 
       input = {
         kb_layout = "us";
@@ -77,7 +85,8 @@
         };
       };
 
-      layerrule = [ "blur, notifications" "ignorezero, notifications" ];
+      # layerrule = [ "blur, notifications" "ignorezero, notifications" ];
+      layerrule = [ "blur notifications" "ignore_alpha 0 notifications" ];
 
       animations = {
         enabled = true;
@@ -100,6 +109,7 @@
       dwindle = {
         pseudotile = true;
         preserve_split = true;
+        force_split = 2;
       };
 
       # Execute your favorite apps at launch
