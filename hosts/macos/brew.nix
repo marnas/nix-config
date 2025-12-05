@@ -5,7 +5,6 @@
     brews = [ "helm" ];
 
     casks = [
-      "altserver"
       "arc"
       #"autodesk-fusion"
       "docker-desktop"
@@ -19,9 +18,7 @@
       "plexamp"
       #"soulseek"
       "tailscale-app"
-      "transmission-remote-gui"
       "whatsapp"
-      "zen"
     ];
   };
 }

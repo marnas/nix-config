@@ -45,7 +45,10 @@
 
     marnas-nvim = { url = "github:marnas/nvim-flake"; };
 
-    mac-app-util = { url = "github:hraban/mac-app-util"; };
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
+    };
 
     nix-minecraft = { url = "github:Infinidoge/nix-minecraft"; };
   };
@@ -118,4 +121,3 @@
 
     };
 }
-
