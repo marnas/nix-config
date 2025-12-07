@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 
-  imports = [ ./cli ./shared.nix ];
+  imports = [ ./cli ./shared.nix ./desktop/hammerspoon.nix ];
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [ colima maccy vlc-bin-universal ];

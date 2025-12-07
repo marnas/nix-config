@@ -1,13 +1,13 @@
-{ musicDirectory, ... }: {
+{ musicDirectory, vars, ... }: {
   services.mpd = {
     enable = true;
     inherit musicDirectory;
 
     extraConfig = ''
       audio_output {
-        type "pipewire"
-        name "PipeWire Sound Server"
-        # No format specified = bit-perfect passthrough at native sample rates
+        type "${if vars.hostname == "macos" then "osx" else "pipewire"}"
+        name "${if vars.hostname == "macos" then "CoreAudio" else "PipeWire Sound Server"}"
+        ${if vars.hostname == "macos" then "mixer_type \"software\"" else "# No format specified = bit-perfect passthrough at native sample rates"}
       }
 
       # Disable resampling to maintain bit-perfect playback

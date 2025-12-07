@@ -3,6 +3,7 @@
     ./aerospace.nix
     ./brew.nix
     ./system.nix
+    ./nfs.nix
 
     ../shared/fish.nix
     ../shared/nix.nix

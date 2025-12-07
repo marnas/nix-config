@@ -19,6 +19,7 @@
           floccus
           istilldontcareaboutcookies
           libredirect
+          multi-account-containers
           privacy-badger
           return-youtube-dislikes
           skip-redirect
