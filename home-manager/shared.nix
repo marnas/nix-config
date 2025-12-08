@@ -16,7 +16,7 @@
   };
 
   imports =
-    [ ./desktop/alacritty.nix ./desktop/kitty.nix ./desktop/firefox.nix ];
+    [ ./desktop/alacritty.nix ./desktop/ghostty.nix ./desktop/firefox.nix ];
 
   home = {
     username = "marnas";
@@ -38,6 +38,7 @@
       kubernetes-helm
       lens
       nvim-pkg
+			profanity
       slack
       talosctl
       telegram-desktop
@@ -49,7 +50,7 @@
 
     sessionVariables = {
       EDITOR = "nvim";
-      TERMINAL = "kitty";
+      TERMINAL = "ghostty";
       SHELL = "${pkgs.fish}/bin/fish";
     };
   };
