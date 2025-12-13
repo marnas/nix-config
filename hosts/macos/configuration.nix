@@ -32,9 +32,6 @@
         eval "$(/opt/homebrew/bin/brew shellenv)"
       '';
     };
-
-    _1password.enable = true;
-    _1password-gui.enable = true;
   };
 
   environment = {

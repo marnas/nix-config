@@ -1,8 +1,11 @@
-{ lib, vars, ... }: {
+{ lib, pkgs, vars, ... }: {
 
   programs.ghostty = {
     enable = true;
     enableFishIntegration = true;
+
+    # On macOS, set to null since Ghostty is installed via Homebrew
+    package = if (vars.hostname == "macos") then null else pkgs.ghostty;
 
     settings = {
       # Font configuration
