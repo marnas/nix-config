@@ -1,7 +1,7 @@
 { vars, ... }:
 let
   musicDirectory = if vars.hostname == "macos" then
-    "/Volumes/media/music"
+    "/nfs/media/music"
   else
     "/mnt/media/music";
 in {

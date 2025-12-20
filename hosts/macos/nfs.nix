@@ -1,32 +1,31 @@
 { lib, config, pkgs, ... }: {
-  # macOS NFS configuration
-  # Note: macOS has built-in NFS support, no additional packages needed
+  # macOS NFS configuration using automount (autofs)
+  # This mounts on-demand when you access /nfs/media, saving battery life
+  # Note: macOS has built-in NFS and autofs support, no additional packages needed
 
   # Ensure mount point exists
   system.activationScripts.nfs.text = ''
-    mkdir -p /Volumes/media
+    mkdir -p /nfs/media
   '';
 
-  # Create a launchd daemon for automatic mounting at boot
-  launchd.daemons.nfs-mount = {
-    script = ''
-      # Wait for network to be available
-      sleep 10
+  # Configure autofs for on-demand NFS mounting
+  # Create /etc/auto_nfs with the mount configuration
+  environment.etc."auto_nfs".text = ''
+    # Auto-mount NFS share on demand
+    # Format: local_name  [mount_options]  nfs_server:/remote/path
+    media  -fstype=nfs,resvport,rw  truenas.marnas.sh:/mnt/Pool1/media
+  '';
 
-      # Create mount point if it doesn't exist
-      mkdir -p /Volumes/media
-
-      # Mount if not already mounted
-      if ! /sbin/mount | /usr/bin/grep -q "/Volumes/media"; then
-        /bin/echo "Mounting NFS share truenas.marnas.sh:/mnt/Pool1/media..."
-        /sbin/mount -t nfs -o resvport,rw truenas.marnas.sh:/mnt/Pool1/media /Volumes/media
-      fi
-    '';
-    serviceConfig = {
-      RunAtLoad = true;
-      KeepAlive = false;
-      StandardOutPath = "/tmp/nfs-mount.log";
-      StandardErrorPath = "/tmp/nfs-mount.err";
-    };
-  };
+  # Add entry to auto_master to enable /nfs automount
+  environment.etc."auto_master".text = ''
+    #
+    # Automounter master map
+    #
+    +auto_master		# Use directory service
+    #/net			-hosts		-nobrowse,hidefromfinder,nosuid
+    /home			auto_home	-nobrowse,hidefromfinder
+    /Network/Servers	-fstab
+    /-			-static
+    /nfs			auto_nfs	-nobrowse
+  '';
 }
