@@ -3,7 +3,7 @@
 {
   imports = [
     ../shared
-    ../shared/restic.nix
+    # ../shared/restic.nix
     ./gnome
 
     ./hardware.nix
@@ -15,6 +15,15 @@
   services = {
     dbus.enable = true;
     tailscale.enable = true;
+
+    # Enable Avahi with user service publishing for MPD
+    avahi = {
+      enable = true;
+      publish = {
+        enable = true;
+        userServices = true;
+      };
+    };
 
     xserver.xkb = {
       layout = "us";
@@ -85,7 +94,6 @@
   };
 
   programs = {
-    adb.enable = true;
     dconf.enable = true;
 
     hyprland.enable = true; # To show hyprland in GDM

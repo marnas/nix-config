@@ -51,7 +51,7 @@
       #   new_is_master = false;
       # };
 
-      # windowrulev2 = [ "idleinhibit focus, fullscreen:1" ];
+      # windowrulev2 = [ "idleinhibit fullscreen, fullscreen:1" ];
 
       input = {
         kb_layout = "us";
@@ -86,7 +86,7 @@
       };
 
       # layerrule = [ "blur, notifications" "ignorezero, notifications" ];
-      layerrule = [ "blur notifications" "ignore_alpha 0 notifications" ];
+      layerrule = [ "blur on, ignore_alpha 0, match:namespace notifications" ];
 
       animations = {
         enabled = true;

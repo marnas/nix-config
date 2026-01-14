@@ -1,12 +1,18 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
-  imports = [ ./cli ./desktop ./shared.nix ];
+  imports = [
+    ./cli
+    ./desktop
+    ./shared.nix
+  ];
 
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     ungoogled-chromium
     clonehero
+    dino
     eog
     gimp
     lutris
@@ -17,7 +23,7 @@
     picard
     cameractrls-gtk4
     # postman
-    # prismlauncher
+    prismlauncher
     protonup-qt
     pulsemixer
     rustdesk-flutter

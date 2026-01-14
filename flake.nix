@@ -1,7 +1,9 @@
 {
   nixConfig = {
-    extra-substituters =
-      [ "https://nix-community.cachix.org" "https://hyprland.cachix.org" ];
+    extra-substituters = [
+      "https://nix-community.cachix.org"
+      "https://hyprland.cachix.org"
+    ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
@@ -38,6 +40,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    arkenfox-nixos = {
+      url = "github:dwarfmaster/arkenfox-nixos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     marnas-nvim = {
       url = "github:marnas/nvim-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -50,9 +57,18 @@
   };
 
   outputs =
-    { self, nixpkgs, home-manager, nix-darwin, mac-app-util, ... }@inputs:
-    let inherit (self) outputs;
-    in {
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nix-darwin,
+      mac-app-util,
+      ...
+    }@inputs:
+    let
+      inherit (self) outputs;
+    in
+    {
 
       overlays = import ./overlays { inherit inputs; };
 
@@ -88,29 +104,33 @@
 
         "marnas@nixos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
-          pkgs =
-            nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
             inherit inputs outputs;
-            vars = { hostname = "nixos"; };
+            vars = {
+              hostname = "nixos";
+            };
           };
           modules = [
             # > main home-manager configuration file <
             ./home-manager/nixos.nix
+            inputs.arkenfox-nixos.hmModules.default
           ];
         };
         "marnas@macos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
-          pkgs =
-            nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin; # Home-manager requires 'pkgs' instance
           extraSpecialArgs = {
             inherit inputs outputs;
-            vars = { hostname = "macos"; };
+            vars = {
+              hostname = "macos";
+            };
           };
           modules = [
             # > main home-manager configuration file <
             ./home-manager/macos.nix
             mac-app-util.homeManagerModules.default
+            inputs.arkenfox-nixos.hmModules.default
           ];
         };
       };

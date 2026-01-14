@@ -4,6 +4,9 @@
     inherit musicDirectory;
 
     extraConfig = ''
+      # Disable Zeroconf/Avahi to avoid permission issues
+      zeroconf_enabled "no"
+
       audio_output {
         type "${if vars.hostname == "macos" then "osx" else "pipewire"}"
         name "${if vars.hostname == "macos" then "CoreAudio" else "PipeWire Sound Server"}"

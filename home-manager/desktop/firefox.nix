@@ -1,35 +1,79 @@
-{ pkgs, inputs, lib, ... }:
+{
+  pkgs,
+  inputs,
+  lib,
+  ...
+}:
 
 {
   programs.browserpass.enable = true;
   programs.firefox = {
     enable = true;
+
+    # Enable arkenfox privacy and security settings
+    arkenfox = {
+      enable = true;
+      version = "master";
+    };
+
     profiles.marnas = {
+      # Enable arkenfox for this profile
+      arkenfox = {
+        enable = true;
+        # Enable all sections for comprehensive privacy protection
+        # You can disable specific sections if needed
+        "0000".enable = true; # FASTFOX
+        "0100".enable = true; # STARTUP
+        "0200".enable = true; # GEOLOCATION
+        "0300".enable = true; # QUIETER FOX
+        "0400".enable = true; # SAFE BROWSING
+        "0600".enable = true; # BLOCK IMPLICIT OUTBOUND
+        "0700".enable = true; # DNS / DoH / PROXY / SOCKS
+        "0800".enable = true; # LOCATION BAR / SEARCH BAR / SUGGESTIONS
+        "0900".enable = true; # PASSWORDS
+        "1000".enable = true; # DISK AVOIDANCE
+        "1200".enable = true; # HTTPS (SSL/TLS / OCSP / CERTS / HPKP)
+        "1600".enable = true; # REFERERS
+        "1700".enable = true; # CONTAINERS
+        "2000".enable = true; # PLUGINS / MEDIA / WEBRTC
+        "2400".enable = true; # DOM (DOCUMENT OBJECT MODEL)
+        "2600".enable = true; # MISCELLANEOUS
+        "2700".enable = true; # ETP (ENHANCED TRACKING PROTECTION)
+        "4500".enable = true; # RFP (RESIST FINGERPRINTING)
+        "5000".enable = true; # OPTIONAL OPSEC
+        "5500".enable = true; # OPTIONAL HARDENING
+        "6000".enable = true; # DON'T TOUCH
+        "7000".enable = true; # DON'T BOTHER
+        "8000".enable = true; # DON'T BOTHER: FINGERPRINTING
+        "9000".enable = true; # NON-PROJECT RELATED
+      };
+
       search = {
         force = true;
         default = "ddg";
         privateDefault = "ddg";
         order = [ "ddg" ];
-        engines = { bing.metaData.hidden = true; };
+        engines = {
+          bing.metaData.hidden = true;
+        };
       };
-      extensions.packages =
-        with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
-          canvasblocker
-          decentraleyes
-          floccus
-          istilldontcareaboutcookies
-          libredirect
-          multi-account-containers
-          privacy-badger
-          return-youtube-dislikes
-          skip-redirect
-          sponsorblock
-          translate-web-pages
-          ublock-origin
-          vimium
-        ];
+      extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
+        canvasblocker
+        decentraleyes
+        floccus
+        istilldontcareaboutcookies
+        libredirect
+        multi-account-containers
+        privacy-badger
+        return-youtube-dislikes
+        skip-redirect
+        sponsorblock
+        translate-web-pages
+        ublock-origin
+        vimium
+      ];
       settings = {
-        "browser.startup.homepage" = "about:blank";
+        # "browser.startup.homepage" = "about:blank";
         "general.autoScroll" = true;
 
         # Performance optimizations
@@ -37,8 +81,8 @@
         "media.ffmpeg.vaapi.enabled" = true;
         "media.hardware-video-decoding.enabled" = true;
         "layers.acceleration.force-enabled" = true;
-        "browser.cache.disk.enable" = true;
-        "browser.cache.memory.enable" = true;
+        # "browser.cache.disk.enable" = true;
+        # "browser.cache.memory.enable" = true;
         "browser.sessionhistory.max_total_viewers" = 4;
         "network.http.pipelining" = true;
         "network.http.proxy.pipelining" = true;
@@ -65,8 +109,7 @@
         # Disable crappy home activity stream page
         "browser.newtabpage.activity-stream.feeds.topsites" = false;
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
-        "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts" =
-          false;
+        "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts" = false;
         "browser.newtabpage.blocked" = lib.genAttrs [
           # Youtube
           "26UbzFJ7qT9/4DhodHKA1Q=="
@@ -131,7 +174,10 @@
           ];
           placements = {
             PersonalToolbar = [ "personal-bookmarks" ];
-            TabsToolbar = [ "tabbrowser-tabs" "new-tab-button" ];
+            TabsToolbar = [
+              "tabbrowser-tabs"
+              "new-tab-button"
+            ];
             nav-bar = [
               "back-button"
               "forward-button"

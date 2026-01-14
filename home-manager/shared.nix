@@ -1,4 +1,11 @@
-{ inputs, outputs, pkgs, vars, ... }: {
+{
+  inputs,
+  outputs,
+  pkgs,
+  vars,
+  ...
+}:
+{
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
@@ -15,13 +22,15 @@
     };
   };
 
-  imports =
-    [ ./desktop/alacritty.nix ./desktop/ghostty.nix ./desktop/firefox.nix ];
+  imports = [
+    ./desktop/alacritty.nix
+    ./desktop/ghostty.nix
+    ./desktop/firefox.nix
+  ];
 
   home = {
     username = "marnas";
-    homeDirectory =
-      if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
+    homeDirectory = if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
 
     packages = with pkgs; [
       awscli2
@@ -38,7 +47,7 @@
       kubernetes-helm
       lens
       nvim-pkg
-			profanity
+      orca-slicer
       slack
       talosctl
       telegram-desktop
