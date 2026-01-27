@@ -19,6 +19,7 @@
     nemo-with-extensions
     nicotine-plus
     obsidian
+    orca-slicer
     stable.plexamp
     picard
     cameractrls-gtk4

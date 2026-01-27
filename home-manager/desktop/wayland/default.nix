@@ -13,10 +13,7 @@
       enable = true;
       extraPortals = [
         pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-wlr
-        pkgs.xdg-desktop-portal-gnome
       ];
-      # configPackages = [ pkgs.hyprland ];
       config.common.default = "*";
     };
 
@@ -49,7 +46,6 @@
       libnotify
       libsForQt5.qt5.qtwayland
       mimeo
-      mesa
       meson
       qt6.qtwayland
       # slurp
@@ -61,7 +57,6 @@
       wl-mirror
       wf-recorder
       wlroots
-      xdg-desktop-portal-gtk
       xwayland
       ydotool
     ];

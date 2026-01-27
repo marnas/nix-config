@@ -44,8 +44,16 @@
       extraConfig.pipewire."99-audiophile" = {
         "context.properties" = {
           # Support multiple sample rates for bit-perfect playback
-          "default.clock.allowed-rates" =
-            [ 44100 48000 88200 96000 176400 192000 352800 384000 ];
+          "default.clock.allowed-rates" = [
+            44100
+            48000
+            88200
+            96000
+            176400
+            192000
+            352800
+            384000
+          ];
           # Default to 48kHz when idle
           "default.clock.rate" = 48000;
           # Reasonable quantum for non-real-time audiophile use
@@ -78,7 +86,12 @@
   ];
 
   environment = {
-    systemPackages = with pkgs; [ wget gcc gnumake python3 cargo nodejs unzip ];
+    systemPackages = with pkgs; [
+      wget
+      gcc
+      gnumake
+      unzip
+    ];
 
     etc = {
       "1password/custom_allowed_browsers" = {
@@ -107,11 +120,13 @@
     steam = {
       enable = true;
       gamescopeSession.enable = true;
-      remotePlay.openFirewall =
-        false; # Open ports in the firewall for Steam Remote Play
+      remotePlay.openFirewall = false; # Open ports in the firewall for Steam Remote Play
       protontricks.enable = true;
     };
     gamemode.enable = true;
+
+    # Wine/Lutris support
+    nix-ld.enable = true; # For running unpatched binaries
   };
 
   security = {
@@ -127,8 +142,7 @@
       after = [ "graphical-session.target" ];
       serviceConfig = {
         Type = "simple";
-        ExecStart =
-          "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
         Restart = "on-failure";
         RestartSec = 1;
         TimeoutStopSec = 10;

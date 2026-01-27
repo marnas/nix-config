@@ -4,6 +4,5 @@
     ./local.nix
     ./nix.nix
     ./users.nix
-
   ];
 }

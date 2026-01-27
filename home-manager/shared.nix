@@ -41,13 +41,12 @@
       element-desktop
       fluxcd
       yq-go
-      golangci-lint
       google-cloud-sdk
       kubectl
+      kubelogin
       kubernetes-helm
       lens
       nvim-pkg
-      orca-slicer
       slack
       talosctl
       telegram-desktop
@@ -75,7 +74,6 @@
       };
     };
     go.enable = true;
-    k9s.enable = true;
   };
 
 }
