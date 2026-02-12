@@ -1,4 +1,5 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, ... }:
+{
   services = {
     xserver.enable = true;
     displayManager.gdm.enable = true;
@@ -10,38 +11,40 @@
     };
   };
 
-  environment.gnome.excludePackages = (with pkgs; [
-    gnome-photos
-    gnome-tour
-    cheese # webcam tool
-    gnome-terminal
-    gedit # text editor
-    epiphany # web browser
-    geary # email reader
-    evince # document viewer
-    totem # video player
-    nautilus
-    gnome-text-editor
-    gnome-calendar
-    gnome-system-monitor
-    yelp
-    gnome-music
-    gnome-maps
-    gnome-clocks
-    gnome-weather
-    gnome-contacts
-    gnome-characters
-    orca # screen reader
-    tali # poker game
-    iagno # go game
-    hitori # sudoku game
-    atomix # puzzle game
-  ]);
+  environment.gnome.excludePackages = (
+    with pkgs;
+    [
+      gnome-photos
+      gnome-tour
+      cheese # webcam tool
+      gnome-terminal
+      gedit # text editor
+      epiphany # web browser
+      geary # email reader
+      evince # document viewer
+      totem # video player
+      nautilus
+      gnome-text-editor
+      gnome-calendar
+      gnome-system-monitor
+      yelp
+      gnome-music
+      gnome-maps
+      gnome-clocks
+      gnome-weather
+      gnome-contacts
+      gnome-characters
+      orca # screen reader
+      tali # poker game
+      iagno # go game
+      hitori # sudoku game
+      atomix # puzzle game
+    ]
+  );
 
   # Setting the right resolution and refresh rate for GDM
+  # GNOME 49+ uses dynamic users with seat-specific config path
   systemd.tmpfiles.rules = [
-    "C /run/gdm/.config/monitors.xml - - - - ${./monitors.xml}"
-    # Set ownership to gdm user
-    "Z /run/gdm/.config/monitors.xml - gdm gdm - -"
+    "L+ /var/lib/gdm/seat0/config/monitors.xml - - - - ${./monitors.xml}"
   ];
 }
