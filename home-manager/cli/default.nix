@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   imports = [
     ./atuin.nix
     ./bat.nix
@@ -6,7 +7,7 @@
     ./eza.nix
     ./fish.nix
     ./git.nix
-    ./music
+    # ./music
     ./starship.nix
     ./tmux.nix
     ./yazi.nix

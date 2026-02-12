@@ -1,15 +1,18 @@
-{ pkgs, inputs, ... }: {
+{ pkgs, inputs, ... }:
+{
   imports = [
     ./aerospace.nix
     ./brew.nix
     ./system.nix
-    ./nfs.nix
+    # ./nfs.nix
 
     ../shared/fish.nix
     ../shared/nix.nix
   ];
 
-  nixpkgs = { hostPlatform = "aarch64-darwin"; };
+  nixpkgs = {
+    hostPlatform = "aarch64-darwin";
+  };
 
   # Necessary for using flakes on this system.
   nix = {
@@ -35,7 +38,11 @@
   };
 
   environment = {
-    shells = [ pkgs.bash pkgs.zsh pkgs.fish ];
+    shells = [
+      pkgs.bash
+      pkgs.zsh
+      pkgs.fish
+    ];
 
     #Allow touchIdAuth with tmux
     etc."pam.d/sudo_local".text = ''
@@ -46,21 +53,23 @@
 
     # List packages installed in system profile. To search by name, run:
     # $ nix-env -qaP | grep wget
-    systemPackages = with pkgs;
-      [
-        cargo
-        # kubelogin # not sure if needed
-      ];
+    systemPackages = with pkgs; [
+      cargo
+      # kubelogin # not sure if needed
+    ];
   };
 
   fonts = {
-    packages = with pkgs; [ jetbrains-mono meslo-lgs-nf nerd-fonts.fira-code ];
+    packages = with pkgs; [
+      jetbrains-mono
+      meslo-lgs-nf
+      nerd-fonts.fira-code
+    ];
   };
 
   # home-manager.useUserPackages = true;
   # Set Git commit hash for darwin-version.
-  system.configurationRevision =
-    inputs.self.rev or inputs.self.dirtyRev or null;
+  system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

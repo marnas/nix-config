@@ -1,7 +1,7 @@
 { ... }:
 {
 
-  imports = [ ../shared/nfs.nix ];
+  # imports = [ ../shared/nfs.nix ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/e105daca-11af-4c6f-a56c-b04df968ac88";

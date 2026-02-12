@@ -42,6 +42,7 @@
       fluxcd
       yq-go
       google-cloud-sdk
+      jellyfin-tui
       kubectl
       kubelogin
       kubernetes-helm
