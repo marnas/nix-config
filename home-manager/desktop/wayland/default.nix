@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   imports = [
     ./hyprland
     ./waybar.nix
@@ -30,7 +31,7 @@
         "x-scheme-handler/http" = [ "firefox.desktop" ];
         "x-scheme-handler/https" = [ "firefox.desktop" ];
 
-				"audio/flac" = "vlc.desktop";
+        "audio/flac" = "vlc.desktop";
       };
       associations.added = {
         # others...
@@ -65,6 +66,9 @@
       MOZ_ENABLE_WAYLAND = 1;
       QT_QPA_PLATFORM = "wayland";
       LIBSEAT_BACKEND = "logind";
+      GTK_IM_MODULE = "fcitx";
+      QT_IM_MODULE = "fcitx";
+      XMODIFIERS = "@im=fcitx";
     };
   };
 }

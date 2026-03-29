@@ -7,7 +7,7 @@
       height = 24;
       modules-left = [ "hyprland/workspaces" ];
       modules-right =
-        [ "tray" "custom/separator" "pulseaudio" "custom/separator" "clock" ];
+        [ "tray" "custom/fcitx5" "custom/separator" "pulseaudio" "custom/separator" "clock" ];
       "hyprland/workspaces" = {
         format = "{icon}";
         disable-scroll = true;
@@ -23,6 +23,10 @@
           "14" = "4";
           "15" = "5";
         };
+      };
+      "custom/fcitx5" = {
+        exec = "fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'; while true; do fcitx5-remote -w; fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'; done";
+        tooltip = false;
       };
       "custom/separator" = {
         format = "|";
@@ -104,7 +108,7 @@
       window .modules-right #clock{
         border: none;
         padding: 0 0;
-        margin: 0 4;
+        margin: 0 4px;
       }
 
       window #custom-separator {
@@ -113,6 +117,12 @@
 
       window #tray {
         margin: 0 5px;
+      }
+
+      window #custom-fcitx5 {
+        margin: 0 4px;
+        min-width: 18px;
+        font-size: 12px;
       }
     '';
   };

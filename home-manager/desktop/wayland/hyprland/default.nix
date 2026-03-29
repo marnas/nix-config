@@ -1,12 +1,17 @@
-{ pkgs, inputs, config, ... }: {
+{
+  pkgs,
+  inputs,
+  config,
+  ...
+}:
+{
   imports = [ ./binds.nix ];
 
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
     # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    package =
-      inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+    package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     portalPackage =
       inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
     plugins = [
@@ -57,11 +62,15 @@
         kb_layout = "us";
         kb_variant = "altgr-intl";
         follow_mouse = true;
-        touchpad = { natural_scroll = true; };
+        touchpad = {
+          natural_scroll = true;
+        };
         sensitivity = "-0.8";
         accel_profile = "adaptive";
       };
-      gestures = { workspace = true; };
+      gestures = {
+        workspace = true;
+      };
 
       decoration = {
         active_opacity = 0.97;
@@ -113,15 +122,15 @@
       };
 
       # Execute your favorite apps at launch
-      exec-once = [ "1password --silent" ];
+      exec-once = [
+        "1password --silent"
+        "fcitx5 --replace -d"
+      ];
       exec = [
         "${pkgs.swaybg}/bin/swaybg -o DP-1 -i /home/marnas/Pictures/wallpapers/Ocean_Spray_-_MacBook_Wallpaper.jpg --mode fill"
         "${pkgs.swaybg}/bin/swaybg -o DP-2 -i /home/marnas/Pictures/wallpapers/Wallpaper2.jpg --mode fill"
-        "hyprctl setcursor ${config.gtk.cursorTheme.name} ${
-          toString config.gtk.cursorTheme.size
-        }"
+        "hyprctl setcursor ${config.gtk.cursorTheme.name} ${toString config.gtk.cursorTheme.size}"
       ];
     };
   };
 }
-

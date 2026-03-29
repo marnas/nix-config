@@ -1,4 +1,5 @@
-{ ... }: {
+{ pkgs, ... }:
+{
   # Set your time zone.
   time.timeZone = "Europe/London";
 
@@ -15,6 +16,14 @@
       LC_PAPER = "en_GB.UTF-8";
       LC_TELEPHONE = "en_GB.UTF-8";
       LC_TIME = "en_GB.UTF-8";
+    };
+    inputMethod = {
+      enable = true;
+      type = "fcitx5";
+      fcitx5.addons = with pkgs; [
+        fcitx5-mozc
+        fcitx5-gtk
+      ];
     };
   };
 }

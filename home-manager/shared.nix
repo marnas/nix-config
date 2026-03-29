@@ -33,25 +33,19 @@
     homeDirectory = if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
 
     packages = with pkgs; [
+      anki
       awscli2
-      azure-cli
-      conduktor-ctl
       docker
       docker-compose
       element-desktop
       fluxcd
-      yq-go
-      google-cloud-sdk
       jellyfin-tui
       kubectl
-      kubelogin
       kubernetes-helm
       lens
       nvim-pkg
-      slack
       talosctl
       telegram-desktop
-      teleport
       terraform
       vesktop
       yt-dlp
