@@ -19,6 +19,10 @@
       name = "Andromeda";
       package = pkgs.andromeda-gtk-theme;
     };
+    gtk4.theme = {
+      name = "Andromeda";
+      package = pkgs.andromeda-gtk-theme;
+    };
     # iconTheme = {
     #   name = "Kora";
     #   package = pkgs.kora-icon-theme;

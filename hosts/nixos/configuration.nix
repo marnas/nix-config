@@ -82,6 +82,7 @@
     mplus-outline-fonts.githubRelease
     nerd-fonts.fira-code
     noto-fonts-color-emoji
+    noto-fonts-cjk-sans
     meslo-lgs-nf
   ];
 
@@ -92,18 +93,6 @@
       gnumake
       unzip
     ];
-
-    etc = {
-      "1password/custom_allowed_browsers" = {
-        text = ''
-          .zen-wrapped
-        '';
-        mode = "0755";
-      };
-    };
-
-    # To  run slack under wayland
-    sessionVariables.NIXOS_OZONE_WL = "1";
   };
 
   programs = {

@@ -23,8 +23,6 @@
     stable.plexamp
     picard
     cameractrls-gtk4
-    # postman
-    prismlauncher
     protonup-qt
     pulsemixer
     rustdesk-flutter
@@ -53,5 +51,5 @@
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
-  home.stateVersion = "23.11";
+  home.stateVersion = "26.05";
 }
