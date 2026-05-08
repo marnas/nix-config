@@ -56,7 +56,12 @@
       #   new_is_master = false;
       # };
 
-      # windowrulev2 = [ "idleinhibit fullscreen, fullscreen:1" ];
+      windowrule = [
+        # Hide ghost XWayland window created by xembedsniproxy
+        "opacity 0.0 override, match:xwayland 1, match:class ^$, match:title ^$"
+        "no_blur on, match:xwayland 1, match:class ^$, match:title ^$"
+        "float on, match:xwayland 1, match:class ^$, match:title ^$"
+      ];
 
       input = {
         kb_layout = "us";
@@ -124,7 +129,7 @@
       # Execute your favorite apps at launch
       exec-once = [
         "1password --silent"
-        "fcitx5 --replace -d"
+        "fcitx5 --replace -d --disable classicui"
       ];
       exec = [
         "${pkgs.swaybg}/bin/swaybg -o DP-1 -i /home/marnas/Pictures/wallpapers/Ocean_Spray_-_MacBook_Wallpaper.jpg --mode fill"

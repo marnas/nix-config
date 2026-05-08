@@ -9,6 +9,7 @@
   programs.browserpass.enable = true;
   programs.firefox = {
     enable = true;
+    configPath = ".mozilla/firefox";
 
     # Enable arkenfox privacy and security settings
     arkenfox = {
@@ -68,12 +69,15 @@
         return-youtube-dislikes
         skip-redirect
         sponsorblock
+        temporary-containers
         translate-web-pages
         ublock-origin
         vimium
       ];
       settings = {
         # "browser.startup.homepage" = "about:blank";
+        "browser.startup.homepage" = lib.mkForce "about:home";
+        "browser.startup.page" = lib.mkForce 1; # 1 = homepage (overrides arkenfox which sets 0 = blank)
         "general.autoScroll" = true;
 
         # Performance optimizations

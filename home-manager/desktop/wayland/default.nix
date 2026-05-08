@@ -5,7 +5,7 @@
     ./waybar.nix
     ./tofi.nix
     ./mako.nix
-    ./swayidle.nix
+    # ./swayidle.nix
 
   ];
 
@@ -69,6 +69,7 @@
       GTK_IM_MODULE = "fcitx";
       QT_IM_MODULE = "fcitx";
       XMODIFIERS = "@im=fcitx";
+      NIX_PROFILES = "/home/marnas/.nix-profile /nix/var/nix/profiles/default";
     };
   };
 }

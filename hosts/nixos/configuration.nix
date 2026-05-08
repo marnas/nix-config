@@ -4,6 +4,7 @@
   imports = [
     ../shared
     # ../shared/restic.nix
+    ../shared/nfs.nix
     ./gnome
 
     ./hardware.nix
@@ -73,7 +74,6 @@
     gvfs.enable = true; # Mount, trash, and other functionalities
     tumbler.enable = true; # Thumbnail support for images
     flatpak.enable = true;
-    teleport.enable = true;
   };
 
   fonts.packages = with pkgs; [

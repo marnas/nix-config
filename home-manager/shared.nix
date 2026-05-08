@@ -33,7 +33,6 @@
     homeDirectory = if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
 
     packages = with pkgs; [
-      anki
       awscli2
       docker
       docker-compose

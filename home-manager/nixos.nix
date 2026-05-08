@@ -10,12 +10,16 @@
   # Add stuff for your user as you see fit:
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
+    anki
     ungoogled-chromium
+    cameractrls
     clonehero
     dino
     eog
     gimp
+    karere
     lutris
+    moonlight-qt
     nemo-with-extensions
     nicotine-plus
     obsidian
@@ -28,7 +32,7 @@
     rustdesk-flutter
     tor-browser
     vlc
-    wasistlos
+    wowup-cf
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -47,6 +51,10 @@
   };
 
   services.nextcloud-client.enable = true;
+  services.xembed-sni-proxy = {
+    enable = true;
+    package = pkgs.kdePackages.plasma-workspace;
+  };
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
