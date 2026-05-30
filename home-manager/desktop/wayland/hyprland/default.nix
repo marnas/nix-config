@@ -10,6 +10,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     systemd.enable = true;
+    configType = "hyprlang";
     # package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
     portalPackage =
@@ -121,12 +122,10 @@
       };
 
       dwindle = {
-        pseudotile = true;
         preserve_split = true;
         force_split = 2;
       };
 
-      # Execute your favorite apps at launch
       exec-once = [
         "1password --silent"
         "fcitx5 --replace -d --disable classicui"

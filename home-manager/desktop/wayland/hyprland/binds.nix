@@ -20,7 +20,7 @@
       "${mod}, SPACE, exec, ${menu}"
       "${mod} CTRL, E, exit,"
       "${mod}, P, pseudo," # dwindle
-      "${mod}, J, togglesplit, " # dwindle
+      "${mod}, J, layoutmsg, togglesplit" # dwindle
       "${mod}, F, fullscreen, 0"
       "${mod}, E, focusmonitor, +1"
       "${mod} SHIFT, E, movewindow, mon:+1"
