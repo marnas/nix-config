@@ -1,5 +1,13 @@
 { pkgs, lib, ... }:
 {
+  # Pin GDM greeter stack to nixos-25.11 (gdm 49.2, gnome-shell 49.4). GDM 50 silently
+  # ignores monitors.xml at /var/lib/gdm/seat0/config; revert until upstream sorts it.
+  # mutter rides in via gnome-shell's closure. mkAfter so prev.stable (from stable-packages
+  # overlay in hosts/shared/nix.nix) is populated before this runs.
+  nixpkgs.overlays = lib.mkAfter [
+    (_final: prev: { inherit (prev.stable) gdm gnome-session gnome-shell; })
+  ];
+
   services = {
     xserver.enable = true;
     displayManager.gdm.enable = true;
@@ -42,12 +50,11 @@
     ]
   );
 
-  # GDM 50 runs the greeter as a dynamic user (gdm-greeter-N) with HOME=/run/gdm/home/...,
-  # but sets XDG_CONFIG_HOME=/run/gdm/.config for it. Mutter loads monitors.xml from
-  # XDG_CONFIG_HOME only — not XDG_CONFIG_DIRS — so the file must live at
-  # /run/gdm/.config/monitors.xml. /run/gdm is tmpfs, so re-create the dir and link on boot.
+  # GDM 50 sets the greeter's XDG_CONFIG_HOME to /var/lib/gdm/<seat>/config
+  # (setup_seat_persist_dirs in gdm-launch-environment.c). Mutter loads monitors.xml
+  # only from XDG_CONFIG_HOME — not XDG_CONFIG_DIRS — so the file must land there.
+  # The dir is created by GDM itself; we just drop the symlink in.
   systemd.tmpfiles.rules = [
-    "d /run/gdm/.config 0755 gdm gdm -"
-    "L+ /run/gdm/.config/monitors.xml - - - - ${./monitors.xml}"
+    "L+ /var/lib/gdm/seat0/config/monitors.xml - - - - ${./monitors.xml}"
   ];
 }
