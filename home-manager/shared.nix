@@ -30,8 +30,8 @@
   ];
 
   home = {
-    username = "marnas";
-    homeDirectory = if (vars.hostname == "macos") then "/Users/marnas" else "/home/marnas";
+    username = "marco.santonastaso";
+    homeDirectory = if (vars.hostname == "macos") then "/Users/marco.santonastaso" else "/home/marnas";
 
     packages = with pkgs; [
       awscli2

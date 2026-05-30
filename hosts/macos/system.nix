@@ -1,6 +1,6 @@
 { ... }:
 let
-  user = "marnas";
+  user = "marco.santonastaso";
   screenshotsLocation = "~/Pictures/screenshots";
 in {
   system = {
