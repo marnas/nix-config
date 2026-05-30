@@ -42,9 +42,12 @@
     ]
   );
 
-  # Setting the right resolution and refresh rate for GDM
-  # GNOME 49+ uses dynamic users with seat-specific config path
+  # GDM 50 runs the greeter as a dynamic user (gdm-greeter-N) with HOME=/run/gdm/home/...,
+  # but sets XDG_CONFIG_HOME=/run/gdm/.config for it. Mutter loads monitors.xml from
+  # XDG_CONFIG_HOME only — not XDG_CONFIG_DIRS — so the file must live at
+  # /run/gdm/.config/monitors.xml. /run/gdm is tmpfs, so re-create the dir and link on boot.
   systemd.tmpfiles.rules = [
-    "L+ /var/lib/gdm/seat0/config/monitors.xml - - - - ${./monitors.xml}"
+    "d /run/gdm/.config 0755 gdm gdm -"
+    "L+ /run/gdm/.config/monitors.xml - - - - ${./monitors.xml}"
   ];
 }
