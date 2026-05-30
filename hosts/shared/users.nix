@@ -4,7 +4,7 @@
     isNormalUser = true;
     description = "marnas";
     shell = pkgs.fish;
-    extraGroups = [ "networkmanager" "wheel" "docker" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "video" "render" ];
     packages = with pkgs; [ home-manager ];
   };
 }

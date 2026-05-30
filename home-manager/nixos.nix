@@ -17,7 +17,6 @@
     dino
     eog
     gimp
-    karere
     lutris
     moonlight-qt
     nemo-with-extensions
@@ -27,6 +26,7 @@
     stable.plexamp
     picard
     cameractrls-gtk4
+    prismlauncher
     protonup-qt
     pulsemixer
     rustdesk-flutter
