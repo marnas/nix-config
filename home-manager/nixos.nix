@@ -15,6 +15,9 @@
     cameractrls
     clonehero
     dino
+    docker
+    docker-compose
+    element-desktop
     eog
     gimp
     lutris
@@ -30,7 +33,9 @@
     protonup-qt
     pulsemixer
     rustdesk-flutter
+    telegram-desktop
     tor-browser
+    vesktop
     vlc
     wowup-cf
   ];

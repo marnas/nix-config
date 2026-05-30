@@ -35,9 +35,6 @@
 
     packages = with pkgs; [
       awscli2
-      docker
-      docker-compose
-      element-desktop
       fluxcd
       jellyfin-tui
       kubectl
@@ -45,9 +42,7 @@
       lens
       nvim-pkg
       talosctl
-      telegram-desktop
       terraform
-      vesktop
       yt-dlp
     ];
 

@@ -1,8 +1,8 @@
-{ ... }: {
+{ ... }:
+{
   homebrew = {
     enable = true;
     global.autoUpdate = true;
-    brews = [ "helm" ];
 
     casks = [
       "1password"
@@ -11,19 +11,16 @@
       #"autodesk-fusion"
       "docker-desktop"
       #"garmin-express"
-      "gather"
       "ghostty"
-      "hammerspoon"
-      "kicad"
-			"monal"
+      #"hammerspoon"
+      #"kicad"
       "nextcloud"
       "obsidian"
-      "orcaslicer"
+      #"orcaslicer"
       "plex"
       "plexamp"
       #"soulseek"
       "tailscale-app"
-      "whatsapp"
     ];
   };
 }
