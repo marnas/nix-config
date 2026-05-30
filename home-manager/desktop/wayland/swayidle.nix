@@ -3,49 +3,23 @@ let
   swaylock = "${pkgs.swaylock-effects}/bin/swaylock";
   pgrep = "${pkgs.procps}/bin/pgrep";
 
-  lockCommand =
-    "${swaylock} --screenshots --effect-blur 7x5 --fade-in 0.2 --font Roboto --font-size 20 -f";
-  dpmsCommand = "${pkgs.hyprland}/bin/hyprctl dispatch dpms";
-
+  lockCommand = "${swaylock} --screenshots --effect-blur 7x5 --fade-in 0.2 --font Roboto --font-size 20 -f";
+  dpmsOff = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
+  dpmsOn = "${pkgs.hyprland}/bin/hyprctl dispatch dpms on";
   isLocked = "${pgrep} -x ${swaylock}";
-  lockTime = 10 * 60;
-  suspendTime = 10 * 60; # This is added on top of lockTime
-
-  # Makes two timeouts: one for when the screen is not locked (lockTime+timeout) and one for when it is.
-  afterLockTimeout = { timeout, command, resumeCommand ? null }: [
-    {
-      timeout = lockTime + timeout;
-      inherit command resumeCommand;
-    }
-    {
-      command = "${isLocked} && ${command}";
-      inherit resumeCommand timeout;
-    }
-  ];
-in {
+in
+{
   services.swayidle = {
     enable = true;
-    timeouts = [{
-      timeout = lockTime;
-      command = "${lockCommand}";
-    }] ++ (afterLockTimeout {
-      timeout = 20;
-      command = "${dpmsCommand} off";
-      resumeCommand = "${dpmsCommand} on";
-    }) ++ (afterLockTimeout {
-      timeout = suspendTime;
-      command = "${pkgs.stdenv.hostPlatform.system}/bin/systemctl suspend";
-      resumeCommand = "${dpmsCommand} on";
-    });
-    events = [
-      {
-        event = "before-sleep";
-        command = "${lockCommand}";
-      }
-      {
-        event = "after-resume";
-        command = "${dpmsCommand} on";
-      }
+    timeouts = [
+      { timeout = 600; command = lockCommand; }
+      { timeout = 620; command = dpmsOff; resumeCommand = dpmsOn; }
+      # Fires within the lock-to-dpms window if the session was locked manually
+      { timeout = 20; command = "${isLocked} && ${dpmsOff}"; resumeCommand = dpmsOn; }
     ];
+    events = {
+      before-sleep = lockCommand;
+      after-resume = dpmsOn;
+    };
   };
 }

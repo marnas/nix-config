@@ -5,7 +5,7 @@
     ./waybar.nix
     ./tofi.nix
     ./mako.nix
-    # ./swayidle.nix
+    ./swayidle.nix
 
   ];
 
