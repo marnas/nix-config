@@ -1,9 +1,42 @@
-{ ... }: {
+{ pkgs, ... }: let
+  aerospaceWs = pkgs.writeShellApplication {
+    name = "aerospace-ws";
+    runtimeInputs = [ pkgs.aerospace ];
+    text = ''
+      n="$1"
+      action="''${2:-focus}"
+      focused=$(aerospace list-monitors --focused | awk '{print $1}')
+      if [ "$focused" = "1" ]; then
+        target="$n"
+      else
+        target=$((n + 5))
+      fi
+      if [ "$action" = "move" ]; then
+        aerospace move-node-to-workspace --focus-follows-window "$target"
+      else
+        aerospace workspace "$target"
+      fi
+    '';
+  };
+  ws = "${aerospaceWs}/bin/aerospace-ws";
+in {
   services.aerospace = {
     enable = true;
 
     settings = {
       on-focused-monitor-changed = [ "move-mouse monitor-lazy-center" ];
+
+      # Cursor also follows focus changes within a workspace (matches Hyprland's
+      # focus-follows-mouse feel even closer). Try if focus changes feel disconnected.
+      # on-focus-changed = [ "move-mouse window-lazy-center" ];
+
+      # Spiral / dwindle-style tiling. Without these, AeroSpace doesn't
+      # auto-alternate split orientation, so nested splits all go the same way.
+      # Enabling both flattens redundant containers and forces nested ones to
+      # alternate horizontal/vertical, matching Hyprland's dwindle layout.
+      # enable-normalization-flatten-containers = true;
+      # enable-normalization-opposite-orientation-for-nested-containers = true;
+
       gaps = {
         outer.left = 8;
         outer.bottom = 8;
@@ -34,27 +67,20 @@
         cmd-shift-up = "move up";
         cmd-shift-right = "move right";
 
-        cmd-1 = "workspace 1";
-        cmd-2 = "workspace 2";
-        cmd-3 = "workspace 3";
-        cmd-4 = "workspace 4";
-        cmd-5 = "workspace 5";
-        cmd-6 = "workspace 6";
-        cmd-7 = "workspace 7";
-        cmd-8 = "workspace 8";
-        cmd-9 = "workspace 9";
-        cmd-0 = "workspace 10";
+        cmd-e = "focus-monitor --wrap-around next";
+        cmd-shift-e = "move-node-to-monitor --wrap-around --focus-follows-window next";
 
-        cmd-shift-1 = "move-node-to-workspace 1 --focus-follows-window";
-        cmd-shift-2 = "move-node-to-workspace 2 --focus-follows-window";
-        cmd-shift-3 = "move-node-to-workspace 3 --focus-follows-window";
-        cmd-shift-4 = "move-node-to-workspace 4 --focus-follows-window";
-        cmd-shift-5 = "move-node-to-workspace 5 --focus-follows-window";
-        cmd-shift-6 = "move-node-to-workspace 6 --focus-follows-window";
-        cmd-shift-7 = "move-node-to-workspace 7 --focus-follows-window";
-        cmd-shift-8 = "move-node-to-workspace 8 --focus-follows-window";
-        cmd-shift-9 = "move-node-to-workspace 9 --focus-follows-window";
-        cmd-shift-0 = "move-node-to-workspace 10 --focus-follows-window";
+        cmd-1 = "exec-and-forget ${ws} 1";
+        cmd-2 = "exec-and-forget ${ws} 2";
+        cmd-3 = "exec-and-forget ${ws} 3";
+        cmd-4 = "exec-and-forget ${ws} 4";
+        cmd-5 = "exec-and-forget ${ws} 5";
+
+        cmd-shift-1 = "exec-and-forget ${ws} 1 move";
+        cmd-shift-2 = "exec-and-forget ${ws} 2 move";
+        cmd-shift-3 = "exec-and-forget ${ws} 3 move";
+        cmd-shift-4 = "exec-and-forget ${ws} 4 move";
+        cmd-shift-5 = "exec-and-forget ${ws} 5 move";
 
         cmd-shift-f = "fullscreen";
 
@@ -79,6 +105,14 @@
         j = "resize height +50";
         k = "resize height -50";
         l = "resize width +50";
+
+        # Evenly distribute space among sibling windows in the current container.
+        # b = "balance-sizes";
+
+        # Flatten the workspace's container tree (clears weird nesting from
+        # repeated moves) and exit resize mode.
+        # r = [ "flatten-workspace-tree" "mode main" ];
+
         enter = "mode main";
         esc = "mode main";
       };
