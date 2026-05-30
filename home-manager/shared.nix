@@ -30,7 +30,7 @@
   ];
 
   home = {
-    username = "marco.santonastaso";
+    username = if (vars.hostname == "macos") then "marco.santonastaso" else "marnas";
     homeDirectory = if (vars.hostname == "macos") then "/Users/marco.santonastaso" else "/home/marnas";
 
     packages = with pkgs; [
