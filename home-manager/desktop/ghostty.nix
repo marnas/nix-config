@@ -1,4 +1,10 @@
-{ lib, pkgs, vars, ... }: {
+{
+  lib,
+  pkgs,
+  vars,
+  ...
+}:
+{
 
   programs.ghostty = {
     enable = true;
@@ -10,7 +16,10 @@
     settings = {
       # Font configuration
       font-family = "FiraCode Nerd Font";
-      font-size = if (vars.hostname == "macos") then 14 else 11;
+      font-size = 11;
+
+      # Use fish as the default shell
+      command = "${pkgs.fish}/bin/fish";
 
       # Scrollback
       scrollback-limit = 10000;
@@ -25,6 +34,7 @@
       foreground = "d8d8d8";
       background = "181818";
       cursor-color = "d8d8d8";
+      cursor-style-blink = true;
 
       # Black
       palette = [
@@ -60,7 +70,10 @@
       link-url = true;
 
       # Keybindings
-      keybind = [ "ctrl+tab=text:\\u2310" "ctrl+shift+tab=text:\\u00AC" ];
+      keybind = [
+        "ctrl+tab=text:⌐"
+        "ctrl+shift+tab=text:¬"
+      ];
     };
   };
 

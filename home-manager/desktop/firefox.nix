@@ -9,7 +9,8 @@
   programs.browserpass.enable = true;
   programs.firefox = {
     enable = true;
-    configPath = ".mozilla/firefox";
+    configPath =
+      if pkgs.stdenv.isDarwin then "Library/Application Support/Firefox" else ".mozilla/firefox";
 
     # Enable arkenfox privacy and security settings
     arkenfox = {
