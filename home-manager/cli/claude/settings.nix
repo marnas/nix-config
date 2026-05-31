@@ -84,6 +84,50 @@
         "Bash(git ls-files:*)"
         "Bash(git rev-parse:*)"
         "Bash(git blame:*)"
+        "Bash(git fetch:*)"
+        "Bash(git stash list:*)"
+        "Bash(git stash show:*)"
+
+        # Read-only GitHub CLI
+        "Bash(gh pr view:*)"
+        "Bash(gh pr list:*)"
+        "Bash(gh pr diff:*)"
+        "Bash(gh pr checks:*)"
+        "Bash(gh issue view:*)"
+        "Bash(gh issue list:*)"
+        "Bash(gh run list:*)"
+        "Bash(gh run view:*)"
+        "Bash(gh release list:*)"
+        "Bash(gh release view:*)"
+        "Bash(gh repo view:*)"
+        "Bash(gh api:*)"
+        "Bash(gh search:*)"
+
+        # Read-only dev tooling
+        "Bash(npm ls:*)"
+        "Bash(npm view:*)"
+        "Bash(npm outdated:*)"
+        "Bash(pnpm list:*)"
+        "Bash(pnpm why:*)"
+        "Bash(yarn list:*)"
+        "Bash(pip show:*)"
+        "Bash(pip list:*)"
+        "Bash(uv pip list:*)"
+        "Bash(cargo tree:*)"
+        "Bash(cargo metadata:*)"
+        "Bash(go list:*)"
+        "Bash(go version)"
+        "Bash(node --version)"
+        "Bash(python --version)"
+
+        # Read-only containers
+        "Bash(docker ps:*)"
+        "Bash(docker images:*)"
+        "Bash(docker logs:*)"
+        "Bash(docker inspect:*)"
+        "Bash(podman ps:*)"
+        "Bash(podman images:*)"
+        "Bash(podman logs:*)"
 
         # Read-only nix
         "Bash(nix eval:*)"
@@ -116,6 +160,15 @@
         "Read(**/.env.*)"
         "Read(**/*password*)"
         "Read(**/*credentials*)"
+      ];
+
+      # Trusted paths outside the working directory.
+      # Without these, read-only commands that touch (e.g.) /nix/store still
+      # trigger per-directory prompts even when the Bash rule is allowed.
+      additionalDirectories = [
+        "/nix/store"
+        "~/.dotfiles"
+        "~/.claude"
       ];
     };
   };

@@ -2,7 +2,7 @@
 {
   imports = [
     ./settings.nix
-    ./hooks.nix
+    ./hooks
     ./mcp.nix
   ];
 
@@ -13,5 +13,6 @@
 
     agentsDir = ./agents;
     commandsDir = ./commands;
+    skillsDir = ./skills;
   };
 }
