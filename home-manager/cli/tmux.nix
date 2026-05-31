@@ -1,8 +1,10 @@
 { pkgs, vars, ... }:
 let
-  terminal =
-    if (vars.hostname == "macos") then "xterm-256color" else "alacritty";
-in {
+  terminal = if (vars.hostname == "macos") then "xterm-256color" else "alacritty";
+  tuiApps = [ "jellyfin-tui" "yazi" "lazygit" "btop" "htop" "ssh" "man" ];
+  tuiAppsRegex = builtins.concatStringsSep "|" tuiApps;
+in
+{
   programs.tmux = {
     enable = true;
     mouse = true;
@@ -37,7 +39,7 @@ in {
           # Status format MUST be set here, before agent-indicator loads, so its
           # token-substitution pass rewrites #{agent_*} into the script calls.
           # If set inside minimal-tmux-status's extraConfig it lands too late.
-          set -g @minimal-tmux-status-right '#{agent_session_dots} #{agent_indicator} %H:%M'
+          set -g @minimal-tmux-status-right '#{agent_session_dots} #{agent_indicator} #[bold]#h  '
         '';
       }
       # Minimal status bar that consumes @agent_indicator / @agent_session_dots.
@@ -63,7 +65,7 @@ in {
       # instead of the current command. allow-rename off blocks OSC 0/2 escapes
       # so TUIs like Claude can't freeze the name by setting a title.
       set -g allow-rename off
-      set -g automatic-rename-format '#{b:pane_current_path}'
+      set -g automatic-rename-format '#{?#{m/r:^(${tuiAppsRegex})$,#{pane_current_command}},#{pane_current_command},#{b:pane_current_path}}'
 
       # Pane borders: nord palette, heavy lines, bold red active border.
       set -g pane-border-style 'fg=#4C566A'
