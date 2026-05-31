@@ -13,6 +13,6 @@
 
     agentsDir = ./agents;
     commandsDir = ./commands;
-    skillsDir = ./skills;
+    skills = ./skills;
   };
 }

@@ -73,6 +73,7 @@
         "Bash(journalctl:*)"
 
         # Read-only git
+        "Bash(git pull:*)"
         "Bash(git status:*)"
         "Bash(git log:*)"
         "Bash(git diff:*)"
