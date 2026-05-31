@@ -11,5 +11,5 @@
 - If you're inferring behavior from a name or analogy and haven't actually verified it, say so.
 - Keep replies condensed — minimum words to convey the point. No preamble, no recap, no trailing "let me know if…". I'll ask for more detail when I want it.
 - Avoid chaining read-only bash commands with `&&` or `|`, and skip `2>/dev/null` on allowlisted commands. Compound forms fall through to the `ask` rule even when each piece is individually allowed. Issue separate parallel Bash tool calls instead.
-
+- Git sync: before any git operation that writes history or touches the remote (`commit`, `push`, `rebase`, `merge`), ensure local is up-to-date with `git pull` first. If the working tree is dirty: `git stash` → `git pull` → `git stash pop`, then resolve any conflicts.
 - Commit style: conventional commits, single-line subject only. Format `<type>(<scope>): <subject>`. Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `style`, `test`, `build`, `ci`, `perf`. Scope is the affected area (e.g. `claude`, `tmux`, `settings`, `pkgs`). No body, no `Co-Authored-By` trailer.
