@@ -1,27 +1,36 @@
 ---
-description: Review the current uncommitted changes and identify which were trial-and-error vs intentional. Flag candidates for git restore. Use when the user asks to clean up the working tree, review what they've changed, or wants to drop dead experiments before committing.
+description: Audit every change in the current git diff (staged and unstaged) so the user can confidently commit. Walk through each hunk, explain what it does, and flag anything that looks unintentional. Use when the user wants to review the working tree before committing, validate what's staged, or clean up dead experiments.
 ---
 
 ## Current state
 
 - Status: !`git status --short`
-- Full diff against HEAD: !`git diff HEAD`
+- Unstaged diff (working tree vs index): !`git diff`
+- Staged diff (index vs HEAD): !`git diff --cached`
+- Untracked file list: !`git ls-files --others --exclude-standard`
 - Recent commits (for direction context): !`git log -10 --oneline`
 
 ## Instructions
 
-Walk through every hunk in the diff above. For each hunk, classify as one of:
+Audit **every** change shown above — staged, unstaged, and untracked. The goal is for the user to know exactly what would land if they committed right now, with anything questionable surfaced before it goes in.
 
-- **Keep** — clearly aligns with the user's recent direction, finishes something started in an earlier commit, or is part of an obvious feature/fix.
-- **Drop** — looks like a half-finished or abandoned trial: leftover debug prints, commented-out blocks, dead code paths, abandoned experiments not referenced by the rest of the change, generated output that shouldn't be committed.
-- **Ask** — ambiguous; needs the user's judgement.
+Walk through the changes file by file. For each file, cover both its staged and unstaged hunks (call out which is which when it matters — e.g. a file that's partially staged). For each hunk, write a one-line description of what it actually does, then classify it:
 
-For each file, list its hunks under one of those buckets. For every "Drop" entry, give the **exact revert command** the user can run:
-- Tracked file: `git restore -p <path>` (interactive) or `git restore <path>` (whole file).
+- **Keep** — intentional, aligns with the user's recent direction, or finishes something started in an earlier commit. Still describe what it does so the user can confirm.
+- **Drop** — looks unintentional: leftover debug prints, commented-out blocks, dead code, abandoned experiments not referenced by the rest of the change, generated/build output that shouldn't be committed, stray whitespace-only edits, accidental reverts of prior work.
+- **Ask** — ambiguous or surprising; needs the user's judgement. Anything that touches an unrelated area, changes public API, or doesn't have an obvious motivation goes here.
+
+For untracked files, decide whether they look like intended new files (Keep), build/editor cruft (Drop), or unclear (Ask).
+
+For every **Drop** entry, give the exact command:
+- Unstaged change in tracked file: `git restore <path>` (whole file) or `git restore -p <path>` (interactive).
+- Staged change: `git restore --staged <path>` to unstage, then `git restore <path>` to discard.
 - Untracked file: `rm <path>` or `git clean -i`.
 
-**Do not run any destructive commands yourself.** Produce the list, let the user pick.
+Also flag if anything is **staged but doesn't belong in the next commit's scope** — e.g. the user clearly staged for one logical change but an unrelated hunk slipped in. Suggest `git restore --staged <path>` to pull it back.
 
-End with a one-line summary: `kept: N · drop: N · ask: N`.
+**Do not run any destructive commands yourself.** Produce the audit; let the user act.
 
-If the working tree is clean, say so and stop.
+End with a one-line summary: `staged: N files · unstaged: N files · untracked: N · keep: N · drop: N · ask: N`.
+
+If the working tree is clean and nothing is staged, say so and stop.

@@ -87,17 +87,21 @@ in {
         cmd-shift-r = "mode resize";
       };
 
+      # Use positional indices (left-to-right per macOS Displays > Arrange),
+      # not "main"/"secondary" — those follow macOS's primary-display flag
+      # and drift out of sync with the aerospace-ws helper, which keys off
+      # the focused monitor's index.
       workspace-to-monitor-force-assignment = {
-        "1" = "main";
-        "2" = "main";
-        "3" = "main";
-        "4" = "main";
-        "5" = "main";
-        "6" = "secondary";
-        "7" = "secondary";
-        "8" = "secondary";
-        "9" = "secondary";
-        "10" = "secondary";
+        "1" = 1;
+        "2" = 1;
+        "3" = 1;
+        "4" = 1;
+        "5" = 1;
+        "6" = 2;
+        "7" = 2;
+        "8" = 2;
+        "9" = 2;
+        "10" = 2;
       };
 
       mode.resize.binding = {

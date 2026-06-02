@@ -24,11 +24,10 @@
       # Scrollback
       scrollback-limit = 10000;
 
-      # Window settings
-      window-decoration = lib.mkIf (vars.hostname == "macos") false;
-
       # macOS specific
       macos-option-as-alt = lib.mkIf (vars.hostname == "macos") "left";
+      # Hide titlebar but keep rounded corners + native borders (so JankyBorders' round style aligns).
+      macos-titlebar-style = lib.mkIf (vars.hostname == "macos") "hidden";
 
       # Alacritty default theme colors
       foreground = "d8d8d8";
