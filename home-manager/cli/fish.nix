@@ -49,6 +49,18 @@ in {
     functions = {
       # Disable greeting
       fish_greeting = "";
+
+      # Delete all local branches except main/master
+      gbclean = ''
+        set -l keep (git branch --format '%(refname:short)' | string match -r '^(main|master)$' | head -n1)
+        if test -z "$keep"
+          echo "gbclean: no main or master branch found" >&2
+          return 1
+        end
+        git branch --format '%(refname:short)' | string match -v $keep | while read -l branch
+          git branch -D $branch
+        end
+      '';
     };
     interactiveShellInit = ''
       bind \ey edit_command_buffer
