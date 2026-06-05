@@ -7,6 +7,10 @@
     ./eza.nix
     ./fish.nix
     ./git.nix
+    ./goose.nix
+    ./opencode.nix
+    ./qwen-code.nix
+    ./claude-local.nix
     # ./music
     ./starship.nix
     ./tmux.nix

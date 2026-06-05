@@ -31,6 +31,8 @@ Also flag if anything is **staged but doesn't belong in the next commit's scope*
 
 **Do not run any destructive commands yourself.** Produce the audit; let the user act.
 
+If there are any **Ask** items, list them explicitly just before the summary under a `### Needs your call` heading — one line each, naming the file and the exact question to resolve. Never leave the user to hunt back through the audit for which hunk the `ask` count refers to. (Same for any **Drop** items: make sure each is unmistakably tied to its file and command.)
+
 End with a one-line summary: `staged: N files · unstaged: N files · untracked: N · keep: N · drop: N · ask: N`.
 
 If the working tree is clean and nothing is staged, say so and stop.

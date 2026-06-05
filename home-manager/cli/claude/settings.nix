@@ -6,6 +6,7 @@
     includeCoAuthoredBy = false;
     cleanupPeriodDays = 30;
     autoUpdates = false;
+    model = "opus";
 
     statusLine = {
       type = "command";

@@ -2,7 +2,7 @@
 
 - Marco Santonastaso <marco@santonastaso.com>
 - Default shell is fish. Suggested commands should be fish-compatible (or call out when they're bash-only).
-- Primary machine is NixOS, managed via the flake at `~/.dotfiles`. Prefer Nix-native solutions (home-manager modules, overlays, flake inputs) over imperative installs (`curl | sh`, `npm i -g`, language-version managers).
+- All my machines (NixOS + macOS) are managed declaratively via the flake at `~/.dotfiles`. Prefer Nix-native solutions (home-manager modules, overlays, flake inputs) over imperative installs (`curl | sh`, `npm i -g`, language-version managers). Corollary: config under `~` (e.g. `~/.claude`, `~/.config`) is generated, read-only output — to change anything managed, edit its declarative source in `~/.dotfiles`, never the runtime path. Changes apply on the next home-manager switch.
 - Do **not** use the auto-memory system (`~/.claude/projects/<slug>/memory/`). Memories are per-host, opaque, and don't sync between machines. When you learn something worth persisting, add it to this file (or the relevant module under `~/.dotfiles/home-manager/cli/claude/`) so it's version-controlled and visible.
 
 # Working style
