@@ -2,6 +2,7 @@
 {
   imports = [
     ./settings.nix
+    ./statusline.nix
     ./hooks
     ./mcp.nix
   ];

@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, lib, ... }:
 {
   programs.claude-code.settings = {
     "$schema" = "https://json.schemastore.org/claude-code-settings.json";
@@ -6,6 +6,12 @@
     includeCoAuthoredBy = false;
     cleanupPeriodDays = 30;
     autoUpdates = false;
+
+    statusLine = {
+      type = "command";
+      command = lib.getExe pkgs.ccstatusline;
+      padding = 0;
+    };
 
     env = { };
 
