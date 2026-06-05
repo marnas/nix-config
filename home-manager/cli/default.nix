@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, vars, ... }:
 {
   imports = [
     ./atuin.nix
@@ -7,16 +7,14 @@
     ./eza.nix
     ./fish.nix
     ./git.nix
-    ./goose.nix
-    ./opencode.nix
-    ./qwen-code.nix
-    ./claude-local.nix
     # ./music
     ./starship.nix
     ./tmux.nix
     ./yazi.nix
     ./zsh.nix
-  ];
+  ]
+  # Local-LLM agents talk to a host-local Ollama; only the NixOS box runs it.
+  ++ lib.optional (vars.hostname != "macos") ./local-llm;
   home.packages = with pkgs; [
     comma # Install and run programs by sticking a , before them
     bc # Calculator
