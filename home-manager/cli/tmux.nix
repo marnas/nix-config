@@ -1,6 +1,9 @@
 { pkgs, vars, ... }:
 let
   terminal = if (vars.hostname == "macos") then "xterm-256color" else "alacritty";
+  # System-clipboard copy command for copy-mode yanks (absolute path so it
+  # resolves inside tmux's copy-pipe shell regardless of PATH).
+  clipCmd = if (vars.hostname == "macos") then "pbcopy" else "${pkgs.wl-clipboard}/bin/wl-copy";
   tuiApps = [ "jellyfin-tui" "yazi" "lazygit" "btop" "htop" "ssh" "man" ];
   tuiAppsRegex = builtins.concatStringsSep "|" tuiApps;
 in
@@ -56,6 +59,15 @@ in
       bind -n S-Down resize-pane -D 5
       bind -n S-Left resize-pane -L 5
       bind -n S-Right resize-pane -R 5
+
+      # Prefix-less copy-mode (tilish is all Alt). vim-style visual selection:
+      # M-Space to enter, v/V/C-v to select, motions to extend, y to yank
+      # straight to the system clipboard and exit.
+      bind -n M-Space copy-mode
+      bind -T copy-mode-vi v   send -X begin-selection
+      bind -T copy-mode-vi C-v send -X rectangle-toggle
+      bind -T copy-mode-vi y   send -X copy-pipe-and-cancel "${clipCmd}"
+      bind -T copy-mode-vi Y   send -X copy-line-and-cancel  "${clipCmd}"
 
       set-option -g focus-events on
 
