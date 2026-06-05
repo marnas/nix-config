@@ -1,62 +1,75 @@
-{ ... }: {
+{ ... }:
+{
 
   programs.waybar = {
     enable = true;
     systemd.enable = true;
-    settings = [{
-      height = 24;
-      modules-left = [ "hyprland/workspaces" ];
-      modules-right =
-        [ "tray" "custom/fcitx5" "custom/separator" "pulseaudio" "custom/separator" "clock" ];
-      "hyprland/workspaces" = {
-        format = "{icon}";
-        disable-scroll = true;
-        format-icons = {
-          "6" = "1";
-          "7" = "2";
-          "8" = "3";
-          "9" = "4";
-          "10" = "5";
-          "11" = "1";
-          "12" = "2";
-          "13" = "3";
-          "14" = "4";
-          "15" = "5";
+    settings = [
+      {
+        height = 24;
+        modules-left = [ "hyprland/workspaces" ];
+        modules-right = [
+          "tray"
+          "custom/fcitx5"
+          "custom/separator"
+          "pulseaudio"
+          "custom/separator"
+          "clock"
+        ];
+        "hyprland/workspaces" = {
+          format = "{icon}";
+          disable-scroll = true;
+          format-icons = {
+            "6" = "1";
+            "7" = "2";
+            "8" = "3";
+            "9" = "4";
+            "10" = "5";
+            "11" = "1";
+            "12" = "2";
+            "13" = "3";
+            "14" = "4";
+            "15" = "5";
+          };
         };
-      };
-      "custom/fcitx5" = {
-        exec = "fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'; while true; do fcitx5-remote -w; fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'; done";
-        tooltip = false;
-      };
-      "custom/separator" = {
-        format = "|";
-        interval = "once";
-        tooltip = "false";
-      };
-      pulseaudio = {
-        format = "{icon} {volume}%";
-        format-bluetooth = "{icon} {volume}% {format_source}";
-        format-bluetooth-muted = " {icon} {format_source}";
-        format-muted = "婢";
-        format-icons = {
-          headphone = "";
-          default = [ "" " " "  " ];
+        "custom/fcitx5" = {
+          exec = "fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'; while true; do fcitx5-remote -w; fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'; done";
+          tooltip = false;
         };
-        # on-click = pavucontrol;
-        tooltip = false;
-      };
-      clock = {
-        # tooltip-format = "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>";
-        format = "{:%a , %d %b %H:%M}";
-        interval = 1;
-        tooltip = false;
-      };
-      tray = {
-        icon-size = 18;
-        spacing = 7;
-        reverse-direction = true;
-      };
-    }];
+        "custom/separator" = {
+          format = "|";
+          interval = "once";
+          tooltip = "false";
+        };
+        pulseaudio = {
+          format = "{icon} {volume}%";
+          format-bluetooth = "{icon} {volume}% {format_source}";
+          format-bluetooth-muted = " {icon} {format_source}";
+          format-muted = "婢";
+          format-icons = {
+            headphone = "";
+            default = [
+              ""
+              " "
+              "  "
+            ];
+          };
+          # on-click = pavucontrol;
+          tooltip = false;
+        };
+        clock = {
+          # tooltip-format = "<big>{:%B %Y}</big>\n<tt><small>{calendar}</small></tt>";
+          format = "{:%a , %d %b %H:%M}";
+          interval = 1;
+          tooltip = false;
+        };
+        tray = {
+          icon-size = 18;
+          spacing = 7;
+          reverse-direction = true;
+        };
+      }
+    ];
 
     style = ''
       * {
@@ -127,4 +140,3 @@
     '';
   };
 }
-
