@@ -17,7 +17,6 @@
     dino
     docker
     docker-compose
-    element-desktop
     eog
     gimp
     lutris

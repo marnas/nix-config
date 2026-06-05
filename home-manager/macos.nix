@@ -17,9 +17,14 @@
     enable = true;
     settings = {
       style = "round";
-      width = 8.0;
+      width = 7.0;
       hidpi = "on";
-      active_color = "0xff82b8c8";
+      # Cyan→green diagonal, mirrors Hyprland's `col.active_border`
+      # (rgba(33ccffee) rgba(00ff99ee) 45deg). Flip top_left/bottom_right
+      # if the diagonal lands the wrong way. Embedded quotes are required:
+      # home-manager renders settings into a bash array, and the parens in
+      # `gradient(...)` would otherwise be parsed as a subshell.
+      active_color = ''"gradient(top_left=0xee33ccff,bottom_right=0xee00ff99)"'';
       # Transparent inactive border hides the grey→blue flash on aerospace
       # workspace switches (a known unresolved interaction, see
       # FelixKratz/JankyBorders#79, #182). With no inactive border to

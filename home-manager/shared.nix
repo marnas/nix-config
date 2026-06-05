@@ -36,6 +36,7 @@
     packages = with pkgs; [
       awscli2
       fluxcd
+      element-desktop
       jellyfin-tui
       kubectl
       kubernetes-helm
