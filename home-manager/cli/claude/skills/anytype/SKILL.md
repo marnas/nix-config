@@ -42,10 +42,16 @@ Add `--json` when you need to parse fields precisely.
   you've worked silently To Do or In Progress — the status must reflect reality so the user
   isn't misled about what's still outstanding. If you only partially complete it, leave it
   In Progress and say so.
-- **Writing bodies:** plain markdown imports well (`##` headings, `- [ ]` checklists,
-  `**bold**`, fenced ```code``` blocks, `>` callouts). Keep prose ASCII and put commands in
-  fenced blocks — inline `code` spans mis-align on lines with auto-converted arrows (`->`→`→`).
-  Body is set only at create time; to change a body, recreate the object.
+- **Writing bodies — favor structure over prose.** Don't write walls of text; lean on
+  Anytype's formatting so a body stays scannable at a glance: `##` headings to chunk it,
+  `- [ ]` checklists for steps/criteria (in a `task` these double as a runbook — prefer them
+  over paragraphs), `**bold**` for key terms, fenced ```code``` blocks for commands / specs /
+  aligned key–value, `>` callouts for the one thing that must not be missed (a blocker, status,
+  warning). Keep prose to a sentence or two per section. Keep text ASCII and put commands in
+  fenced blocks — inline `code` spans mis-align on lines with auto-converted arrows (`->`→`→`),
+  so don't mix inline code and arrows on the same line.
+- **Editing a body:** it's set only at create time. To change it, recreate the object — create
+  the replacement (with the improved body), relink its project, then `rm` the old id.
 - **Report back** the object name and what changed; entries sync to the user's desktop and
   phone automatically (no need to keep the GUI open).
 

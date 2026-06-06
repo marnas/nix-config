@@ -4,6 +4,7 @@
 - Default shell is fish. Suggested commands should be fish-compatible (or call out when they're bash-only).
 - All my machines (NixOS + macOS) are managed declaratively via the flake at `~/.dotfiles`. Prefer Nix-native solutions (home-manager modules, overlays, flake inputs) over imperative installs (`curl | sh`, `npm i -g`, language-version managers). Corollary: config under `~` (e.g. `~/.claude`, `~/.config`) is generated, read-only output — to change anything managed, edit its declarative source in `~/.dotfiles`, never the runtime path. Changes apply on the next home-manager switch.
 - Do **not** use the auto-memory system (`~/.claude/projects/<slug>/memory/`). Memories are per-host, opaque, and don't sync between machines. When you learn something worth persisting, add it to this file (or the relevant module under `~/.dotfiles/home-manager/cli/claude/`) so it's version-controlled and visible.
+- Treat **Anytype** as the private-information backup. When something worth persisting is private or sensitive (internal IPs, network topology, host-specific or imperative setup, anything not safe to publish), save it to Anytype via the `anytype` skill / `any` CLI — filed under the relevant project — rather than committing it somewhere it could end up public.
 
 # Working style
 

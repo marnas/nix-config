@@ -166,7 +166,6 @@
       deny = [
         "Read(**/.env)"
         "Read(**/.env.*)"
-        "Read(**/*password*)"
         "Read(**/*credentials*)"
       ];
 
