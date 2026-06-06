@@ -1,6 +1,7 @@
 { pkgs, lib, vars, ... }:
 {
   imports = [
+    ./anytype
     ./atuin.nix
     ./bat.nix
     ./claude

@@ -7,6 +7,7 @@
     casks = [
       "1password"
       "1password-cli"
+      "anytype"
       "arc"
       #"autodesk-fusion"
       "docker-desktop"

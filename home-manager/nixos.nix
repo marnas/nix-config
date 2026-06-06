@@ -11,6 +11,7 @@
   # programs.neovim.enable = true;
   home.packages = with pkgs; [
     anki
+    anytype
     ungoogled-chromium
     cameractrls
     clonehero

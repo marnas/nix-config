@@ -34,6 +34,7 @@
     homeDirectory = if (vars.hostname == "macos") then "/Users/marco.santonastaso" else "/home/marnas";
 
     packages = with pkgs; [
+      anytype-cli
       awscli2
       fluxcd
       element-desktop
