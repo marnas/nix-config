@@ -94,7 +94,7 @@ cmd_get() {
     ((.properties//[])[]
       | .key as $k | select(($sys|index($k))|not)
       | (.checkbox // .date // .select.name // .number // (.text|select(.!=""))
-         // ([.objects[]?.name]|select(length>0)|join(", "))
+         // ([.objects[]? | if type=="object" then .name else . end]|select(length>0)|join(", "))
          // ([.multi_select[]?.name]|select(length>0)|join(", "))) as $v
       | select($v != null)
       | "prop:  \(.key) = \($v)"),
@@ -118,10 +118,14 @@ resolve_status() {
 }
 
 cmd_set() {
-  [ "$#" -ge 1 ] || { echo "usage: any set <id> [--name N] [--done|--undone] [--due DATE] [--status S]" >&2; exit 2; }
+  [ "$#" -ge 1 ] || { echo "usage: any set <id> [--name N] [--done|--undone] [--due DATE] [--status S] [--project ID ...|--unlink-projects]" >&2; exit 2; }
   local id="$1"; shift
   local name="" set_name=0
   local props="[]"
+  # linked_projects is an object relation: PATCH replaces the whole array, so we
+  # collect every --project into one list and send it once. set_projects=1 even
+  # when empty (--unlink-projects) so the cleared list is still emitted.
+  local projects="[]" set_projects=0
   add_prop() { props="$(jq -c --argjson p "$1" '. + [$p]' <<<"$props")"; }
   # NOTE: the API only sets the markdown body at create time; PATCH ignores `body`,
   # so there is intentionally no --body here. To change a body, recreate the object.
@@ -134,9 +138,12 @@ cmd_set() {
       --status)
         local tag; tag="$(resolve_status "$2")" || exit 2
         add_prop "$(jq -nc --arg s "$tag" '{key:"status",select:$s}')"; shift 2 ;;
+      --project) projects="$(jq -c --arg p "$2" '. + [$p]' <<<"$projects")"; set_projects=1; shift 2 ;;
+      --unlink-projects) projects="[]"; set_projects=1; shift ;;
       *) echo "set: unknown arg $1" >&2; exit 2 ;;
     esac
   done
+  [ "$set_projects" = 1 ] && add_prop "$(jq -nc --argjson o "$projects" '{key:"linked_projects",objects:$o}')"
   local payload
   payload="$(jq -nc \
     --argjson sn "$set_name" --arg n "$name" \
@@ -177,6 +184,8 @@ any — manage objects in your self-hosted Anytype space
   ls [-t TYPE] [-q TEXT] [--open|--done] [--json]   list/search objects
   get <id> [--json]                                show one object (props + markdown)
   set <id> [--name N] [--done|--undone] [--due YYYY-MM-DD] [--status S]   (body is create-only)
+           [--project ID ...]                      link to project(s) (repeat to add; replaces existing)
+           [--unlink-projects]                     clear all linked projects
   rm <id>                                          delete an object
   types                                            list type keys in the space
 EOF

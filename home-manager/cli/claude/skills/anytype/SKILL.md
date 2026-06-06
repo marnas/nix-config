@@ -12,6 +12,7 @@ any add <type> "<name>" ["<body>"]                 create (type: task | note | p
 any ls [-t TYPE] [-q "text"] [--open|--done] [--json]   list / search
 any get <id> [--json]                              full object (properties + markdown body)
 any set <id> [--name N] [--done|--undone] [--due YYYY-MM-DD] [--status S]   # body is create-only
+any set <id> [--project <project-id> ...] [--unlink-projects]   # link/clear Linked Projects
 any rm <id>                                         delete
 any types                                           list available type keys
 any --space <id> <verb> ...                         operate on a different space
@@ -26,8 +27,21 @@ Add `--json` when you need to parse fields precisely.
 - **Capture:** pick a type (`task` for actionable todos/reminders, `note` for free-form,
   `page` for longer docs, `project` to group related work) and a concise name; put extra
   detail in the body. e.g. `any add task "Renew passport" "expires end of July"`.
+- **Always file it under a project.** Anything you add should belong to a project so the
+  space stays organised. Before creating, run `any ls -t project` and pick the project the
+  item clearly belongs to (e.g. cluster/Flux work → Homelab; NixOS/macOS dotfiles work →
+  Dotfiles). `add` can't link at create time, so link right after:
+  `any set <new-id> --project <project-id>`. If nothing fits, ask the user whether to use an
+  existing project or create a new one (`any add project "<Name>" "<one-line scope>"`) rather
+  than leaving it unfiled. Items can carry more than one project — repeat `--project`.
 - **Find before you modify:** to act on an existing item, first `any ls -t task -q "passport"`
   (or `--open`) to get its id, then `any set <id> --done`.
+- **Keep status in sync while working a task.** If you pick up a task from here and start
+  acting on it, immediately mark it `any set <id> --status "In Progress"`. When you finish the
+  work, close it out with `any set <id> --done` (and report what you did). Never leave a task
+  you've worked silently To Do or In Progress — the status must reflect reality so the user
+  isn't misled about what's still outstanding. If you only partially complete it, leave it
+  In Progress and say so.
 - **Writing bodies:** plain markdown imports well (`##` headings, `- [ ]` checklists,
   `**bold**`, fenced ```code``` blocks, `>` callouts). Keep prose ASCII and put commands in
   fenced blocks — inline `code` spans mis-align on lines with auto-converted arrows (`->`→`→`).
