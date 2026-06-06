@@ -69,26 +69,10 @@ let
           preserveColors = true; # keep the escape codes the script emits
           timeout = 1000;
         }
-        {
-          id = "4";
-          type = "separator";
-          color = "hex:727072";
-        }
-        {
-          id = "5";
-          type = "session-usage";
-          color = "hex:ffd866"; # yellow — neutral metric
-        }
-        {
-          id = "6";
-          type = "separator";
-          color = "hex:727072";
-        }
-        {
-          id = "7";
-          type = "reset-timer";
-          color = "hex:727072"; # muted aux
-        }
+        # session-usage + reset-timer (the account-level 5h-block metrics,
+        # identical across every pane) live in the tmux status bar instead —
+        # see pkgs/claude-usage-tmux and tmux.nix. This line keeps only the
+        # per-conversation widgets: model and context %.
       ]
       [ ]
       [ ]

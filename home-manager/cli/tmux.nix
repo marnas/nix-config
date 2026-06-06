@@ -4,7 +4,15 @@ let
   # System-clipboard copy command for copy-mode yanks (absolute path so it
   # resolves inside tmux's copy-pipe shell regardless of PATH).
   clipCmd = if (vars.hostname == "macos") then "pbcopy" else "${pkgs.wl-clipboard}/bin/wl-copy";
-  tuiApps = [ "jellyfin-tui" "yazi" "lazygit" "btop" "htop" "ssh" "man" ];
+  tuiApps = [
+    "jellyfin-tui"
+    "yazi"
+    "lazygit"
+    "btop"
+    "htop"
+    "ssh"
+    "man"
+  ];
   tuiAppsRegex = builtins.concatStringsSep "|" tuiApps;
 in
 {
@@ -42,7 +50,10 @@ in
           # Status format MUST be set here, before agent-indicator loads, so its
           # token-substitution pass rewrites #{agent_*} into the script calls.
           # If set inside minimal-tmux-status's extraConfig it lands too late.
-          set -g @minimal-tmux-status-right '#{agent_session_dots} #{agent_indicator} #[bold]#h  '
+          # The #(...) usage widget (Claude 5h-block % + reset, shared across all
+          # panes) is left untouched by that pass and evaluated by tmux itself on
+          # each status redraw — see pkgs/claude-usage-tmux.
+          set -g @minimal-tmux-status-right '#{agent_session_dots} #{agent_indicator} #[fg=#EBCB8B]#(${pkgs.claude-usage-tmux}/bin/claude-usage-tmux)#[default] #[bold]#h  '
         '';
       }
       # Minimal status bar that consumes @agent_indicator / @agent_session_dots.
@@ -86,7 +97,16 @@ in
       set -g pane-border-indicators arrows
 
       # status-right is overridden by minimal-tmux-status via
-      # @minimal-tmux-status-right (see plugin block below).
+      # @minimal-tmux-status-right (see plugin block below). Refresh it on an
+      # interval so the embedded claude-usage-tmux widget (block % + reset
+      # countdown) updates; minute-granularity data, so 15s is ample.
+      set -g status-interval 15
+
+      # minimal-tmux-status never sets status-right-length, so tmux's default of
+      # 40 applies — too short once the ~31-char usage widget renders, which
+      # truncates the rightmost field (the hostname). Give it ample room for
+      # agent dots + indicator + usage + host.
+      set -g status-right-length 150
 
       # new shortcut to clean terminal
       bind -n C-p send-keys C-l
