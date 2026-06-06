@@ -1,4 +1,9 @@
-{ pkgs, lib, vars, ... }:
+{
+  pkgs,
+  lib,
+  vars,
+  ...
+}:
 {
   imports = [
     ./anytype

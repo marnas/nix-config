@@ -2,7 +2,8 @@
 let
   user = "marco.santonastaso";
   screenshotsLocation = "~/Pictures/screenshots";
-in {
+in
+{
   system = {
     primaryUser = "${user}";
     defaults = {
@@ -21,8 +22,7 @@ in {
 
       dock = {
         autohide = true;
-        mru-spaces =
-          false; # disable auto rearrange spaces based on most recent use
+        mru-spaces = false; # disable auto rearrange spaces based on most recent use
         show-recents = false;
         launchanim = true;
         mouse-over-hilite-stack = true;
@@ -49,4 +49,3 @@ in {
     };
   };
 }
-

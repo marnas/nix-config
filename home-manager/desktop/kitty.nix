@@ -1,4 +1,5 @@
-{ lib, vars, ... }: {
+{ lib, vars, ... }:
+{
 
   programs.kitty = {
     enable = true;
@@ -18,8 +19,7 @@
       allow_remote_control = true;
 
       # Window settings
-      hide_window_decorations =
-        lib.mkIf (vars.hostname == "macos") "titlebar-only";
+      hide_window_decorations = lib.mkIf (vars.hostname == "macos") "titlebar-only";
 
       # macOS specific
       macos_option_as_alt = lib.mkIf (vars.hostname == "macos") "left";

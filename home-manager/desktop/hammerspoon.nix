@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   home.file.".hammerspoon/init.lua".text = ''
     -- Media key bindings for MPD control
     local mpc = "${pkgs.mpc}/bin/mpc"

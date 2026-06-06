@@ -12,10 +12,21 @@ in
   services.swayidle = {
     enable = true;
     timeouts = [
-      { timeout = 600; command = lockCommand; }
-      { timeout = 620; command = dpmsOff; resumeCommand = dpmsOn; }
+      {
+        timeout = 600;
+        command = lockCommand;
+      }
+      {
+        timeout = 620;
+        command = dpmsOff;
+        resumeCommand = dpmsOn;
+      }
       # Fires within the lock-to-dpms window if the session was locked manually
-      { timeout = 20; command = "${isLocked} && ${dpmsOff}"; resumeCommand = dpmsOn; }
+      {
+        timeout = 20;
+        command = "${isLocked} && ${dpmsOff}";
+        resumeCommand = dpmsOn;
+      }
     ];
     events = {
       before-sleep = lockCommand;

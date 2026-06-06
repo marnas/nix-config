@@ -1,4 +1,5 @@
-{ config, musicDirectory, ... }: {
+{ config, musicDirectory, ... }:
+{
   programs.rmpc = {
     enable = true;
 
@@ -106,6 +107,5 @@
     '';
   };
 
-  home.file."${config.xdg.configHome}/rmpc/themes/theme.ron".source =
-    ./rmpc-theme.ron;
+  home.file."${config.xdg.configHome}/rmpc/themes/theme.ron".source = ./rmpc-theme.ron;
 }

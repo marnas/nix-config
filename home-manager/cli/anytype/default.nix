@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   # `any` — verb-based CLI over the self-hosted Anytype Local API (create / list /
   # search / read / update / delete objects in your space). Targets the space whose id
@@ -12,7 +17,10 @@ let
   # and break with "connection reset" — so the script inherits the user's `op` from PATH.
   any = pkgs.writeShellApplication {
     name = "any";
-    runtimeInputs = with pkgs; [ curl jq ];
+    runtimeInputs = with pkgs; [
+      curl
+      jq
+    ];
     text = builtins.readFile ./any.sh;
   };
 
@@ -22,7 +30,12 @@ let
   # 127.0.0.1:31012 that `any` talks to. Declarative on purpose — NOT the imperative
   # `anytype-cli service install`. Needs a per-machine daemon because the API is
   # localhost-only, so it runs on both NixOS (systemd) and macOS (launchd).
-  serveArgs = [ "${pkgs.anytype-cli}/bin/anytype-cli" "serve" "--quiet" "--no-update-check" ];
+  serveArgs = [
+    "${pkgs.anytype-cli}/bin/anytype-cli"
+    "serve"
+    "--quiet"
+    "--no-update-check"
+  ];
 in
 {
   home.packages = [ any ];

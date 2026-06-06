@@ -1,8 +1,8 @@
-{ ... }: {
+{ ... }:
+{
   programs.atuin = {
     enable = true;
-    enableFishIntegration =
-      false; # Disabled due to fish 4.0+ compatibility issue
+    enableFishIntegration = false; # Disabled due to fish 4.0+ compatibility issue
     settings = {
       auto_sync = true;
       sync_frequency = "5m";
@@ -11,7 +11,9 @@
       filter_mode_shell_up_key_binding = "directory";
       search_mode_shell_up_key_binding = "prefix";
       enter_accept = true;
-      sync = { records = true; };
+      sync = {
+        records = true;
+      };
     };
   };
 }

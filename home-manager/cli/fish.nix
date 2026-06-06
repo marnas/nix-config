@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 let
   inherit (lib) mkIf;
   packageNames = map (p: p.pname or p.name or null) config.home.packages;
@@ -8,7 +13,8 @@ let
   hasGit = hasPackage "git";
   hasKubectl = hasPackage "kubectl";
   hasTerraform = hasPackage "terraform";
-in {
+in
+{
   programs.fish = {
     enable = true;
     shellAbbrs = {
@@ -42,10 +48,12 @@ in {
       gdf = mkIf hasGit "git diff :!flake.lock";
 
     };
-    plugins = [{
-      name = "z";
-      src = pkgs.fishPlugins.z.src;
-    }];
+    plugins = [
+      {
+        name = "z";
+        src = pkgs.fishPlugins.z.src;
+      }
+    ];
     functions = {
       # Disable greeting
       fish_greeting = "";
@@ -97,4 +105,3 @@ in {
     '';
   };
 }
-

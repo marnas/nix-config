@@ -1,4 +1,10 @@
-{ lib, config, pkgs, ... }: {
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+{
   # macOS NFS configuration using automount (autofs)
   # This mounts on-demand when you access /nfs/media, saving battery life
   # Note: macOS has built-in NFS and autofs support, no additional packages needed

@@ -99,5 +99,6 @@ in
   home.packages = [ pkgs.ccstatusline ];
 
   xdg.configFile."ccstatusline/settings.json".source =
-    (pkgs.formats.json { }).generate "ccstatusline-settings.json" settings;
+    (pkgs.formats.json { }).generate "ccstatusline-settings.json"
+      settings;
 }

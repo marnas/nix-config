@@ -11,5 +11,8 @@ let
   '';
 in
 {
-  home.packages = [ pkgs.qwen-code qwenLocal ];
+  home.packages = [
+    pkgs.qwen-code
+    qwenLocal
+  ];
 }

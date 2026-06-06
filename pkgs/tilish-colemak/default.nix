@@ -1,4 +1,8 @@
-{ tmuxPlugins, fetchFromGitHub, lib }:
+{
+  tmuxPlugins,
+  fetchFromGitHub,
+  lib,
+}:
 tmuxPlugins.mkTmuxPlugin {
   pluginName = "tilish-colemak";
   rtpFilePath = "tilish.tmux";

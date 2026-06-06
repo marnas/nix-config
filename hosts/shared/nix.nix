@@ -1,4 +1,5 @@
-{ outputs, ... }: {
+{ outputs, ... }:
+{
   nixpkgs = {
     overlays = [
       outputs.overlays.additions
@@ -6,14 +7,20 @@
       outputs.overlays.stable-packages
     ];
 
-    config = { allowUnfree = true; };
+    config = {
+      allowUnfree = true;
+    };
   };
 
   nix = {
     settings = {
       experimental-features = "nix-command flakes";
       # auto-optimise-store = true;
-      trusted-users = [ "root" "@wheel" "@admin" ];
+      trusted-users = [
+        "root"
+        "@wheel"
+        "@admin"
+      ];
       trusted-substituters = [ "https://nix-community.cachix.org" ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="

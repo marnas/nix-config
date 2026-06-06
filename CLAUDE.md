@@ -17,6 +17,7 @@ Before introducing a new pattern, grep for an existing example and mirror it. A 
 - Verify a change builds: `nix build --no-link '.#homeConfigurations."marnas@nixos".activationPackage'` (no activation, safe).
 - For NixOS-level changes: `nix build --no-link '.#nixosConfigurations.nixos.config.system.build.toplevel'`.
 - **Never run** `home-manager switch`, `nixos-rebuild`, or `darwin-rebuild` — the user activates manually.
+- **Format before committing:** every `.nix` file must be formatted with `nixfmt` (the official RFC 166 formatter, `nixpkgs#nixfmt` — *not* `nixfmt-classic`). Run `nix run nixpkgs#nixfmt -- <files>` on anything you touch; the whole tree is kept nixfmt-clean.
 
 ## Conventions
 

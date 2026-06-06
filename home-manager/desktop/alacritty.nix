@@ -1,4 +1,10 @@
-{ pkgs, lib, vars, ... }: {
+{
+  pkgs,
+  lib,
+  vars,
+  ...
+}:
+{
 
   programs.alacritty = {
     enable = true;
@@ -13,17 +19,21 @@
         size = 14;
       };
 
-      scrolling = { history = 10000; };
+      scrolling = {
+        history = 10000;
+      };
 
       window = {
         option_as_alt = "OnlyLeft";
         decorations = "Buttonless";
       };
 
-      mouse.bindings = [{
-        mouse = "Middle";
-        action = "PasteSelection";
-      }];
+      mouse.bindings = [
+        {
+          mouse = "Middle";
+          action = "PasteSelection";
+        }
+      ];
 
       keyboard.bindings = [
         {

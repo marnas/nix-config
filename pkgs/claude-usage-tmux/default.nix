@@ -8,29 +8,31 @@ let
   # Usage-only ccstatusline config: just the account-level 5-hour block metrics
   # (session %, block reset countdown). colorLevel 0 keeps escapes minimal — we
   # strip the rest below so tmux can apply its own #[fg=...].
-  config = writeText "ccstatusline-usage.json" (builtins.toJSON {
-    version = 3;
-    lines = [
-      [
-        {
-          id = "1";
-          type = "session-usage";
-        }
-        {
-          id = "2";
-          type = "separator";
-        }
-        {
-          id = "3";
-          type = "reset-timer";
-        }
-      ]
-      [ ]
-      [ ]
-    ];
-    colorLevel = 0;
-    flexMode = "full-minus-40";
-  });
+  config = writeText "ccstatusline-usage.json" (
+    builtins.toJSON {
+      version = 3;
+      lines = [
+        [
+          {
+            id = "1";
+            type = "session-usage";
+          }
+          {
+            id = "2";
+            type = "separator";
+          }
+          {
+            id = "3";
+            type = "reset-timer";
+          }
+        ]
+        [ ]
+        [ ]
+      ];
+      colorLevel = 0;
+      flexMode = "full-minus-40";
+    }
+  );
 in
 # session-usage + reset-timer are derived from the ~/.claude transcripts (the
 # 5-hour billing block, identical across every Claude pane) rather than the

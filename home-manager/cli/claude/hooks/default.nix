@@ -15,7 +15,10 @@ in
     SessionStart = [
       {
         hooks = [
-          { type = "command"; command = "${pruneSession}/bin/claude-prune-session"; }
+          {
+            type = "command";
+            command = "${pruneSession}/bin/claude-prune-session";
+          }
         ];
       }
     ];
@@ -25,8 +28,14 @@ in
     UserPromptSubmit = [
       {
         hooks = [
-          { type = "command"; command = "${agentState} --agent claude --state off"; }
-          { type = "command"; command = "${agentState} --agent claude --state running"; }
+          {
+            type = "command";
+            command = "${agentState} --agent claude --state off";
+          }
+          {
+            type = "command";
+            command = "${agentState} --agent claude --state running";
+          }
         ];
       }
     ];
@@ -34,8 +43,14 @@ in
     Stop = [
       {
         hooks = [
-          { type = "command"; command = "${agentState} --agent claude --state done"; }
-          { type = "command"; command = "${claudeNotify}/bin/claude-notify normal 'Task complete'"; }
+          {
+            type = "command";
+            command = "${agentState} --agent claude --state done";
+          }
+          {
+            type = "command";
+            command = "${claudeNotify}/bin/claude-notify normal 'Task complete'";
+          }
         ];
       }
     ];
@@ -46,7 +61,10 @@ in
     Notification = [
       {
         hooks = [
-          { type = "command"; command = "${agentState} --agent claude --state needs-input"; }
+          {
+            type = "command";
+            command = "${agentState} --agent claude --state needs-input";
+          }
         ];
       }
     ];
@@ -54,9 +72,15 @@ in
     SessionEnd = [
       {
         hooks = [
-          { type = "command"; command = "${agentState} --agent claude --state off"; }
+          {
+            type = "command";
+            command = "${agentState} --agent claude --state off";
+          }
           # Drop transcripts that never got a real prompt from the resume picker.
-          { type = "command"; command = "${pruneSession}/bin/claude-prune-session"; }
+          {
+            type = "command";
+            command = "${pruneSession}/bin/claude-prune-session";
+          }
         ];
       }
     ];

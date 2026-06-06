@@ -1,4 +1,8 @@
-{ tmuxPlugins, fetchFromGitHub, lib }:
+{
+  tmuxPlugins,
+  fetchFromGitHub,
+  lib,
+}:
 tmuxPlugins.mkTmuxPlugin {
   pluginName = "agent-indicator";
   # mkTmuxPlugin's default rtpFilePath converts hyphens in pluginName to

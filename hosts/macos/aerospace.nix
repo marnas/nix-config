@@ -1,4 +1,5 @@
-{ pkgs, ... }: let
+{ pkgs, ... }:
+let
   aerospaceWs = pkgs.writeShellApplication {
     name = "aerospace-ws";
     runtimeInputs = [ pkgs.aerospace ];
@@ -19,7 +20,8 @@
     '';
   };
   ws = "${aerospaceWs}/bin/aerospace-ws";
-in {
+in
+{
   services.aerospace = {
     enable = true;
 

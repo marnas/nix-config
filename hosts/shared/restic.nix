@@ -12,7 +12,9 @@ let
     "/home/${user}/Templates/"
     "/home/${user}/Videos/"
   ];
-in { pkgs, ... }: {
+in
+{ pkgs, ... }:
+{
   services.restic.backups = {
     homebackup = {
       user = "${user}";
@@ -46,8 +48,7 @@ in { pkgs, ... }: {
         "--keep-yearly 0"
       ];
       paths = homeBackup;
-      backupPrepareCommand =
-        "${pkgs.restic}/bin/restic unlock"; # necessary to prevent locks from persisting indefinitely. See more:
+      backupPrepareCommand = "${pkgs.restic}/bin/restic unlock"; # necessary to prevent locks from persisting indefinitely. See more:
       # https://forum.restic.net/t/restic-unlock-automation/5511
       extraBackupArgs = [ "--exclude-caches" ];
       timerConfig = {

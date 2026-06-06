@@ -20,7 +20,10 @@
 # Tool results are type=="user" too but use array content, so they don't match.
 pkgs.writeShellApplication {
   name = "claude-prune-session";
-  runtimeInputs = [ pkgs.jq pkgs.findutils ];
+  runtimeInputs = [
+    pkgs.jq
+    pkgs.findutils
+  ];
   text = ''
     # True if the given transcript contains at least one genuine user prompt.
     has_prompt() {

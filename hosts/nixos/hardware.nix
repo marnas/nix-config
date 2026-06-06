@@ -1,4 +1,10 @@
-{ pkgs, config, lib, modulesPath, ... }:
+{
+  pkgs,
+  config,
+  lib,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
@@ -9,7 +15,10 @@
   ];
 
   boot = {
-    kernelModules = [ "kvm-intel" "amdgpu" ];
+    kernelModules = [
+      "kvm-intel"
+      "amdgpu"
+    ];
     initrd = {
       availableKernelModules = [
         "xhci_pci"
@@ -28,7 +37,10 @@
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
     };
-    kernelParams = [ "video=DP-1:2560x1440@360" "video=DP-2:2560x1440@360" ];
+    kernelParams = [
+      "video=DP-1:2560x1440@360"
+      "video=DP-2:2560x1440@360"
+    ];
     # NixOS configuration for Star Citizen requirements
     kernel.sysctl = {
       "vm.max_map_count" = 16777216;
@@ -51,8 +63,7 @@
 
     new-lg4ff.enable = true; # Enable support for Logitech driving wheels
 
-    cpu.intel.updateMicrocode =
-      lib.mkDefault config.hardware.enableRedistributableFirmware;
+    cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   };
 
   networking = {
