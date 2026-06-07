@@ -5,6 +5,7 @@
 }:
 {
   ccstatusline = pkgs.callPackage ./ccstatusline { };
+  claude-usage-refresh = pkgs.callPackage ./claude-usage-refresh { };
   claude-usage-tmux = pkgs.callPackage ./claude-usage-tmux { };
   tilish-colemak = pkgs.callPackage ./tilish-colemak { };
   tmux-agent-indicator = pkgs.callPackage ./tmux-agent-indicator { };

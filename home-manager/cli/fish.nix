@@ -27,6 +27,10 @@ in
       nbn = "nix build nixpkgs#";
       nf = "nix flake";
 
+      # Claude
+      c = "claude";
+      cr = "claude --resume";
+
       # Git abbreviations
       ga = mkIf hasGit "git add";
       gc = mkIf hasGit "git commit -m";

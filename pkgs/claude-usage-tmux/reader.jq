@@ -1,0 +1,29 @@
+# Render the Claude 5h-block usage widget from ccstatusline's on-disk cache.
+# Output is byte-identical to ccstatusline's own session-usage + separator +
+# reset-timer line (e.g. "Session: 5.0% | Reset: 2hr 29m"), but computed in jq
+# so the tmux render path never spawns Node. The reset countdown is derived from
+# the absolute sessionResetAt at render time, so it ticks down every redraw.
+#
+# Duration formatting mirrors ccstatusline's formatDurationFromMs: <1m, then
+# "{m}m", "{h}hr", or "{h}hr {m}m".
+def fmt($mins):
+  if $mins < 1 then "<1m"
+  else ($mins / 60 | floor) as $h
+  | ($mins % 60) as $m
+  | if $h == 0 then "\($m)m"
+    elif $m == 0 then "\($h)hr"
+    else "\($h)hr \($m)m"
+    end
+  end;
+
+if (.sessionUsage == null) or (.sessionResetAt == null) then empty
+else
+  .sessionUsage as $u
+  # sessionResetAt is UTC ISO8601 with fractional seconds and a +00:00 offset;
+  # strip the fraction and normalize the offset to Z so fromdateiso8601 parses it.
+  | (.sessionResetAt | sub("\\.[0-9]+"; "") | sub("\\+00:00$"; "Z") | fromdateiso8601) as $reset
+  | (($reset - now) / 60 | floor) as $mins
+  # One-decimal percent without relying on a printf float (matches .toFixed(1)).
+  | ($u * 10 | round) as $t
+  | "Session: \($t / 10 | floor).\($t % 10)% | Reset: \(fmt($mins))"
+end

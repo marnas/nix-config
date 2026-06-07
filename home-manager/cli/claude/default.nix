@@ -3,6 +3,7 @@
   imports = [
     ./settings.nix
     ./statusline.nix
+    ./usage-cache.nix
     ./hooks
     ./mcp.nix
   ];
