@@ -28,6 +28,11 @@
         "${mod}, P, pseudo," # dwindle
         "${mod}, J, layoutmsg, togglesplit" # dwindle
         "${mod}, F, fullscreen, 0"
+
+        # Input method toggle (en <-> mozc): flip IM, then refresh the waybar
+        # custom/fcitx5 module via SIGRTMIN+8. Replaces fcitx's internal
+        # Control+space trigger so the indicator updates event-driven.
+        "CTRL, space, exec, fcitx5-remote -t && pkill -RTMIN+8 waybar"
         "${mod}, E, focusmonitor, +1"
         "${mod} SHIFT, E, movewindow, mon:+1"
 

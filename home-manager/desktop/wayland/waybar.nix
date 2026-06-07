@@ -33,7 +33,10 @@
           };
         };
         "custom/fcitx5" = {
-          exec = "fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'; while true; do fcitx5-remote -w; fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'; done";
+          # Event-driven: refreshed on demand via SIGRTMIN+8, fired by the
+          # input-method toggle keybind (see hyprland/binds.nix). No polling.
+          exec = "fcitx5-remote -n | awk '/keyboard/{print \"<b>en</b>\"} /mozc/{print \"<b>あ</b>\"}'";
+          signal = 8;
           tooltip = false;
         };
         "custom/separator" = {

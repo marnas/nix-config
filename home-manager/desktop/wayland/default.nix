@@ -19,6 +19,20 @@
     };
 
     configFile."mimeapps.list".force = true;
+
+    # fcitx5 writes its own ~/.config/fcitx5/config; force-manage just the
+    # trigger keys to drop the default Control+space (now handled by the
+    # Hyprland keybind so the waybar indicator updates event-driven, see
+    # hyprland/binds.nix). All other fcitx5 options keep their compiled
+    # defaults — only this list is overridden.
+    configFile."fcitx5/config" = {
+      force = true;
+      text = ''
+        [Hotkey/TriggerKeys]
+        0=Zenkaku_Hankaku
+        1=Hangul
+      '';
+    };
     mimeApps = {
       enable = true;
       defaultApplications = {
