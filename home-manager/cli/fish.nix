@@ -27,10 +27,6 @@ in
       nbn = "nix build nixpkgs#";
       nf = "nix flake";
 
-      # Claude
-      c = "claude";
-      cr = "claude --resume";
-
       # Git abbreviations
       ga = mkIf hasGit "git add";
       gc = mkIf hasGit "git commit -m";
@@ -45,6 +41,10 @@ in
       ls = mkIf hasEza "eza";
       k = mkIf hasKubectl "kubectl";
       tf = mkIf hasTerraform "terraform";
+
+      # Claude
+      c = "claude";
+      cr = "claude --resume";
 
       # Git aliases
       g = mkIf hasGit "git";
