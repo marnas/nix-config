@@ -13,6 +13,7 @@
     ./eza.nix
     ./fish.nix
     ./git.nix
+    ./infisical
     # ./music
     ./starship.nix
     ./tmux.nix

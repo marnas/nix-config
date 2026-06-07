@@ -7,14 +7,16 @@
 let
   # `any` — verb-based CLI over the self-hosted Anytype Local API (create / list /
   # search / read / update / delete objects in your space). Targets the space whose id
-  # is in 1Password (field `space_id`); `any --space <id> …` overrides per call. Script
-  # body lives in ./any.sh; curl/jq are put on PATH by writeShellApplication (which also
-  # shellchecks it at build).
+  # is in Infisical (secret `ANYTYPE_SPACE_ID`); `any --space <id> …` overrides per call.
+  # Script body lives in ./any.sh; curl/jq are put on PATH by writeShellApplication
+  # (which also shellchecks it at build).
   #
-  # `op` is deliberately NOT in runtimeInputs: 1Password desktop-app CLI integration
-  # only works through the platform's wrapped `op` (e.g. the NixOS setuid wrapper at
-  # /run/wrappers/bin/op). Bundling the plain nixpkgs _1password-cli would shadow that
-  # and break with "connection reset" — so the script inherits the user's `op` from PATH.
+  # `infisical` + `infisical-token` are deliberately NOT in runtimeInputs: they live in
+  # home.packages (see ../infisical) and the script inherits them from PATH. The token
+  # mint inside `infisical-token` in turn shells out to the platform-wrapped `op` from
+  # PATH (1Password desktop integration only works through that wrapper, not the plain
+  # nixpkgs CLI). Net: `any` no longer prompts 1Password per call — the apikey is fetched
+  # from Infisical at call time and discarded; `op` is hit at most once per boot.
   any = pkgs.writeShellApplication {
     name = "any";
     runtimeInputs = with pkgs; [

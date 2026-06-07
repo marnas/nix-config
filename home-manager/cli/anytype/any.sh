@@ -1,31 +1,86 @@
 # Tier-1 CLI over the self-hosted Anytype Local REST API (served by `anytype-cli
-# serve` on 127.0.0.1:31012). Operates on your default space (id from 1Password,
-# field `space_id`); override per-call with `any --space <id> <verb> ...`.
-# Credentials are read from 1Password at call time (item "anytype-cli bot account",
-# Private vault) — nothing secret on disk. shebang + `set -euo pipefail` are injected
-# by writeShellApplication, so this file starts straight at the functions.
+# serve` on 127.0.0.1:31012). Operates on your default space (id from Infisical,
+# secret `ANYTYPE_SPACE_ID`); override per-call with `any --space <id> <verb> ...`.
+# Credentials/config are fetched from the self-hosted Infisical at call time (project
+# `claude`, path /anytype) using a short-lived machine-identity token from
+# `infisical-token`, then DISCARDED when this process exits — nothing secret on disk and
+# (unlike the old `op item get`) no per-call 1Password prompt. shebang + `set -euo
+# pipefail` are injected by writeShellApplication, so this file starts at the functions.
+# `infisical` + `infisical-token` are inherited from PATH (home.packages), same as `op`.
+
+# extract a secret value from `infisical export --format=json` output, tolerating both
+# the array-of-{key,value} and the flat-object shapes.
+ival() { jq -r --arg k "$1" 'if type=="array" then (.[]|select(.key==$k)|.value) else .[$k] end // empty'; }
+
+# Pull the /anytype secrets from Infisical with the given access token. The token goes via
+# the INFISICAL_TOKEN env var, never `--token`, so it stays out of the process command line.
+fetch_secrets() { # fetch_secrets TOKEN PID
+  INFISICAL_TOKEN="$1" infisical export --format=json --silent \
+    --domain "${INFISICAL_API_URL:-https://infisical.marnas.sh/api}" \
+    --projectId "$2" --env "${INFISICAL_ENV:-prod}" --path /anytype
+}
 
 load_creds() {
-  local j
-  j="$(op item get "anytype-cli bot account" --vault Private --format json)"
-  APIKEY="$(jq -r '.fields[]|select(.label=="apikey")|.value' <<<"$j")"
-  BASE="$(jq -r '.fields[]|select(.label=="base_url")|.value' <<<"$j")"
-  VER="$(jq -r '.fields[]|select(.label=="api_version")|.value' <<<"$j")"
+  local token pid secrets errf
+  token="$(infisical-token)"
+  pid="$(infisical-token --field projectId)"
+  # Use the cached token until the server rejects it (we don't track its TTL). If export
+  # fails and the error looks like an auth rejection, re-mint once and retry; any other
+  # failure (network, project-id) is surfaced as-is rather than triggering a needless mint.
+  errf="$(mktemp)"
+  if ! secrets="$(fetch_secrets "$token" "$pid" 2>"$errf")"; then
+    if grep -qiE '401|unauthor|forbidden|invalid.*token|token.*(expired|invalid)|expired' "$errf"; then
+      token="$(infisical-token --refresh)"
+      if ! secrets="$(fetch_secrets "$token" "$pid" 2>"$errf")"; then
+        echo "any: infisical export failed after token refresh:" >&2
+        cat "$errf" >&2
+        rm -f "$errf"
+        exit 1
+      fi
+    else
+      echo "any: infisical export failed:" >&2
+      cat "$errf" >&2
+      rm -f "$errf"
+      exit 1
+    fi
+  fi
+  rm -f "$errf"
+  APIKEY="$(ival ANYTYPE_APIKEY <<<"$secrets")"
+  VER="$(ival ANYTYPE_API_VERSION <<<"$secrets")"
   if [ -n "${SPACE_OVERRIDE:-}" ]; then
     SID="$SPACE_OVERRIDE"
   else
-    SID="$(jq -r '.fields[]|select(.label=="space_id")|.value' <<<"$j")"
+    SID="$(ival ANYTYPE_SPACE_ID <<<"$secrets")"
   fi
+  if [ -z "$APIKEY" ] || [ -z "$VER" ] || [ -z "$SID" ]; then
+    echo "any: missing ANYTYPE_APIKEY/ANYTYPE_API_VERSION/ANYTYPE_SPACE_ID in Infisical" \
+         "(project=claude env=${INFISICAL_ENV:-prod} path=/anytype)" >&2
+    exit 1
+  fi
+  BASE="http://127.0.0.1:31012"
 }
 
 api() { # api METHOD PATH [BODY]
   local method="$1" path="$2" body="${3:-}"
-  local args=(-fsS -X "$method"
-    -H "Authorization: Bearer $APIKEY"
+  # No -f: we capture the status ourselves so a 4xx/5xx body (the API's error message)
+  # is surfaced instead of swallowed. `-w` appends the HTTP code on its own trailing line.
+  local args=(-sS -X "$method"
     -H "Anytype-Version: $VER"
-    -H "Content-Type: application/json")
+    -H "Content-Type: application/json"
+    -w '\n%{http_code}'
+    --config -)
   [ -n "$body" ] && args+=(-d "$body")
-  curl "${args[@]}" "$BASE$path"
+  # The bearer apikey goes via a --config stream on stdin, never argv (the request body in
+  # -d is user content, not secret, so it can stay on the command line).
+  local out code
+  out="$(printf 'header = "Authorization: Bearer %s"\n' "$APIKEY" | curl "${args[@]}" "$BASE$path")"
+  code="${out##*$'\n'}"; out="${out%$'\n'*}"
+  if [ "$code" -lt 200 ] || [ "$code" -ge 300 ]; then
+    echo "any: $method $path → HTTP $code" >&2
+    [ -n "$out" ] && echo "$out" >&2
+    exit 1
+  fi
+  printf '%s' "$out"
 }
 
 # Compact one-line summary used by ls: "<id>  [x]  task  Name  (due 2026-06-30)".
@@ -54,10 +109,11 @@ fmt_table() {
 # bookmark's body you must `rm` it first, then create.
 # `--collection ID` (any type) drops the new object into a collection after create.
 cmd_add() {
-  local coll="" pos=()
+  local coll="" prio="" pos=()
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --collection) coll="$2"; shift 2 ;;
+      --priority) prio="$2"; shift 2 ;;
       *) pos+=("$1"); shift ;;
     esac
   done
@@ -71,9 +127,25 @@ cmd_add() {
     payload="$(jq -n --arg n "$name" --arg u "$url" '{type_key:"bookmark",name:$n,body:("[\($u)](\($u))"),properties:[{key:"source",url:$u}]}')"
     label="$url"
   else
-    [ "$#" -ge 2 ] || { echo "usage: any add <type> <name> [body]" >&2; exit 2; }
-    local name="$2" body="${3:-}"
-    payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" '{type_key:$t,name:$n,body:$b}')"
+    [ "$#" -ge 1 ] || { echo "usage: any add <type> <name> [body]" >&2; exit 2; }
+    local name="$1" body="${2:-}"
+    if [ "$type" = "task" ]; then
+      # New tasks default to "To Do" so they never land statusless (blank) — they show up
+      # in the To-Do/open views immediately. Override later with `any set --status`.
+      local sttag; sttag="$(resolve_status "To Do")" || exit 2
+      local props; props="$(jq -nc --arg s "$sttag" '[{key:"status",select:$s}]')"
+      # Priority is optional at create — the caller infers it from the task's content and
+      # passes --priority; left blank if omitted (no hardcoded default).
+      if [ -n "$prio" ]; then
+        local pr; pr="$(resolve_priority "$prio")" || exit 2
+        props="$(jq -c --arg k "${pr%%$'\t'*}" --arg p "${pr##*$'\t'}" '. + [{key:$k,select:$p}]' <<<"$props")"
+      fi
+      payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" --argjson pr "$props" \
+        '{type_key:$t,name:$n,body:$b,properties:$pr}')"
+    else
+      [ -n "$prio" ] && { echo "add: --priority only applies to tasks" >&2; exit 2; }
+      payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" '{type_key:$t,name:$n,body:$b}')"
+    fi
     label="$name"
   fi
   r="$(api POST "/v1/spaces/$SID/objects" "$payload")"
@@ -147,25 +219,52 @@ cmd_get() {
     (.markdown // "")' <<<"$r"
 }
 
-# Resolve a Task status option name (case-insensitive) to its tag id, which is
-# what the select property expects.
-resolve_status() {
-  local want="$1" pid tags id
+# Resolve a select option name (case-insensitive) to its tag id — what a select
+# property value expects. Generic over the task-type property key (status, priority).
+resolve_tag() { # resolve_tag PROPKEY WANTED
+  local propkey="$1" want="$2" pid tags id
   pid="$(api GET "/v1/spaces/$SID/types?limit=100" \
-    | jq -r '.data[]|select(.key=="task").properties[]|select(.key=="status").id')"
+    | jq -r --arg pk "$propkey" '.data[]|select(.key=="task").properties[]|select(.key==$pk)|.id')"
+  if [ -z "$pid" ]; then
+    echo "set: task type has no '$propkey' property (run \`any init-priority\` to add it)" >&2
+    exit 2
+  fi
   tags="$(api GET "/v1/spaces/$SID/properties/$pid/tags")"
   id="$(jq -r --arg w "$want" '.data[]|select((.name|ascii_downcase)==($w|ascii_downcase))|.id' <<<"$tags" | head -n1)"
   if [ -z "$id" ]; then
-    echo "set: invalid status '$want'. valid: $(jq -r '[.data[].name]|join(", ")' <<<"$tags")" >&2
+    echo "set: invalid $propkey '$want'. valid: $(jq -r '[.data[].name]|join(", ")' <<<"$tags")" >&2
     exit 2
   fi
   printf '%s' "$id"
 }
+resolve_status() { resolve_tag status "$1"; }
+
+# Resolve the task type's Priority (select) relation for a level name. Echoes
+# "<property_key>\t<tag_id>". The relation is user-created so its key is a hash — we
+# locate it by name on the task type, not a fixed key (unlike status).
+resolve_priority() { # resolve_priority LEVEL
+  local want="$1" prow pid pkey tags id
+  prow="$(api GET "/v1/spaces/$SID/types?limit=100" \
+    | jq -c '[.data[]|select(.key=="task").properties[]|select((.name|ascii_downcase)=="priority" and .format=="select")][0] // empty')"
+  if [ -z "$prow" ]; then
+    echo "set: task type has no Priority (select) relation — run \`any init-priority\`" >&2
+    exit 2
+  fi
+  pid="$(jq -r '.id' <<<"$prow")"; pkey="$(jq -r '.key' <<<"$prow")"
+  tags="$(api GET "/v1/spaces/$SID/properties/$pid/tags")"
+  id="$(jq -r --arg w "$want" '.data[]|select((.name|ascii_downcase)==($w|ascii_downcase))|.id' <<<"$tags" | head -n1)"
+  if [ -z "$id" ]; then
+    echo "set: invalid priority '$want'. valid: $(jq -r '[.data[].name]|join(", ")' <<<"$tags")" >&2
+    exit 2
+  fi
+  printf '%s\t%s' "$pkey" "$id"
+}
 
 cmd_set() {
-  [ "$#" -ge 1 ] || { echo "usage: any set <id> [--name N] [--done|--undone] [--due DATE] [--status S] [--project ID ...|--unlink-projects]" >&2; exit 2; }
+  [ "$#" -ge 1 ] || { echo "usage: any set <id> [--name N] [--icon EMOJI] [--done|--undone] [--due DATE] [--status S] [--priority P] [--project ID ...|--unlink-projects]" >&2; exit 2; }
   local id="$1"; shift
   local name="" set_name=0
+  local icon="" set_icon=0
   local props="[]"
   # linked_projects is an object relation: PATCH replaces the whole array, so we
   # collect every --project into one list and send it once. set_projects=1 even
@@ -177,12 +276,16 @@ cmd_set() {
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --name) name="$2"; set_name=1; shift 2 ;;
+      --icon) icon="$2"; set_icon=1; shift 2 ;;
       --done) add_prop '{"key":"done","checkbox":true}'; shift ;;
       --undone) add_prop '{"key":"done","checkbox":false}'; shift ;;
       --due) add_prop "$(jq -nc --arg d "$2" '{key:"due_date",date:$d}')"; shift 2 ;;
       --status)
         local tag; tag="$(resolve_status "$2")" || exit 2
         add_prop "$(jq -nc --arg s "$tag" '{key:"status",select:$s}')"; shift 2 ;;
+      --priority)
+        local pr; pr="$(resolve_priority "$2")" || exit 2
+        add_prop "$(jq -nc --arg k "${pr%%$'\t'*}" --arg s "${pr##*$'\t'}" '{key:$k,select:$s}')"; shift 2 ;;
       --project) projects="$(jq -c --arg p "$2" '. + [$p]' <<<"$projects")"; set_projects=1; shift 2 ;;
       --unlink-projects) projects="[]"; set_projects=1; shift ;;
       *) echo "set: unknown arg $1" >&2; exit 2 ;;
@@ -192,8 +295,10 @@ cmd_set() {
   local payload
   payload="$(jq -nc \
     --argjson sn "$set_name" --arg n "$name" \
+    --argjson si "$set_icon" --arg ic "$icon" \
     --argjson props "$props" '
     ( if $sn==1 then {name:$n} else {} end )
+    + ( if $si==1 then {icon:{format:"emoji",emoji:$ic}} else {} end )
     + ( if ($props|length)>0 then {properties:$props} else {} end )')"
   local r; r="$(api PATCH "/v1/spaces/$SID/objects/$id" "$payload")"
   echo "Updated $(jq -r '.object.id' <<<"$r")  →  $(jq -r '.object.name' <<<"$r")"
@@ -209,6 +314,45 @@ cmd_types() {
   api GET "/v1/spaces/$SID/types?limit=100" | jq -r '.data[] | "\(.key)\t\(.name)"'
 }
 
+# One-time bootstrap: create the single-select "Priority" property (High/Medium/Low)
+# and attach it to the Task type. Idempotent — re-running is a no-op once present.
+# Schema lives in the Anytype app's runtime state (not a declarative source), so this
+# verb is how we (re)create it reproducibly on a fresh space.
+cmd_init_priority() {
+  local types ttid props prow pid pkey
+  types="$(api GET "/v1/spaces/$SID/types?limit=100")"
+  ttid="$(jq -r '.data[]|select(.key=="task").id' <<<"$types")"
+  [ -n "$ttid" ] || { echo "init-priority: task type not found" >&2; exit 1; }
+  # Reuse a select property named "Priority" if one exists; else create a fresh one. We
+  # key a new one 'task_priority' to dodge the bundled number relation 'priority'.
+  props="$(api GET "/v1/spaces/$SID/properties?limit=200")"
+  prow="$(jq -c '[.data[]|select((.name|ascii_downcase)=="priority" and .format=="select")][0] // empty' <<<"$props")"
+  if [ -n "$prow" ]; then
+    pid="$(jq -r '.id' <<<"$prow")"; pkey="$(jq -r '.key' <<<"$prow")"
+  else
+    local r; r="$(api POST "/v1/spaces/$SID/properties" '{"key":"task_priority","name":"Priority","format":"select"}')"
+    pid="$(jq -r '.property.id' <<<"$r")"; pkey="$(jq -r '.property.key' <<<"$r")"
+  fi
+  # Ensure exactly the High/Medium/Low options exist (create any missing, with colors).
+  local have; have="$(api GET "/v1/spaces/$SID/properties/$pid/tags" | jq -c '[.data[].name|ascii_downcase]')"
+  local nc n c
+  for nc in High:red Medium:yellow Low:lime; do
+    n="${nc%%:*}"; c="${nc##*:}"
+    if ! jq -e --arg n "$(printf '%s' "$n" | tr '[:upper:]' '[:lower:]')" 'index($n)' <<<"$have" >/dev/null; then
+      api POST "/v1/spaces/$SID/properties/$pid/tags" "$(jq -nc --arg n "$n" --arg c "$c" '{name:$n,color:$c}')" >/dev/null
+    fi
+  done
+  # Attach to the Task type if not already present (PATCH replaces the whole list).
+  if jq -e --arg k "$pkey" '.data[]|select(.key=="task").properties[]|select(.key==$k)' <<<"$types" >/dev/null; then
+    echo "Priority already on the Task type (options ensured)."
+  else
+    local newprops
+    newprops="$(jq -c --arg k "$pkey" '[.data[]|select(.key=="task").properties[]|{key,name,format}] + [{key:$k,name:"Priority",format:"select"}]' <<<"$types")"
+    api PATCH "/v1/spaces/$SID/types/$ttid" "$(jq -nc --argjson p "$newprops" '{properties:$p}')" >/dev/null
+    echo "Attached Priority (High / Medium / Low) to the Task type."
+  fi
+}
+
 main() {
   SPACE_OVERRIDE=""
   if [ "${1:-}" = "--space" ]; then SPACE_OVERRIDE="$2"; shift 2; fi
@@ -222,22 +366,24 @@ main() {
     set) load_creds; cmd_set "$@" ;;
     rm|del) load_creds; cmd_rm "$@" ;;
     types) load_creds; cmd_types "$@" ;;
+    init-priority) load_creds; cmd_init_priority "$@" ;;
     help|-h|--help)
       cat >&2 <<'EOF'
 any — manage objects in your self-hosted Anytype space
   any [--space ID] <verb> ...                      target a different space (default: your space_id)
 
-  add <type> <name> [body] [--collection ID]       create an object (type: task|note|page|project|bookmark)
+  add <type> <name> [body] [--collection ID] [--priority P]   create an object (type: task|note|page|project|bookmark)
   add bookmark <url> [name] [--collection ID]      create a bookmark (url -> source; title/desc auto-fetched)
   bm <url> [name] [--collection ID]                shortcut for `add bookmark`
   collect <collection_id> <object_id>...           add existing object(s) to a collection
   ls [-t TYPE] [-q TEXT] [--open|--done] [--json]   list/search objects
   get <id> [--json]                                show one object (props + markdown)
-  set <id> [--name N] [--done|--undone] [--due YYYY-MM-DD] [--status S]   (body is create-only)
+  set <id> [--name N] [--icon EMOJI] [--done|--undone] [--due YYYY-MM-DD] [--status S] [--priority P]   (body is create-only)
            [--project ID ...]                      link to project(s) (repeat to add; replaces existing)
            [--unlink-projects]                     clear all linked projects
   rm <id>                                          delete an object
   types                                            list type keys in the space
+  init-priority                                    one-time: add the Priority field (High/Medium/Low) to the Task type
 EOF
       ;;
     *) echo "any: unknown verb '$verb' (try: any help)" >&2; exit 2 ;;
