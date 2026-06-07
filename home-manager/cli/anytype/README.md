@@ -100,6 +100,26 @@ Troubleshooting: connection refused → daemon down (`launchctl print gui/$(id -
 - **Select properties** (e.g. Task `status`) take the option's **tag id**, not its name —
   resolve via `GET /properties/{id}/tags`. `any set --status` does this case-insensitively.
 - **`false` checkboxes are omitted** from search results, so absent `done` == open.
+- **Bookmarks: URL goes in the `source` property, not the name.** Create with
+  `properties:[{key:"source",url:"…"}]` (name left empty). The daemon then asynchronously
+  fetches the page title (-> name) and description a second or two later. Putting the URL in
+  the name leaves `source` empty -> a dead card, no metadata. `any add bookmark <url>` / `any
+  bm <url>` handle this.
+- **The source relation isn't clickable in this daemon's bookmark layout** (the title banner
+  opens the link-to-object picker, not the URL; source isn't a featured relation). So `any bm`
+  also writes the URL into the **body** as a markdown link `[url](url)` — that's the reliably
+  clickable surface. Markdown links in a body render clickable; a bare URL stays plain text.
+- **Object create is idempotent on (type + source) for bookmarks.** Re-POSTing an existing
+  URL returns the *existing* object id and **ignores the new body** — it does not duplicate
+  and does not update. Footgun: a create-then-`rm`-by-returned-id "recreate" will delete the
+  original (the returned id == the original). To change a bookmark's body, `rm` first, *then*
+  create.
+- **Collection membership uses a different endpoint and body shape.** `POST
+  /v1/spaces/{sid}/lists/{collection_id}/objects` with body `{"objects":["id",...]}` — a
+  *bare* array 400s, and it must be `objects`/`data`-wrapped. Only Collections (manual lists);
+  a Set is query-defined. The **GET** list-objects endpoint 404s on this daemon version, so
+  membership can't be read back via the API — verify in the desktop. `any collect <coll> <id>…`
+  and `any add … --collection <id>` wrap the POST.
 
 ## Open TODOs
 

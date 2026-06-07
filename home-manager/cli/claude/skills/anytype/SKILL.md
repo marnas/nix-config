@@ -1,5 +1,5 @@
 ---
-description: Manage tasks, notes, projects, and pages in the user's self-hosted Anytype space. Use whenever the user wants to capture, list, look up, update, complete, or delete a task / todo / note / reminder ("add a task…", "note that…", "remind me to…", "what's in Anytype", "mark X done", "what are my open tasks").
+description: Manage tasks, notes, bookmarks, projects, and pages in the user's self-hosted Anytype space. Use whenever the user wants to capture, list, look up, update, complete, or delete a task / todo / note / reminder / bookmark ("add a task…", "note that…", "remind me to…", "save/bookmark this link", "what's in Anytype", "mark X done", "what are my open tasks").
 ---
 
 ## Tool
@@ -8,7 +8,9 @@ Use the `any` command (installed on PATH). It wraps the local Anytype REST API a
 targets the user's default space; credentials come from 1Password automatically.
 
 ```
-any add <type> "<name>" ["<body>"]                 create (type: task | note | page | project | bookmark)
+any add <type> "<name>" ["<body>"] [--collection ID]   create (type: task | note | page | project | bookmark)
+any bm <url> ["<name>"] [--collection ID]          capture a link as a bookmark (url -> source; title/desc auto-fetched)
+any collect <collection-id> <object-id>...         add existing object(s) to a collection
 any ls [-t TYPE] [-q "text"] [--open|--done] [--json]   list / search
 any get <id> [--json]                              full object (properties + markdown body)
 any set <id> [--name N] [--done|--undone] [--due YYYY-MM-DD] [--status S]   # body is create-only
@@ -34,6 +36,16 @@ Add `--json` when you need to parse fields precisely.
   `any set <new-id> --project <project-id>`. If nothing fits, ask the user whether to use an
   existing project or create a new one (`any add project "<Name>" "<one-line scope>"`) rather
   than leaving it unfiled. Items can carry more than one project — repeat `--project`.
+- **Links are bookmarks, never tasks.** A bare URL to read/triage later is NOT a todo —
+  capturing it as a `task` ("Check https://…") clutters the open-task list with non-actions.
+  Use `any bm <url>` instead: the URL goes in the `source` property (daemon asynchronously
+  fetches the page title + description — name is empty for a moment, then fills in) and also
+  into the body as a clickable `[url](url)` link (the source relation itself isn't clickable
+  in the current bookmark layout, so the body link is how you actually open the page).
+  File bookmarks in the **Bookmarks collection** (a Collection, not a project):
+  `any bm <url> --collection <bookmarks-collection-id>`. Resolve the id once with
+  `any ls -t collection -q Bookmarks`. Only make it a task if there's a real action ("read X
+  and decide whether to adopt it"), and even then link the bookmark for the source.
 - **Find before you modify:** to act on an existing item, first `any ls -t task -q "passport"`
   (or `--open`) to get its id, then `any set <id> --done`.
 - **Keep status in sync while working a task.** If you pick up a task from here and start

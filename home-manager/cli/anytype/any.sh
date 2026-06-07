@@ -41,13 +41,58 @@ fmt_table() {
     ] | @tsv'
 }
 
+# Bookmarks are special: the URL must go in the `source` property (NOT the name),
+# because the daemon watches that property and asynchronously fetches the page
+# title + description for you. Passing the URL as the name (the old footgun) leaves
+# `source` empty -> a dead card with no metadata. So `add bookmark` takes the url
+# positionally and an optional explicit name (leave empty to let the fetch fill it).
+# We ALSO write the URL into the body as a markdown link, because this daemon's
+# bookmark layout doesn't surface the (unfeatured) source relation as a clickable
+# element -- the body link is the only reliably clickable way to open the page.
+# Note: object create is idempotent on (type+source) for bookmarks -- re-creating an
+# existing URL returns the existing id and ignores the new body, so to change a
+# bookmark's body you must `rm` it first, then create.
+# `--collection ID` (any type) drops the new object into a collection after create.
 cmd_add() {
-  [ "$#" -ge 2 ] || { echo "usage: any add <type> <name> [body]" >&2; exit 2; }
-  local type="$1" name="$2" body="${3:-}"
-  local payload r
-  payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" '{type_key:$t,name:$n,body:$b}')"
+  local coll="" pos=()
+  while [ "$#" -gt 0 ]; do
+    case "$1" in
+      --collection) coll="$2"; shift 2 ;;
+      *) pos+=("$1"); shift ;;
+    esac
+  done
+  set -- ${pos[@]+"${pos[@]}"}
+  [ "$#" -ge 1 ] || { echo "usage: any add <type> <name> [body]   (bookmark: any add bookmark <url> [name])" >&2; exit 2; }
+  local type="$1"; shift
+  local payload r id label
+  if [ "$type" = "bookmark" ]; then
+    [ "$#" -ge 1 ] || { echo "usage: any add bookmark <url> [name]" >&2; exit 2; }
+    local url="$1" name="${2:-}"
+    payload="$(jq -n --arg n "$name" --arg u "$url" '{type_key:"bookmark",name:$n,body:("[\($u)](\($u))"),properties:[{key:"source",url:$u}]}')"
+    label="$url"
+  else
+    [ "$#" -ge 2 ] || { echo "usage: any add <type> <name> [body]" >&2; exit 2; }
+    local name="$2" body="${3:-}"
+    payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" '{type_key:$t,name:$n,body:$b}')"
+    label="$name"
+  fi
   r="$(api POST "/v1/spaces/$SID/objects" "$payload")"
-  echo "Created $type \"$name\" → $(jq -r '.object.id' <<<"$r")"
+  id="$(jq -r '.object.id' <<<"$r")"
+  echo "Created $type \"$label\" → $id"
+  if [ -n "$coll" ]; then
+    api POST "/v1/spaces/$SID/lists/$coll/objects" "$(jq -nc --arg i "$id" '{objects:[$i]}')" >/dev/null
+    echo "  added to collection $coll"
+  fi
+}
+
+# Add existing object(s) to a collection (Anytype "list"). Collections only — a Set
+# is query-defined and has no manual membership.
+cmd_collect() {
+  [ "$#" -ge 2 ] || { echo "usage: any collect <collection_id> <object_id>..." >&2; exit 2; }
+  local coll="$1"; shift
+  local ids; ids="$(printf '%s\n' "$@" | jq -R . | jq -cs '{objects:.}')"
+  api POST "/v1/spaces/$SID/lists/$coll/objects" "$ids" >/dev/null
+  echo "Added $# object(s) to collection $coll"
 }
 
 cmd_ls() {
@@ -170,6 +215,8 @@ main() {
   local verb="${1:-help}"; shift || true
   case "$verb" in
     add) load_creds; cmd_add "$@" ;;
+    bm) load_creds; cmd_add bookmark "$@" ;;
+    collect) load_creds; cmd_collect "$@" ;;
     ls|list) load_creds; cmd_ls "$@" ;;
     get) load_creds; cmd_get "$@" ;;
     set) load_creds; cmd_set "$@" ;;
@@ -180,7 +227,10 @@ main() {
 any — manage objects in your self-hosted Anytype space
   any [--space ID] <verb> ...                      target a different space (default: your space_id)
 
-  add <type> <name> [body]                         create an object (type: task|note|page|project|bookmark)
+  add <type> <name> [body] [--collection ID]       create an object (type: task|note|page|project|bookmark)
+  add bookmark <url> [name] [--collection ID]      create a bookmark (url -> source; title/desc auto-fetched)
+  bm <url> [name] [--collection ID]                shortcut for `add bookmark`
+  collect <collection_id> <object_id>...           add existing object(s) to a collection
   ls [-t TYPE] [-q TEXT] [--open|--done] [--json]   list/search objects
   get <id> [--json]                                show one object (props + markdown)
   set <id> [--name N] [--done|--undone] [--due YYYY-MM-DD] [--status S]   (body is create-only)
