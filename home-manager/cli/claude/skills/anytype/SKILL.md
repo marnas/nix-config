@@ -4,10 +4,11 @@ description: Manage tasks, notes, bookmarks, projects, and pages in the user's s
 
 ## Tool
 
-Use the `any` command (installed on PATH). It wraps the local Anytype REST API and
-targets the user's default space; it fetches the API key (+ space id / api version) from the
-self-hosted Infisical at call time via `infisical-token`, so there's no per-call 1Password
-prompt (the bot account key still lives in 1Password for the `serve` daemon).
+Use the `any` command (installed on PATH). It calls the self-hosted Anytype REST API — served
+by one central `anytype-cli serve` bot node in the cluster, reached over the tailnet at
+`https://api.anytype.marnas.sh` (no per-machine daemon) — and targets the user's default space.
+It fetches the API key (+ space id / api version) from the self-hosted Infisical at call time
+via `infisical-token`, so there's no per-call 1Password prompt.
 
 ```
 any add <type> "<name>" ["<body>"] [--collection ID] [--priority P]   create (type: task | note | page | project | bookmark)
@@ -61,7 +62,7 @@ leaves the list checkbox `[ ]`, so the task still reads as open at a glance.
   the project and read its linked tasks (the `linked_projects` backlinks) — keep it that simple.
 - **Links are bookmarks, never tasks.** A bare URL to read/triage later is NOT a todo —
   capturing it as a `task` ("Check https://…") clutters the open-task list with non-actions.
-  Use `any bm <url>` instead: the URL goes in the `source` property (daemon asynchronously
+  Use `any bm <url>` instead: the URL goes in the `source` property (the bot node asynchronously
   fetches the page title + description — name is empty for a moment, then fills in) and also
   into the body as a clickable `[url](url)` link (the source relation isn't clickable in the
   current desktop bookmark layout, so the body link is how you open the page on desktop;
@@ -95,8 +96,9 @@ leaves the list checkbox `[ ]`, so the task still reads as open at a glance.
 
 ## If it fails
 
-- Connection refused / no response → the daemon is down. Check `systemctl --user status anytype-cli`
-  and restart with `systemctl --user restart anytype-cli`.
+- Connection refused / no response / DNS failure → the central bot node is unreachable. The API
+  is tailnet-only at `api.anytype.marnas.sh`, so first confirm this machine is on the tailnet;
+  then check the cluster node: `kubectl -n anytype get pods -l app=anytype-cli` and its logs.
 - `401 invalid api key` → the API key is stale; regenerate with `anytype-cli auth apikey create
   <name>` and update the `ANYTYPE_APIKEY` secret in Infisical (project `claude`, path `/anytype`).
 - Infisical/auth errors (e.g. `Project ID is required`, empty token) → the bootstrap is off:

@@ -1,5 +1,6 @@
-# Tier-1 CLI over the self-hosted Anytype Local REST API (served by `anytype-cli
-# serve` on 127.0.0.1:31012). Operates on your default space (id from Infisical,
+# Tier-1 CLI over the self-hosted Anytype REST API, served by the central `anytype-cli
+# serve` bot node in the cluster and reached over the tailnet at api.anytype.marnas.sh
+# (no per-machine daemon). Operates on your default space (id from Infisical,
 # secret `ANYTYPE_SPACE_ID`); override per-call with `any --space <id> <verb> ...`.
 # Credentials/config are fetched from the self-hosted Infisical at call time (project
 # `claude`, path /anytype) using a short-lived machine-identity token from
@@ -57,7 +58,7 @@ load_creds() {
          "(project=claude env=${INFISICAL_ENV:-prod} path=/anytype)" >&2
     exit 1
   fi
-  BASE="http://127.0.0.1:31012"
+  BASE="https://api.anytype.marnas.sh"
 }
 
 api() { # api METHOD PATH [BODY]
