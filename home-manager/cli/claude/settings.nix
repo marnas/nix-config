@@ -33,6 +33,9 @@
       GIT_CONFIG_VALUE_2 = "${pkgs.git-agent}/bin/git-ssh";
     };
 
+    # All Claude permissions live HERE, declaratively: no per-project
+    # .claude/settings.json files, and no host- or folder-specific rules in
+    # this list — keep every rule generic across machines and repos.
     permissions = {
       allow = [
         "Read(**)"
@@ -44,7 +47,8 @@
 
         # Filesystem inspection
         "Bash(ls:*)"
-        "Bash(find:*)"
+        # No `find` — `-exec`/`-delete` make it arbitrary execution; fd covers
+        # every read-only use.
         "Bash(fd:*)"
         "Bash(tree:*)"
         "Bash(pwd)"
@@ -166,15 +170,17 @@
         "Bash(nix-store --query:*)"
         "Bash(nix build --no-link:*)"
         "Bash(nix repl:*)"
+        # Writes, but only canonical formatting — required on every touched
+        # .nix file anyway, so prompting for it is pure friction.
+        "Bash(nix run nixpkgs#nixfmt:*)"
 
         # Anytype management (the `any` skill CLI — capture/list/update/close
         # objects in the self-hosted space on my behalf, incl. recreate + rm).
         "Bash(any:*)"
 
-        # Misc
+        # Misc — no xargs (runs arbitrary commands, voiding the read-only list)
+        # and no chmod (state-changing, rare under Nix anyway).
         "Bash(ffprobe:*)"
-        "Bash(xargs:*)"
-        "Bash(chmod:*)"
       ];
 
       ask = [
