@@ -45,7 +45,22 @@ writeShellApplication {
   name = "claude-usage-refresh";
   runtimeInputs = [ ccstatusline ];
   text = ''
+    cache="$HOME/.cache/ccstatusline/usage.json"
     stub='{"model":{"display_name":"x"},"workspace":{"current_dir":"."},"context_window":{"context_window_size":200000,"current_usage":{"input_tokens":0}}}'
-    printf '%s' "$stub" | ccstatusline --config ${config} >/dev/null 2>&1 || exit 0
+    printf '%s' "$stub" | ccstatusline --config ${config} >/dev/null 2>&1 || true
+
+    # ccstatusline keeps serving the last-good cache and self-imposes a backoff
+    # lock when the OAuth usage endpoint times out / rate-limits, so a failed
+    # fetch is invisible from its exit status. Surface staleness ourselves: if
+    # the cache is older than two refresh intervals (~8min), the API has been
+    # unreachable and the tmux widget is showing a stale block. stat -c is GNU
+    # (Linux), stat -f is BSD (macOS).
+    if [ -r "$cache" ]; then
+      mtime=$(stat -c %Y "$cache" 2>/dev/null || stat -f %m "$cache" 2>/dev/null || echo 0)
+      age=$(( $(date +%s) - mtime ))
+      if [ "$age" -gt 480 ]; then
+        echo "claude-usage-refresh: usage cache is ''${age}s stale; OAuth usage API unreachable, widget will show 'usage: stale'" >&2
+      fi
+    fi
   '';
 }

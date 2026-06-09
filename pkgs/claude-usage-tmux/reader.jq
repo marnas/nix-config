@@ -23,7 +23,15 @@ else
   # strip the fraction and normalize the offset to Z so fromdateiso8601 parses it.
   | (.sessionResetAt | sub("\\.[0-9]+"; "") | sub("\\+00:00$"; "Z") | fromdateiso8601) as $reset
   | (($reset - now) / 60 | floor) as $mins
-  # One-decimal percent without relying on a printf float (matches .toFixed(1)).
-  | ($u * 10 | round) as $t
-  | "Session: \($t / 10 | floor).\($t % 10)% | Reset: \(fmt($mins))"
+  # A live 5h block always resets in the future. A past reset means no fresh
+  # fetch happened after the block rolled over (the usage API was unreachable),
+  # so the cached %/reset are stale — render an unmistakable marker rather than a
+  # plausible-but-wrong number. See claude-usage-refresh: the cache can freeze
+  # when the OAuth usage endpoint times out / rate-limits.
+  | if $mins < 0 then "usage: stale"
+    else
+      # One-decimal percent without relying on a printf float (matches .toFixed(1)).
+      ($u * 10 | round) as $t
+      | "Session: \($t / 10 | floor).\($t % 10)% | Reset: \(fmt($mins))"
+    end
 end

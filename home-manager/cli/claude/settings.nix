@@ -14,7 +14,24 @@
       padding = 0;
     };
 
-    env = { };
+    # Give Claude its own git identity via a session ssh-agent keyed from Infisical, instead
+    # of 1Password's op-ssh-sign — so neither signing nor pushing raises a biometric prompt.
+    # Scoped to Claude only via these GIT_CONFIG_* overrides; human git (op-ssh-sign + the
+    # signing key in git.nix) is untouched. The DEDICATED agent key (private half in Infisical
+    # as GIT_SSH_KEY, public half below) keeps agent-authored commits attributable; add
+    # this pubkey to git.marnas.sh (push + SSH-signature verification) and GitHub (signing).
+    #   KEY_0  signer            → git-sign-agent (commit signing through the agent)
+    #   KEY_1  user.signingkey   → the agent key's public half
+    #   KEY_2  core.sshCommand   → git-ssh (push/fetch auth through the same agent)
+    env = {
+      GIT_CONFIG_COUNT = "3";
+      GIT_CONFIG_KEY_0 = "gpg.ssh.program";
+      GIT_CONFIG_VALUE_0 = "${pkgs.git-agent}/bin/git-sign-agent";
+      GIT_CONFIG_KEY_1 = "user.signingkey";
+      GIT_CONFIG_VALUE_1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOxIKSHOW5ERkTSIlbD9SfJcAmgY75ETYnioTJGpBga+";
+      GIT_CONFIG_KEY_2 = "core.sshCommand";
+      GIT_CONFIG_VALUE_2 = "${pkgs.git-agent}/bin/git-ssh";
+    };
 
     permissions = {
       allow = [
@@ -149,6 +166,10 @@
         "Bash(nix-store --query:*)"
         "Bash(nix build --no-link:*)"
         "Bash(nix repl:*)"
+
+        # Anytype management (the `any` skill CLI — capture/list/update/close
+        # objects in the self-hosted space on my behalf, incl. recreate + rm).
+        "Bash(any:*)"
 
         # Misc
         "Bash(ffprobe:*)"

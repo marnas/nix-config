@@ -44,6 +44,7 @@ in
 
       # Claude
       c = "claude";
+      ca = "claude --permission-mode auto";
       cr = "claude --resume";
 
       # Git aliases
