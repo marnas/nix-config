@@ -25,11 +25,10 @@ in
 {
   systemd.user = lib.mkIf pkgs.stdenv.isLinux {
     services.claude-usage-cache = {
-      Unit = {
-        Description = "Warm the Claude usage cache for the tmux status widget";
-        After = [ "network-online.target" ];
-        Wants = [ "network-online.target" ];
-      };
+      # No network-online.target dependency: that target doesn't exist in the
+      # systemd *user* manager, so it was inert. A fetch before network-up just
+      # fails quietly and the 4-min timer retries.
+      Unit.Description = "Warm the Claude usage cache for the tmux status widget";
       Service = {
         Type = "oneshot";
         ExecStart = warmCmd;

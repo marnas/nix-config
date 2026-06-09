@@ -98,9 +98,6 @@
       # Standalone home-manager configuration entrypoint
       # Available through 'home-manager --flake .#your-username@your-hostname'
       homeConfigurations = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-
         "marnas@nixos" = home-manager.lib.homeManagerConfiguration {
           #inherit pkgs;
           pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance

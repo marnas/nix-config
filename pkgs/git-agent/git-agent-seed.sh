@@ -54,7 +54,10 @@ if [ "$rc" -eq 1 ]; then
     echo "git-agent-seed: could not fetch GIT_SSH_KEY from Infisical (project=claude path=/git)" >&2
     exit 1
   }
-  printf '%s\n' "$key" | ssh-add - >/dev/null 2>&1 || {
+  # -t 8h: any same-user process can use the agent socket, so bound how long
+  # the key sits loaded. Expiry is free — `ssh-add -l` then returns 1 and the
+  # next caller re-seeds without a prompt.
+  printf '%s\n' "$key" | ssh-add -t 8h - >/dev/null 2>&1 || {
     echo "git-agent-seed: ssh-add rejected the key material (must be an unencrypted OpenSSH private key)" >&2
     exit 1
   }
