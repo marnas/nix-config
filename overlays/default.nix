@@ -24,6 +24,29 @@
     openldap = prev.openldap.overrideAttrs (_: {
       doCheck = !prev.stdenv.hostPlatform.isi686;
     });
+
+    # Pin claude-code ahead of nixpkgs-unstable (which lags the upstream release).
+    # Mirrors the package's own platformKey logic; checksums are the hex sha256s
+    # from https://downloads.claude.ai/claude-code-releases/<version>/manifest.json.
+    # Drop this once nixpkgs catches up.
+    claude-code =
+      let
+        version = "2.1.170";
+        checksums = {
+          "darwin-arm64" = "e903646d8b7a31882a80ecd27569a27d8ac57b3708745f349709632c84117fdf";
+          "darwin-x64" = "914f23a70bbed5d9ae567e3e04b86206ed9971b371bc9baca3f79c8885bfddb4";
+          "linux-arm64" = "1bb9d032440a75532f7dd4cafbc687f220aaf16c63eba17e192dfbec2f04bd25";
+          "linux-x64" = "849e007277a0442ab27570d3e3d6d43787507946590e8dd1947e5a39b7081f9e";
+        };
+        platformKey = "${prev.stdenv.hostPlatform.node.platform}-${prev.stdenv.hostPlatform.node.arch}";
+      in
+      prev.claude-code.overrideAttrs {
+        inherit version;
+        src = prev.fetchurl {
+          url = "https://downloads.claude.ai/claude-code-releases/${version}/${platformKey}/claude";
+          sha256 = checksums.${platformKey};
+        };
+      };
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

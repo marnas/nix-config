@@ -6,7 +6,7 @@
     includeCoAuthoredBy = false;
     cleanupPeriodDays = 30;
     autoUpdates = false;
-    model = "opus";
+    model = "fable";
 
     statusLine = {
       type = "command";
