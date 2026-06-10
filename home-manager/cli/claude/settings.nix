@@ -24,6 +24,11 @@
     #   KEY_1  user.signingkey   → the agent key's public half
     #   KEY_2  core.sshCommand   → git-ssh (push/fetch auth through the same agent)
     env = {
+      # Agent teams (experimental): lead session spawns independent teammate
+      # sessions; teammateMode "auto" puts each in its own tmux pane when the
+      # lead already runs inside tmux, in-process otherwise.
+      CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+
       GIT_CONFIG_COUNT = "3";
       GIT_CONFIG_KEY_0 = "gpg.ssh.program";
       GIT_CONFIG_VALUE_0 = "${pkgs.git-agent}/bin/git-sign-agent";
@@ -183,11 +188,18 @@
         "Bash(ffprobe:*)"
       ];
 
+      # Keep this list minimal: an explicit `ask` overrides the permission
+      # mode, forcing a prompt even in auto/acceptEdits — so everything not
+      # listed here flows under the active mode. Force pushes are the one
+      # deterministic railguard (history rewrite on a remote); other
+      # remote-mutating commands are handled by the auto-mode classifier and
+      # the autoMode.soft_deny rule below. A `*` spans spaces, so these four
+      # patterns cover --force / --force-with-lease / -f in any position.
       ask = [
-        "Edit(**)"
-        "Write(**)"
-        "Bash(:*:*)"
-        "NotebookEdit(**)"
+        "Bash(git push --force*)"
+        "Bash(git push * --force*)"
+        "Bash(git push -f*)"
+        "Bash(git push * -f*)"
       ];
 
       deny = [
