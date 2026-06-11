@@ -4,6 +4,7 @@
   imports = [
     ./claude-local.nix
     ./goose.nix
+    ./ollama.nix
     ./opencode.nix
     ./qwen-code.nix
   ];

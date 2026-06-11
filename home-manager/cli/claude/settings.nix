@@ -6,7 +6,7 @@
     includeCoAuthoredBy = false;
     cleanupPeriodDays = 30;
     autoUpdates = false;
-    model = "fable";
+    model = if pkgs.stdenv.isDarwin then "opus" else "fable";
 
     statusLine = {
       type = "command";
