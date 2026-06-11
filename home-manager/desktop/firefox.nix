@@ -71,7 +71,10 @@
         skip-redirect
         sponsorblock
         temporary-containers
-        translate-web-pages
+        # translate-web-pages removed: TWP injects translated text nodes next to the
+        # originals, which doubles every label/amount on dynamic apps (seen on YNAB)
+        # when the translation equals the source. Firefox's built-in local translator
+        # covers the use case without cloud calls.
         ublock-origin
         vimium
       ];
@@ -80,6 +83,10 @@
         "browser.startup.homepage" = lib.mkForce "about:home";
         "browser.startup.page" = lib.mkForce 1; # 1 = homepage (overrides arkenfox which sets 0 = blank)
         "general.autoScroll" = true;
+
+        # Built-in translator: keep available on demand, but never offer/translate
+        # automatically (auto-translation mangles dynamic web apps).
+        "browser.translations.automaticallyPopup" = false;
 
         # Performance optimizations
         "gfx.webrender.all" = true;
