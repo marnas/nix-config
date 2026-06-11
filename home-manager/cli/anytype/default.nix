@@ -11,10 +11,10 @@ let
   # overrides per call. Script body lives in ./any.sh; curl/jq are put on PATH by
   # writeShellApplication (which also shellchecks it at build).
   #
-  # `infisical` + `infisical-token` are deliberately NOT in runtimeInputs: they live in
-  # home.packages (see ../infisical) and the script inherits them from PATH. The token
-  # mint inside `infisical-token` in turn shells out to the platform-wrapped `op` from
-  # PATH (1Password desktop integration only works through that wrapper, not the plain
+  # `infisical-secrets` is deliberately NOT in runtimeInputs: it lives in home.packages
+  # (see ../infisical) and the script inherits it from PATH. The token mint inside it
+  # (via `infisical-token`) in turn shells out to the platform-wrapped `op` from PATH
+  # (1Password desktop integration only works through that wrapper, not the plain
   # nixpkgs CLI). Net: `any` no longer prompts 1Password per call — the apikey is fetched
   # from Infisical at call time and discarded; `op` is hit at most once per boot.
   any = pkgs.writeShellApplication {

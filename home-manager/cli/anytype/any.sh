@@ -3,55 +3,21 @@
 # (no per-machine daemon). Operates on your default space (id from Infisical,
 # secret `ANYTYPE_SPACE_ID`); override per-call with `any --space <id> <verb> ...`.
 # Credentials/config are fetched from the self-hosted Infisical at call time (project
-# `claude`, path /anytype) using a short-lived machine-identity token from
-# `infisical-token`, then DISCARDED when this process exits — nothing secret on disk and
-# (unlike the old `op item get`) no per-call 1Password prompt. shebang + `set -euo
-# pipefail` are injected by writeShellApplication, so this file starts at the functions.
-# `infisical` + `infisical-token` are inherited from PATH (home.packages), same as `op`.
-
-# extract a secret value from `infisical export --format=json` output, tolerating both
-# the array-of-{key,value} and the flat-object shapes.
-ival() { jq -r --arg k "$1" 'if type=="array" then (.[]|select(.key==$k)|.value) else .[$k] end // empty'; }
-
-# Pull the /anytype secrets from Infisical with the given access token. The token goes via
-# the INFISICAL_TOKEN env var, never `--token`, so it stays out of the process command line.
-fetch_secrets() { # fetch_secrets TOKEN PID
-  INFISICAL_TOKEN="$1" infisical export --format=json --silent \
-    --domain "${INFISICAL_API_URL:-https://infisical.marnas.sh/api}" \
-    --projectId "$2" --env "${INFISICAL_ENV:-prod}" --path /anytype
-}
+# `claude`, path /anytype) via `infisical-secrets`, then DISCARDED when this process
+# exits — nothing secret on disk and (unlike the old `op item get`) no per-call 1Password
+# prompt. shebang + `set -euo pipefail` are injected by writeShellApplication, so this
+# file starts at the functions. `infisical-secrets` is inherited from PATH
+# (home.packages, see ../infisical), same as `op`.
 
 load_creds() {
-  local token pid secrets errf
-  token="$(infisical-token)"
-  pid="$(infisical-token --field projectId)"
-  # Use the cached token until the server rejects it (we don't track its TTL). If export
-  # fails and the error looks like an auth rejection, re-mint once and retry; any other
-  # failure (network, project-id) is surfaced as-is rather than triggering a needless mint.
-  errf="$(mktemp)"
-  if ! secrets="$(fetch_secrets "$token" "$pid" 2>"$errf")"; then
-    if grep -qiE '401|unauthor|forbidden|invalid.*token|token.*(expired|invalid)|expired' "$errf"; then
-      token="$(infisical-token --refresh)"
-      if ! secrets="$(fetch_secrets "$token" "$pid" 2>"$errf")"; then
-        echo "any: infisical export failed after token refresh:" >&2
-        cat "$errf" >&2
-        rm -f "$errf"
-        exit 1
-      fi
-    else
-      echo "any: infisical export failed:" >&2
-      cat "$errf" >&2
-      rm -f "$errf"
-      exit 1
-    fi
-  fi
-  rm -f "$errf"
-  APIKEY="$(ival ANYTYPE_APIKEY <<<"$secrets")"
-  VER="$(ival ANYTYPE_API_VERSION <<<"$secrets")"
+  local secrets
+  secrets="$(infisical-secrets /anytype)"
+  APIKEY="$(jq -r '.ANYTYPE_APIKEY // empty' <<<"$secrets")"
+  VER="$(jq -r '.ANYTYPE_API_VERSION // empty' <<<"$secrets")"
   if [ -n "${SPACE_OVERRIDE:-}" ]; then
     SID="$SPACE_OVERRIDE"
   else
-    SID="$(ival ANYTYPE_SPACE_ID <<<"$secrets")"
+    SID="$(jq -r '.ANYTYPE_SPACE_ID // empty' <<<"$secrets")"
   fi
   if [ -z "$APIKEY" ] || [ -z "$VER" ] || [ -z "$SID" ]; then
     echo "any: missing ANYTYPE_APIKEY/ANYTYPE_API_VERSION/ANYTYPE_SPACE_ID in Infisical" \
