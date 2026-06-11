@@ -97,6 +97,13 @@ in the desktop is cosmetic (the id is stable), so the tooling is unaffected.
   and does not update. Footgun: a create-then-`rm`-by-returned-id "recreate" will delete the
   original (the returned id == the original). To change a bookmark's body, `rm` first, *then*
   create.
+- **REST `create` ignores the type's default template.** The desktop applies a type's
+  default template on create (so layout-width and other template defaults carry over); the
+  REST `POST /objects` does not — objects come out with the built-in narrow layout. Pass
+  `template_id` in the create body to match desktop behaviour. The default template is the
+  type's **blank** template (empty `name`) returned by `GET /types/{id}/templates`; that's
+  the one whose layout-width slider you edit to set a type-wide width. `any add` auto-resolves
+  and applies it; `--template ID` overrides, `--template ""` opts out.
 - **Collection membership uses a different endpoint and body shape.** `POST
   /v1/spaces/{sid}/lists/{collection_id}/objects` with body `{"objects":["id",...]}` — a
   *bare* array 400s, and it must be `objects`/`data`-wrapped. Only Collections (manual lists);

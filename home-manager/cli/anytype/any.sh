@@ -108,13 +108,32 @@ fmt_table() {
 # Note: object create is idempotent on (type+source) for bookmarks -- re-creating an
 # existing URL returns the existing id and ignores the new body, so to change a
 # bookmark's body you must `rm` it first, then create.
+# Resolve a type's DEFAULT template id from its type key, or empty if none. The REST
+# `create` endpoint ignores a type's default template — objects come out with the built-in
+# narrow layout, unlike the desktop, which applies the default template (so layout-width
+# and other template defaults are lost). We replicate the desktop by passing template_id on
+# create. Anytype's default is the type's BLANK template (the one with an empty name — and
+# the one whose layout-width slider the user edits to set a type-wide width); we pick that.
+# Best-effort: any failure (network, no templates, unknown type) yields empty -> plain
+# create, the prior behaviour, so this never blocks object creation.
+resolve_default_template() { # resolve_default_template TYPE_KEY -> template id | empty
+  local tid
+  tid="$(api GET "/v1/spaces/$SID/types?limit=200" | jq -r --arg k "$1" '.data[]|select(.key==$k)|.id')" || return 0
+  [ -n "$tid" ] || return 0
+  api GET "/v1/spaces/$SID/types/$tid/templates?limit=100" \
+    | jq -r '[.data[]|select(.name=="")][0].id // empty' || return 0
+}
+
 # `--collection ID` (any type) drops the new object into a collection after create.
+# `--template ID` overrides the auto-resolved default template (use `--template ""` to opt
+# out and create a bare object).
 cmd_add() {
-  local coll="" prio="" pos=()
+  local coll="" prio="" tpl="" tpl_set=0 pos=()
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --collection) coll="$2"; shift 2 ;;
       --priority) prio="$2"; shift 2 ;;
+      --template) tpl="$2"; tpl_set=1; shift 2 ;;
       *) pos+=("$1"); shift ;;
     esac
   done
@@ -130,6 +149,10 @@ cmd_add() {
   else
     [ "$#" -ge 1 ] || { echo "usage: any add <type> <name> [body]" >&2; exit 2; }
     local name="$1" body="${2:-}"
+    # Apply the type's default (blank) template so layout-width and other template defaults
+    # match desktop-created objects. Explicit --template (incl. --template "" to opt out)
+    # wins; otherwise auto-resolve. tpl="" => no template_id in the payload.
+    [ "$tpl_set" = 1 ] || tpl="$(resolve_default_template "$type" || true)"
     if [ "$type" = "task" ]; then
       # New tasks default to "To Do" so they never land statusless (blank) — they show up
       # in the To-Do/open views immediately. Override later with `any set --status`.
@@ -141,11 +164,12 @@ cmd_add() {
         local pr; pr="$(resolve_priority "$prio")" || exit 2
         props="$(jq -c --arg k "${pr%%$'\t'*}" --arg p "${pr##*$'\t'}" '. + [{key:$k,select:$p}]' <<<"$props")"
       fi
-      payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" --argjson pr "$props" \
-        '{type_key:$t,name:$n,body:$b,properties:$pr}')"
+      payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" --argjson pr "$props" --arg tpl "$tpl" \
+        '{type_key:$t,name:$n,body:$b,properties:$pr} + (if $tpl=="" then {} else {template_id:$tpl} end)')"
     else
       [ -n "$prio" ] && { echo "add: --priority only applies to tasks" >&2; exit 2; }
-      payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" '{type_key:$t,name:$n,body:$b}')"
+      payload="$(jq -n --arg t "$type" --arg n "$name" --arg b "$body" --arg tpl "$tpl" \
+        '{type_key:$t,name:$n,body:$b} + (if $tpl=="" then {} else {template_id:$tpl} end)')"
     fi
     label="$name"
   fi
@@ -373,7 +397,8 @@ main() {
 any — manage objects in your self-hosted Anytype space
   any [--space ID] <verb> ...                      target a different space (default: your space_id)
 
-  add <type> <name> [body] [--collection ID] [--priority P]   create an object (type: task|note|page|project|bookmark)
+  add <type> <name> [body] [--collection ID] [--priority P] [--template ID]   create an object (type: task|note|page|project|bookmark)
+           (auto-applies the type's default/blank template so layout width matches desktop; --template "" opts out)
   add bookmark <url> [name] [--collection ID]      create a bookmark (url -> source; title/desc auto-fetched)
   bm <url> [name] [--collection ID]                shortcut for `add bookmark`
   collect <collection_id> <object_id>...           add existing object(s) to a collection
