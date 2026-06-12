@@ -17,6 +17,7 @@ actual txns [--since YYYY-MM-DD] [--account ID] [--uncategorized] [--json]
 actual categorize <txn_id> <category_id>               set one transaction's category
 actual categorize --stdin                              bulk: [{"id":..,"category":..,"notes"?:..},...] on stdin
 actual note <txn_id> <text>                            set a transaction's notes
+actual link-transfer <keep_txn_id> <dupe_txn_id>       merge two imported legs of one transfer (deletes the dupe)
 actual months                                          list budget months (YYYY-MM)
 actual budget [YYYY-MM]                                 month totals + per-category budgeted/spent/balance
 actual set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units)
@@ -50,7 +51,10 @@ Amounts in tables are currency units (outflows negative); raw `--json` amounts a
   its payee (one-offs, opaque payees like PayPal, reimbursements), record what the user
   says about it: `notes` in the `categorize --stdin` batch, or `actual note <id> <text>`.
 - **Leave transfers and split parents alone.** `txns` already inlines split children
-  (categorize each child); transfers legitimately have no category.
+  (categorize each child); transfers legitimately have no category. When both legs of
+  one transfer were imported separately (typical for credit-card payments: equal and
+  opposite amounts in two accounts), merge them with `link-transfer`, keeping the
+  bank-account leg.
 - **Propose structure changes before applying them.** List the intended
   groups/categories first, `add-*`/`rm-*` after the user agrees. The `rm-*` verbs are
   destructive (no undo); when deleting a category that has transactions, pass a

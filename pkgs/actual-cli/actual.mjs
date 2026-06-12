@@ -276,6 +276,36 @@ async function cmdAddCategory(args) {
   );
 }
 
+// Link two separately-imported legs of the same transfer (e.g. a credit-card payment
+// imported on both accounts). The duplicate leg is deleted first, then the kept leg's
+// payee is set to the other account's transfer payee — core reacts by creating the
+// linked mirror transaction, so the pair shows as one transfer in Actual.
+async function cmdLinkTransfer(args) {
+  if (args.length !== 2) die('usage: actual link-transfer <keep_txn_id> <dupe_txn_id>', 2);
+  const [keepId, dupeId] = args;
+  await withBudget(
+    async () => {
+      const { data } = await api.aqlQuery(
+        api
+          .q('transactions')
+          .filter({ id: { $oneof: [keepId, dupeId] } })
+          .select(['id', 'account', 'amount']),
+      );
+      const keep = data.find((t) => t.id === keepId);
+      const dupe = data.find((t) => t.id === dupeId);
+      if (!keep || !dupe) die('link-transfer: transaction(s) not found');
+      if (keep.account === dupe.account) die('link-transfer: both legs are in the same account');
+      if (keep.amount !== -dupe.amount) die('link-transfer: amounts are not equal-and-opposite');
+      const transferPayee = (await api.getPayees()).find((p) => p.transfer_acct === dupe.account);
+      if (!transferPayee) die('link-transfer: no transfer payee found for the other account');
+      await api.deleteTransaction(dupeId);
+      await api.updateTransaction(keepId, { payee: transferPayee.id, category: null });
+      print(`Linked ${keepId} as a transfer to "${transferPayee.name}"; deleted duplicate ${dupeId}`);
+    },
+    { mutates: true },
+  );
+}
+
 async function cmdRenameCategory(args) {
   if (args.length !== 2) die('usage: actual rename-category <category_id> <name>', 2);
   await withBudget(
@@ -348,6 +378,7 @@ const HELP = `actual — manage your Actual Budget via the official API
   categorize <txn_id> <category_id>               set a transaction's category
   categorize --stdin                              bulk: [{"id":..,"category":..,"notes"?:..},...] on stdin
   note <txn_id> <text>                            set a transaction's notes
+  link-transfer <keep_txn_id> <dupe_txn_id>       merge two imported legs of one transfer (deletes the dupe)
   months                                          list budget months (YYYY-MM)
   budget [YYYY-MM]                                month totals + per-category budgeted/spent/balance
   set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units) for a category
@@ -369,6 +400,7 @@ const verbs = {
   txns: cmdTxns,
   categorize: cmdCategorize,
   note: cmdNote,
+  'link-transfer': cmdLinkTransfer,
   months: cmdMonths,
   budget: cmdBudget,
   'set-budget': cmdSetBudget,
