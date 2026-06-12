@@ -18,6 +18,7 @@ actual categorize <txn_id> <category_id>               set one transaction's cat
 actual categorize --stdin                              bulk: [{"id":..,"category":..,"notes"?:..},...] on stdin
 actual note <txn_id> <text>                            set a transaction's notes
 actual link-transfer <keep_txn_id> <dupe_txn_id>       merge two imported legs of one transfer (deletes the dupe)
+actual add-txn <account_id> <date> <amount> [--payee NAME] [--category ID] [--notes TEXT] [--cleared]
 actual months                                          list budget months (YYYY-MM)
 actual budget [YYYY-MM]                                 month totals + per-category budgeted/spent/balance
 actual set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units)
@@ -61,6 +62,10 @@ Amounts in tables are currency units (outflows negative); raw `--json` amounts a
   transfer category id so they don't fall back to uncategorized.
 - **Bank import is `actual sync`**, run it when the user asks to refresh/import
   transactions, then continue with the categorization loop.
+- **Reconciling:** compare `accounts` against the real-world balance the user reports;
+  book the difference with `add-txn --cleared` — payee `Starting Balance`, category
+  `Starting Balances` when it represents history predating the import window, otherwise
+  a categorized adjustment the user agrees to.
 - **Report back** counts and what changed; the server sync at the end of each mutating
   call propagates to the user's Actual apps automatically.
 

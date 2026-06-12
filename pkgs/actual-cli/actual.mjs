@@ -276,6 +276,44 @@ async function cmdAddCategory(args) {
   );
 }
 
+// Manual transaction entry — reconciliation adjustments, starting balances, cash
+// spends. Amount is in currency units (negative = outflow). learnCategories and
+// runTransfers stay off: a manual entry should never train rules or spawn transfers.
+async function cmdAddTxn(args) {
+  const pos = [];
+  let payee = null;
+  let category = null;
+  let notes = null;
+  let cleared = false;
+  while (args.length > 0) {
+    const a = args.shift();
+    if (a === '--payee') payee = args.shift();
+    else if (a === '--category') category = args.shift();
+    else if (a === '--notes') notes = args.shift();
+    else if (a === '--cleared') cleared = true;
+    else if (a.startsWith('--')) die(`add-txn: unknown arg ${a}`, 2);
+    else pos.push(a);
+  }
+  if (pos.length !== 3) {
+    die(
+      'usage: actual add-txn <account_id> <YYYY-MM-DD> <amount> [--payee NAME] [--category ID] [--notes TEXT] [--cleared]',
+      2,
+    );
+  }
+  const [account, date, amount] = pos;
+  await withBudget(
+    async () => {
+      const t = { date, amount: Math.round(Number(amount) * 100), cleared };
+      if (payee) t.payee_name = payee;
+      if (category) t.category = category;
+      if (notes) t.notes = notes;
+      await api.addTransactions(account, [t], { learnCategories: false, runTransfers: false });
+      print(`Added ${amount} to ${account} on ${date}`);
+    },
+    { mutates: true },
+  );
+}
+
 // Link two separately-imported legs of the same transfer (e.g. a credit-card payment
 // imported on both accounts). The duplicate leg is deleted first, then the kept leg's
 // payee is set to the other account's transfer payee — core reacts by creating the
@@ -379,6 +417,8 @@ const HELP = `actual — manage your Actual Budget via the official API
   categorize --stdin                              bulk: [{"id":..,"category":..,"notes"?:..},...] on stdin
   note <txn_id> <text>                            set a transaction's notes
   link-transfer <keep_txn_id> <dupe_txn_id>       merge two imported legs of one transfer (deletes the dupe)
+  add-txn <account_id> <date> <amount>            add a manual transaction (currency units; --payee NAME
+                                                  --category ID --notes TEXT --cleared)
   months                                          list budget months (YYYY-MM)
   budget [YYYY-MM]                                month totals + per-category budgeted/spent/balance
   set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units) for a category
@@ -401,6 +441,7 @@ const verbs = {
   categorize: cmdCategorize,
   note: cmdNote,
   'link-transfer': cmdLinkTransfer,
+  'add-txn': cmdAddTxn,
   months: cmdMonths,
   budget: cmdBudget,
   'set-budget': cmdSetBudget,
