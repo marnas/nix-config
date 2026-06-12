@@ -276,6 +276,34 @@ async function cmdAddCategory(args) {
   );
 }
 
+// Without a transfer category, transactions of the deleted category/group become
+// uncategorized (deletion itself never touches transactions).
+async function cmdRmCategory(args) {
+  if (args.length < 1 || args.length > 2) {
+    die('usage: actual rm-category <category_id> [transfer_category_id]', 2);
+  }
+  await withBudget(
+    async () => {
+      await api.deleteCategory(args[0], args[1]);
+      print(`Deleted category ${args[0]}`);
+    },
+    { mutates: true },
+  );
+}
+
+async function cmdRmGroup(args) {
+  if (args.length < 1 || args.length > 2) {
+    die('usage: actual rm-group <group_id> [transfer_category_id]', 2);
+  }
+  await withBudget(
+    async () => {
+      await api.deleteCategoryGroup(args[0], args[1]);
+      print(`Deleted group ${args[0]} and its categories`);
+    },
+    { mutates: true },
+  );
+}
+
 // Pulls new transactions from the bank-sync provider configured on the server
 // (GoCardless/SimpleFIN) into the budget, for one account or all linked accounts.
 async function cmdSync(args) {
@@ -303,6 +331,8 @@ const HELP = `actual — manage your Actual Budget via the official API
   set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units) for a category
   add-group <name>                                create a category group
   add-category <group_id> <name>                  create a category in a group
+  rm-category <category_id> [transfer_cat_id]     delete a category (txns move to transfer_cat_id, else uncategorized)
+  rm-group <group_id> [transfer_cat_id]           delete a group and all its categories
   sync [--account ID]                             run bank sync (all linked accounts or one)
 
   Amounts are integer minor units in raw JSON (-5234 == -52.34); table output is already in units.
@@ -320,6 +350,8 @@ const verbs = {
   'set-budget': cmdSetBudget,
   'add-group': cmdAddGroup,
   'add-category': cmdAddCategory,
+  'rm-category': cmdRmCategory,
+  'rm-group': cmdRmGroup,
   sync: cmdSync,
 };
 

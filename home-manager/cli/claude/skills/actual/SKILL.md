@@ -22,6 +22,8 @@ actual budget [YYYY-MM]                                 month totals + per-categ
 actual set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units)
 actual add-group <name>                                create a category group
 actual add-category <group_id> <name>                  create a category
+actual rm-category <category_id> [transfer_cat_id]     delete a category (txns move to transfer_cat_id, else uncategorized)
+actual rm-group <group_id> [transfer_cat_id]           delete a group and all its categories
 actual sync [--account ID]                             pull new transactions from the bank (server-side GoCardless)
 ```
 
@@ -47,9 +49,10 @@ Amounts in tables are currency units (outflows negative); raw `--json` amounts a
   says about it: `notes` in the `categorize --stdin` batch, or `actual note <id> <text>`.
 - **Leave transfers and split parents alone.** `txns` already inlines split children
   (categorize each child); transfers legitimately have no category.
-- **Propose category structure before creating it.** `add-group`/`add-category` are
-  quick but merging/deleting is manual in the app — list the intended structure first,
-  create after the user agrees.
+- **Propose structure changes before applying them.** List the intended
+  groups/categories first, `add-*`/`rm-*` after the user agrees. The `rm-*` verbs are
+  destructive (no undo); when deleting a category that has transactions, pass a
+  transfer category id so they don't fall back to uncategorized.
 - **Bank import is `actual sync`**, run it when the user asks to refresh/import
   transactions, then continue with the categorization loop.
 - **Report back** counts and what changed; the server sync at the end of each mutating
