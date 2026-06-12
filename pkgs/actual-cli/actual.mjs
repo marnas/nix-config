@@ -276,6 +276,28 @@ async function cmdAddCategory(args) {
   );
 }
 
+async function cmdRenameCategory(args) {
+  if (args.length !== 2) die('usage: actual rename-category <category_id> <name>', 2);
+  await withBudget(
+    async () => {
+      await api.updateCategory(args[0], { name: args[1] });
+      print(`Renamed category ${args[0]} → "${args[1]}"`);
+    },
+    { mutates: true },
+  );
+}
+
+async function cmdRenameGroup(args) {
+  if (args.length !== 2) die('usage: actual rename-group <group_id> <name>', 2);
+  await withBudget(
+    async () => {
+      await api.updateCategoryGroup(args[0], { name: args[1] });
+      print(`Renamed group ${args[0]} → "${args[1]}"`);
+    },
+    { mutates: true },
+  );
+}
+
 // Without a transfer category, transactions of the deleted category/group become
 // uncategorized (deletion itself never touches transactions).
 async function cmdRmCategory(args) {
@@ -331,6 +353,8 @@ const HELP = `actual — manage your Actual Budget via the official API
   set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units) for a category
   add-group <name>                                create a category group
   add-category <group_id> <name>                  create a category in a group
+  rename-category <category_id> <name>            rename a category
+  rename-group <group_id> <name>                  rename a category group
   rm-category <category_id> [transfer_cat_id]     delete a category (txns move to transfer_cat_id, else uncategorized)
   rm-group <group_id> [transfer_cat_id]           delete a group and all its categories
   sync [--account ID]                             run bank sync (all linked accounts or one)
@@ -350,6 +374,8 @@ const verbs = {
   'set-budget': cmdSetBudget,
   'add-group': cmdAddGroup,
   'add-category': cmdAddCategory,
+  'rename-category': cmdRenameCategory,
+  'rename-group': cmdRenameGroup,
   'rm-category': cmdRmCategory,
   'rm-group': cmdRmGroup,
   sync: cmdSync,

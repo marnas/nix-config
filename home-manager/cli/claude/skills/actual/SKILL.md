@@ -22,6 +22,8 @@ actual budget [YYYY-MM]                                 month totals + per-categ
 actual set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units)
 actual add-group <name>                                create a category group
 actual add-category <group_id> <name>                  create a category
+actual rename-category <category_id> <name>            rename a category
+actual rename-group <group_id> <name>                  rename a category group
 actual rm-category <category_id> [transfer_cat_id]     delete a category (txns move to transfer_cat_id, else uncategorized)
 actual rm-group <group_id> [transfer_cat_id]           delete a group and all its categories
 actual sync [--account ID]                             pull new transactions from the bank (server-side GoCardless)
