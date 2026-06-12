@@ -37,6 +37,14 @@ Amounts in tables are currency units (outflows negative); raw `--json` amounts a
 
 ## Rules
 
+- **Fetch the working context first.** Private budget context that Actual itself can't
+  tell you — current life situation, pending obligations, payee decoder, conventions —
+  lives in the Anytype page **"Actual Budget — Claude working context"**. Read it (via
+  the anytype skill) at the start of a budget session, and update it when a session
+  changes that context (obligation settled, new convention).
+- **Precedent before inference.** Before inferring a payee's category, check how the
+  same payee was categorized in past transactions (`txns --json`, filter by payee) —
+  Actual doesn't auto-learn, but history is the user's own ruling.
 - **The category structure is provisional.** It was migrated from YNAB, not grown from
   the user's actual spending, so categories may not map 1:1 to what he needs. For every
   transaction, treat fit as a question: if no existing category fits *cleanly*, don't
