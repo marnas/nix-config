@@ -1,0 +1,12 @@
+{
+  "name": "actual-cli",
+  "version": "26.6.0",
+  "description": "Verb-based CLI over the official Actual Budget API",
+  "type": "module",
+  "bin": {
+    "actual": "./actual.mjs"
+  },
+  "dependencies": {
+    "@actual-app/api": "26.6.0"
+  }
+}

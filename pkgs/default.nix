@@ -4,6 +4,7 @@
   pkgs ? import <nixpkgs> { },
 }:
 {
+  actual-cli = pkgs.callPackage ./actual-cli { };
   ccstatusline = pkgs.callPackage ./ccstatusline { };
   claude-usage-refresh = pkgs.callPackage ./claude-usage-refresh { };
   claude-usage-tmux = pkgs.callPackage ./claude-usage-tmux { };

@@ -1,0 +1,67 @@
+---
+description: Manage the user's Actual Budget via the `actual` CLI — review accounts, categories and budget months, categorize imported transactions, run bank sync, create category groups. Use whenever the user mentions Actual Budget, budgeting, categorizing transactions, or asks about their spending ("categorize my transactions", "how's my budget", "add a category").
+---
+
+## Tool
+
+Use the `actual` command (installed on PATH). It drives the official Actual Budget API
+against the self-hosted server at actual.marnas.sh; credentials come from Infisical at
+call time via `infisical-secrets`, so no setup. The API is local-first: each call syncs
+the budget into a local cache, so the first call in a while is slow — that's normal.
+
+```
+actual accounts [--all]                                open on-budget accounts (id, kind, name, balance)
+actual categories [--all] [--json]                     groups + categories; GROUP rows carry the group id
+actual payees                                          payee list (id, name)
+actual txns [--since YYYY-MM-DD] [--account ID] [--uncategorized] [--json]
+actual categorize <txn_id> <category_id>               set one transaction's category
+actual categorize --stdin                              bulk: [{"id":..,"category":..,"notes"?:..},...] on stdin
+actual note <txn_id> <text>                            set a transaction's notes
+actual months                                          list budget months (YYYY-MM)
+actual budget [YYYY-MM]                                 month totals + per-category budgeted/spent/balance
+actual set-budget <YYYY-MM> <category_id> <amount>     budget an amount (currency units)
+actual add-group <name>                                create a category group
+actual add-category <group_id> <name>                  create a category
+actual sync [--account ID]                             pull new transactions from the bank (server-side GoCardless)
+```
+
+Table output starts with the **id** — use it for `categorize`/`note`/`add-category`.
+Amounts in tables are currency units (outflows negative); raw `--json` amounts are
+**minor units** (-5234 == -52.34) — divide by 100 once at the end of any sum.
+
+## Rules
+
+- **The category structure is provisional.** It was migrated from YNAB, not grown from
+  the user's actual spending, so categories may not map 1:1 to what he needs. For every
+  transaction, treat fit as a question: if no existing category fits *cleanly*, don't
+  force the nearest match — flag it and propose a structure change (new category,
+  rename, split). Relax to plain categorization once the structure has settled.
+- **Categorization loop:** `actual categories` for valid ids → `actual txns
+  --uncategorized` → infer each category from payee name and amount sign → apply the
+  confident ones in one `categorize --stdin` batch → present the ambiguous remainder to
+  the user as a table (payee, amount, date, suggested category) and apply their answers
+  in a second batch. Unlike YNAB, Actual does **not** auto-learn payee→category from
+  API edits — for a recurring payee, suggest the user add a rule in the Actual app.
+- **Note the non-obvious.** When a transaction isn't recurring or self-explanatory from
+  its payee (one-offs, opaque payees like PayPal, reimbursements), record what the user
+  says about it: `notes` in the `categorize --stdin` batch, or `actual note <id> <text>`.
+- **Leave transfers and split parents alone.** `txns` already inlines split children
+  (categorize each child); transfers legitimately have no category.
+- **Propose category structure before creating it.** `add-group`/`add-category` are
+  quick but merging/deleting is manual in the app — list the intended structure first,
+  create after the user agrees.
+- **Bank import is `actual sync`**, run it when the user asks to refresh/import
+  transactions, then continue with the categorization loop.
+- **Report back** counts and what changed; the server sync at the end of each mutating
+  call propagates to the user's Actual apps automatically.
+
+## If it fails
+
+- `missing ACTUAL_PASSWORD / ACTUAL_SYNC_ID` — seed Infisical (project `claude`, path
+  `/actual`); optional `ACTUAL_FILE_PASSWORD` for an e2e-encrypted file.
+- Version/out-of-sync errors — the pinned `@actual-app/api` must track the server:
+  compare `curl https://actual.marnas.sh/info` with `pkgs/actual-cli` in `~/.dotfiles`
+  and bump version, lockfile and `npmDepsHash` together.
+- Corrupt/stale local cache — delete `~/.cache/actual-cli` (it re-downloads in full).
+- `infisical-secrets`/`infisical-token` errors — Infisical bootstrap problem, see the
+  anytype skill's troubleshooting reference (same mechanism).
