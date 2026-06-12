@@ -59,7 +59,7 @@
       gtk3
       imv
       libnotify
-      libsForQt5.qt5.qtwayland
+      qt5.qtwayland
       mimeo
       meson
       qt6.qtwayland

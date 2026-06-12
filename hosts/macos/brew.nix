@@ -16,7 +16,6 @@
       #"hammerspoon"
       #"kicad"
       "nextcloud"
-      "obsidian"
       #"orcaslicer"
       "plex"
       "plexamp"

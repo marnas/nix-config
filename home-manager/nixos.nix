@@ -24,7 +24,6 @@
     moonlight-qt
     nemo-with-extensions
     nicotine-plus
-    obsidian
     orca-slicer
     stable.plexamp
     picard
