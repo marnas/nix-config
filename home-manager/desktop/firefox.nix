@@ -72,7 +72,7 @@
         sponsorblock
         temporary-containers
         # translate-web-pages removed: TWP injects translated text nodes next to the
-        # originals, which doubles every label/amount on dynamic apps (seen on YNAB)
+        # originals, which doubles every label/amount on dynamic apps
         # when the translation equals the source. Firefox's built-in local translator
         # covers the use case without cloud calls.
         ublock-origin

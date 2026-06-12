@@ -19,7 +19,6 @@
     ./starship.nix
     ./tmux.nix
     ./yazi.nix
-    ./ynab
     ./zsh.nix
   ]
   # Local-LLM agents talk to a host-local Ollama; only the NixOS box runs it.

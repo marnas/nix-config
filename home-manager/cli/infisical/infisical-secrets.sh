@@ -2,7 +2,7 @@
 # flat JSON object {"KEY":"value",...} on stdout. This is the shared consumer-side
 # counterpart to ./infisical-token.sh: it owns the fetch-with-cached-token dance — use the
 # cached token, sniff an auth rejection, re-mint once via `infisical-token --refresh`,
-# retry — so per-API CLIs (`any`, `ynab`, ...) reduce their creds logic to one call:
+# retry — so per-API CLIs (`any`, `actual`, ...) reduce their creds logic to one call:
 #
 #   secrets="$(infisical-secrets /anytype)"
 #   APIKEY="$(jq -r '.ANYTYPE_APIKEY // empty' <<<"$secrets")"

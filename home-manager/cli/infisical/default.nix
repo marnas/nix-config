@@ -10,7 +10,7 @@
 #
 # `infisical-secrets </path>` is the consumer-side companion: fetch one folder's secrets
 # as flat JSON using that cached token, re-minting once on auth rejection. Per-API CLIs
-# (`any`, `ynab`, ...) call it instead of each re-implementing the retry dance.
+# (`any`, `actual`, ...) call it instead of each re-implementing the retry dance.
 { pkgs, ... }:
 let
   infisical-token = pkgs.writeShellApplication {
