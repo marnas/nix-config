@@ -5,7 +5,6 @@
 }:
 {
   actual-cli = pkgs.callPackage ./actual-cli { };
-  agent-vault = pkgs.callPackage ./agent-vault { };
   ccstatusline = pkgs.callPackage ./ccstatusline { };
   claude-usage-refresh = pkgs.callPackage ./claude-usage-refresh { };
   claude-usage-tmux = pkgs.callPackage ./claude-usage-tmux { };
