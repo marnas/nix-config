@@ -48,17 +48,16 @@ Amounts in tables are currency units (outflows negative); raw `--json` amounts a
 - **Precedent before inference.** Before inferring a payee's category, check how the
   same payee was categorized in past transactions (`txns --json`, filter by payee) —
   Actual doesn't auto-learn, but history is the user's own ruling.
-- **The category structure is provisional.** It was migrated from YNAB, not grown from
-  the user's actual spending, so categories may not map 1:1 to what he needs. For every
-  transaction, treat fit as a question: if no existing category fits *cleanly*, don't
-  force the nearest match — flag it and propose a structure change (new category,
+- **The category structure is provisional.** Categories may not map 1:1 to what the user
+  needs. For every transaction, treat fit as a question: if no existing category fits
+  *cleanly*, don't force the nearest match — flag it and propose a structure change (new category,
   rename, split). Relax to plain categorization once the structure has settled.
 - **Categorization loop:** `actual categories` for valid ids → `actual txns
   --uncategorized` → infer each category from payee name and amount sign → apply the
   confident ones in one `categorize --stdin` batch → present the ambiguous remainder to
   the user as a table (payee, amount, date, suggested category) and apply their answers
-  in a second batch. Unlike YNAB, Actual does **not** auto-learn payee→category from
-  API edits — for a recurring, unambiguous payee, offer an `add-rule` so future imports
+  in a second batch. Actual does **not** auto-learn payee→category from API edits — for a
+  recurring, unambiguous payee, offer an `add-rule` so future imports
   self-categorize (the rule matches `imported_payee contains <text>`; pick a distinctive
   substring). Don't rule payees whose category genuinely varies.
 - **Note the non-obvious.** When a transaction isn't recurring or self-explanatory from

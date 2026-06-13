@@ -4,7 +4,7 @@
 }:
 {
   # `actual` — CLI over the official Actual Budget API for the self-hosted Actual
-  # server (replaced the retired YNAB CLI 2026-06). Unlike `any` (a thin curl
+  # server. Unlike `any` (a thin curl
   # wrapper), the official Actual interface is a Node package with a native dep, so
   # the derivation lives in pkgs/actual-cli (buildNpmPackage) and this module only
   # installs it.
