@@ -33,11 +33,12 @@ let
     '';
   };
 
-  # git's core.sshCommand. core.sshCommand is global for Claude, but only git.marnas.sh
-  # should authenticate via the Infisical agent key — every other host (notably github.com,
-  # where the agent key is NOT an auth key) must keep the ambient ssh config/agent. So we
-  # route to the seeded agent only when git.marnas.sh is among the args, else exec plain ssh
-  # untouched. accept-new pins git.marnas.sh's host key on first contact (TOFU).
+  # git's core.sshCommand. core.sshCommand is global for Claude, but only the hosts where the
+  # Infisical agent key is a registered auth key (git.marnas.sh, codeberg.org) should
+  # authenticate through the seeded agent — every other host (notably github.com, where the
+  # agent key is NOT an auth key) must keep the ambient ssh config/agent. So we route to the
+  # seeded agent only when one of those hosts is among the args, else exec plain ssh
+  # untouched. accept-new pins the host key on first contact (TOFU).
   push = writeShellApplication {
     name = "git-ssh";
     runtimeInputs = [
@@ -47,7 +48,7 @@ let
     text = ''
       for arg in "$@"; do
         case "$arg" in
-          *git.marnas.sh*)
+          *git.marnas.sh*|*codeberg.org*)
             sock="$(git-agent-seed)" || exit 1
             export SSH_AUTH_SOCK="$sock"
             exec ssh -o IdentityAgent="$sock" -o StrictHostKeyChecking=accept-new "$@"
