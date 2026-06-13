@@ -276,6 +276,77 @@ async function cmdAddCategory(args) {
   );
 }
 
+// Rules auto-categorize future imports (Actual doesn't learn from manual edits, so a
+// rule is how a payee→category mapping persists). The CLI exposes only the common
+// shape — "imported_payee contains <text> → set category" — which is what bank imports
+// need; richer rules (amount conditions, splits, schedules) are an app-UI job.
+function ruleSummary(r, catName) {
+  const conds = r.conditions
+    .map((c) => `${c.field} ${c.op} "${c.field === 'category' ? catName(c.value) : c.value}"`)
+    .join(` ${r.conditionsOp} `);
+  const acts = r.actions
+    .map((a) =>
+      a.op === 'set' && a.field === 'category'
+        ? `set category "${catName(a.value)}"`
+        : `${a.op} ${a.field ?? ''} ${a.value ?? ''}`.trim(),
+    )
+    .join(', ');
+  return `${r.id}\t${conds}\t→\t${acts}`;
+}
+
+async function cmdRules() {
+  await withBudget(async () => {
+    const byId = new Map(
+      (await api.getCategories()).map((c) => [c.id, c.name]),
+    );
+    const catName = (id) => byId.get(id) ?? id;
+    for (const r of await api.getRules()) print(ruleSummary(r, catName));
+  });
+}
+
+// Default condition: imported_payee contains <text> (case-insensitive in Actual), the
+// robust match for messy bank descriptions ("Deliveroo London", "Tesco Store 5501…").
+// --field payee/--op is take a payee id / exact match when a tighter rule is wanted.
+async function cmdAddRule(args) {
+  const pos = [];
+  let field = 'imported_payee';
+  let op = 'contains';
+  while (args.length > 0) {
+    const a = args.shift();
+    if (a === '--field') field = args.shift();
+    else if (a === '--op') op = args.shift();
+    else if (a.startsWith('--')) die(`add-rule: unknown arg ${a}`, 2);
+    else pos.push(a);
+  }
+  if (pos.length !== 2) {
+    die('usage: actual add-rule <category_id> <match_text> [--field imported_payee|payee] [--op contains|is]', 2);
+  }
+  const [categoryId, match] = pos;
+  await withBudget(
+    async () => {
+      const created = await api.createRule({
+        stage: null,
+        conditionsOp: 'and',
+        conditions: [{ field, op, value: match, type: field === 'payee' ? 'id' : 'string' }],
+        actions: [{ field: 'category', op: 'set', value: categoryId, type: 'id' }],
+      });
+      print(`Created rule: ${field} ${op} "${match}" → category ${categoryId} (${created.id})`);
+    },
+    { mutates: true },
+  );
+}
+
+async function cmdRmRule(args) {
+  if (args.length !== 1) die('usage: actual rm-rule <rule_id>', 2);
+  await withBudget(
+    async () => {
+      await api.deleteRule(args[0]);
+      print(`Deleted rule ${args[0]}`);
+    },
+    { mutates: true },
+  );
+}
+
 // Manual transaction entry — reconciliation adjustments, starting balances, cash
 // spends. Amount is in currency units (negative = outflow). learnCategories and
 // runTransfers stay off: a manual entry should never train rules or spawn transfers.
@@ -428,6 +499,10 @@ const HELP = `actual — manage your Actual Budget via the official API
   rename-group <group_id> <name>                  rename a category group
   rm-category <category_id> [transfer_cat_id]     delete a category (txns move to transfer_cat_id, else uncategorized)
   rm-group <group_id> [transfer_cat_id]           delete a group and all its categories
+  rules                                           list categorization rules (id, conditions → actions)
+  add-rule <category_id> <match_text>             auto-categorize: imported_payee contains <text> → set category
+                                                  (--field imported_payee|payee  --op contains|is)
+  rm-rule <rule_id>                               delete a rule
   sync [--account ID]                             run bank sync (all linked accounts or one)
 
   Amounts are integer minor units in raw JSON (-5234 == -52.34); table output is already in units.
@@ -451,6 +526,9 @@ const verbs = {
   'rename-group': cmdRenameGroup,
   'rm-category': cmdRmCategory,
   'rm-group': cmdRmGroup,
+  rules: cmdRules,
+  'add-rule': cmdAddRule,
+  'rm-rule': cmdRmRule,
   sync: cmdSync,
 };
 

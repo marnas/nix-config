@@ -28,6 +28,9 @@ actual rename-category <category_id> <name>            rename a category
 actual rename-group <group_id> <name>                  rename a category group
 actual rm-category <category_id> [transfer_cat_id]     delete a category (txns move to transfer_cat_id, else uncategorized)
 actual rm-group <group_id> [transfer_cat_id]           delete a group and all its categories
+actual rules                                           list categorization rules (id, conditions → actions)
+actual add-rule <category_id> <match_text>             auto-categorize: imported_payee contains <text> → set category
+actual rm-rule <rule_id>                               delete a rule
 actual sync [--account ID]                             pull new transactions from the bank (server-side GoCardless)
 ```
 
@@ -55,7 +58,9 @@ Amounts in tables are currency units (outflows negative); raw `--json` amounts a
   confident ones in one `categorize --stdin` batch → present the ambiguous remainder to
   the user as a table (payee, amount, date, suggested category) and apply their answers
   in a second batch. Unlike YNAB, Actual does **not** auto-learn payee→category from
-  API edits — for a recurring payee, suggest the user add a rule in the Actual app.
+  API edits — for a recurring, unambiguous payee, offer an `add-rule` so future imports
+  self-categorize (the rule matches `imported_payee contains <text>`; pick a distinctive
+  substring). Don't rule payees whose category genuinely varies.
 - **Note the non-obvious.** When a transaction isn't recurring or self-explanatory from
   its payee (one-offs, opaque payees like PayPal, reimbursements), record what the user
   says about it: `notes` in the `categorize --stdin` batch, or `actual note <id> <text>`.
