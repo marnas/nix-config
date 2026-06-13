@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 {
   imports = [
@@ -98,7 +98,14 @@
   programs = {
     dconf.enable = true;
 
-    hyprland.enable = true; # To show hyprland in GDM
+    hyprland = {
+      enable = true; # To show hyprland in GDM
+      # Pin to the flake input (v0.55.2) so the GDM session matches the
+      # home-manager package; nixpkgs 0.55.3 crashes on the match: windowrules.
+      package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+      portalPackage =
+        inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    };
 
     _1password.enable = true;
     _1password-gui = {
