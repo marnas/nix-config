@@ -2,7 +2,7 @@
 
 Declarative client tooling for the **self-hosted Anytype** backend. The CLI talks to a
 single **central `anytype-cli serve` bot node running in the home cluster** (see the
-`flux-config` repo, `apps/anytype/cli/` + `apps/anytype/SETUP.md`). This module just ships the
+`atlas-gitops` repo, `apps/anytype/cli/` + `apps/anytype/SETUP.md`). This module just ships the
 `any` wrapper every machine uses to capture/manage objects in the Anytype space.
 
 ## What this module provides
