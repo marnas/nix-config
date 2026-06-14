@@ -31,6 +31,7 @@
     btop
     fd # Better find
     ffmpeg
+    forgejo-cli # Forgejo CLI (fj), credential seeded from Infisical into tmpfs
     jq # JSON pretty printer and manipulator
     httpie # Better curl
     ncdu # TUI disk usage
