@@ -11,6 +11,10 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   system.primaryUser = "marnas";
   system.stateVersion = 4;
+
+  # The modern Nix installer creates the nixbld group with GID 350 (was 30000);
+  # match it so nix-darwin doesn't abort activation. (Same as the macos host.)
+  ids.gids.nixbld = 350;
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
   # The Forgejo Actions runner (iOS Simulator build/test for scry-app).
