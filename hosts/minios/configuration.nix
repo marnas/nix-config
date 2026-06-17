@@ -17,8 +17,15 @@
   ids.gids.nixbld = 350;
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
-  # The Forgejo Actions runner (iOS Simulator build/test for scry-app).
-  environment.systemPackages = [ pkgs.forgejo-runner ];
+  # The Forgejo Actions runner + the tools its jobs need (scry-app iOS CI:
+  # build/test on the iOS Simulator). node is required by JS actions like
+  # actions/checkout; xcodegen generates the project. xcodebuild comes from Xcode
+  # (/usr/bin). Pulling these from nixpkgs keeps CI off any brew dependency.
+  environment.systemPackages = [
+    pkgs.forgejo-runner
+    pkgs.nodejs_22
+    pkgs.xcodegen
+  ];
 
   # Run as a LaunchAgent in marnas's login session so it inherits Xcode and the
   # dev toolchain (host executor — macOS has no container runtime here). The
@@ -37,10 +44,11 @@
       RunAtLoad = true;
       StandardOutPath = "/Users/marnas/.forgejo-runner/daemon.log";
       StandardErrorPath = "/Users/marnas/.forgejo-runner/daemon.err.log";
-      # Jobs inherit this PATH — brew (xcodegen), /usr/bin (xcodebuild/xcrun),
-      # and the nix system profile.
+      # Jobs inherit this PATH: nix system profile first (node, xcodegen,
+      # forgejo-runner), then /usr/bin (xcodebuild/xcrun/git). brew kept last as a
+      # fallback but CI no longer depends on it.
       EnvironmentVariables.PATH =
-        "/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:/run/current-system/sw/bin";
+        "/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin";
     };
   };
 }
