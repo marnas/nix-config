@@ -29,6 +29,8 @@
       ProgramArguments = [
         "${pkgs.forgejo-runner}/bin/forgejo-runner"
         "daemon"
+        "--config"
+        "/Users/marnas/.forgejo-runner/config.yml"
       ];
       WorkingDirectory = "/Users/marnas/.forgejo-runner";
       KeepAlive = true;
