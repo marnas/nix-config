@@ -80,6 +80,12 @@ in
       bind -T copy-mode-vi y   send -X copy-pipe-and-cancel "${clipCmd}"
       bind -T copy-mode-vi Y   send -X copy-line-and-cancel  "${clipCmd}"
 
+      # Mouse drag-release: copy to clipboard without cancelling copy-mode. The
+      # default MouseDragEnd1Pane binding is copy-pipe-and-cancel, and leaving
+      # copy-mode snaps the view back to the live bottom — annoying when you've
+      # scrolled up to grab text. copy-pipe keeps scroll position; q/Esc exits.
+      bind -T copy-mode-vi MouseDragEnd1Pane send -X copy-pipe "${clipCmd}"
+
       set-option -g focus-events on
 
       set-option -ga terminal-overrides ",${terminal}:Tc"
