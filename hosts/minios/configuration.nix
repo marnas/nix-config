@@ -17,15 +17,23 @@
   ids.gids.nixbld = 350;
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
-  # The Forgejo Actions runner + the tools its jobs need (scry-app iOS CI:
-  # build/test on the iOS Simulator). node is required by JS actions like
-  # actions/checkout; xcodegen generates the project. xcodebuild comes from Xcode
-  # (/usr/bin). Pulling these from nixpkgs keeps CI off any brew dependency.
+  # The Forgejo Actions runner + node (required by JS actions like
+  # actions/checkout). xcodegen deliberately comes from brew (/opt/homebrew/bin),
+  # NOT nixpkgs: the nixpkgs xcodegen build doesn't apply XcodeGen's setting
+  # presets at runtime, producing a broken project (empty PRODUCT_NAME, no
+  # testability). xcodebuild comes from Xcode (/usr/bin).
   environment.systemPackages = [
     pkgs.forgejo-runner
     pkgs.nodejs_22
-    pkgs.xcodegen
   ];
+
+  # Headless build host: disable idle SYSTEM sleep so SSH and the CI runner stay
+  # reachable, but let the display and disk sleep to save power. nix-darwin has no
+  # pmset option, so apply it on each activation (runs as root). womp = wake on
+  # network access.
+  system.activationScripts.postActivation.text = ''
+    /usr/bin/pmset -a sleep 0 womp 1 || true
+  '';
 
   # Run as a LaunchAgent in marnas's login session so it inherits Xcode and the
   # dev toolchain (host executor — macOS has no container runtime here). The
