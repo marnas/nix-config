@@ -93,6 +93,14 @@
             mac-app-util.darwinModules.default
           ];
         };
+
+        # darwin-rebuild switch --flake .#minios  (headless iOS build host / CI runner)
+        minios = nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit inputs outputs; };
+          modules = [
+            ./hosts/minios/configuration.nix
+          ];
+        };
       };
 
       # Standalone home-manager configuration entrypoint
