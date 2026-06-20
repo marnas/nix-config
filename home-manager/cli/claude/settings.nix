@@ -6,7 +6,9 @@
     includeCoAuthoredBy = false;
     cleanupPeriodDays = 30;
     autoUpdates = false;
-    model = if pkgs.stdenv.isDarwin then "opus" else "fable";
+    # Suppress the 0–4 session-quality survey that pops up intermittently.
+    feedbackSurveyRate = 0;
+    model = "opus";
 
     statusLine = {
       type = "command";
@@ -204,7 +206,8 @@
 
       deny = [
         "Read(**/.env)"
-        "Read(**/.env.*)"
+        # Deny real env files, but allow the committed example/template variants.
+        "Read(**/.env.!(example|sample|template))"
         "Read(**/*credentials*)"
       ];
 
