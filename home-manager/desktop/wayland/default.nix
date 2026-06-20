@@ -45,6 +45,11 @@
         "x-scheme-handler/http" = [ "firefox.desktop" ];
         "x-scheme-handler/https" = [ "firefox.desktop" ];
 
+        # TradingView signs in via a tradingview:// browser callback; register
+        # the handler so the token comes back over the deep link instead of the
+        # clipboard-polling fallback (which hangs the sign-in).
+        "x-scheme-handler/tradingview" = "tradingview.desktop";
+
         "audio/flac" = "vlc.desktop";
       };
       associations.added = {

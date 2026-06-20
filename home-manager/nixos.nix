@@ -34,6 +34,7 @@
     rustdesk-flutter
     telegram-desktop
     tor-browser
+    tradingview
     vesktop
     vlc
     wowup-cf
