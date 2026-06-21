@@ -21,9 +21,10 @@
     ./tmux.nix
     ./yazi.nix
     ./zsh.nix
-  ]
+  ];
   # Local-LLM agents talk to a host-local Ollama; only the NixOS box runs it.
-  ++ lib.optional (vars.hostname != "macos") ./local-llm;
+  # Disabled for now — not worth it yet; config kept under ./local-llm for future reuse.
+  # ++ lib.optional (vars.hostname != "macos") ./local-llm;
   home.packages = with pkgs; [
     argocd # Argo CD CLI
     comma # Install and run programs by sticking a , before them
