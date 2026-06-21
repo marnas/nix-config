@@ -16,6 +16,7 @@
     ./git.nix
     ./infisical
     # ./music
+    ./ssh.nix
     ./starship.nix
     ./tmux.nix
     ./yazi.nix
