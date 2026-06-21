@@ -26,6 +26,7 @@
     ./desktop/alacritty.nix
     ./desktop/ghostty.nix
     ./desktop/firefox.nix
+    ./desktop/nextcloud.nix
   ];
 
   home = {
