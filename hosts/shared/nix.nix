@@ -31,8 +31,10 @@
     gc = {
       automatic = true;
       # dates = "weekly";
-      # Keep the last 5 generations
-      options = "--delete-older-than +7d";
+      # Generation count is capped via boot.loader.systemd-boot.configurationLimit (5);
+      # nix-collect-garbage only supports age-based pruning, so this just reclaims
+      # store space by age.
+      options = "--delete-older-than 30d";
     };
   };
 }

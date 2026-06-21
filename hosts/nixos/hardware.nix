@@ -34,7 +34,10 @@
 
     kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 5; # keep the last 5 generations in the boot menu
+      };
       efi.canTouchEfiVariables = true;
     };
     kernelParams = [
