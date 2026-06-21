@@ -72,6 +72,9 @@
   networking = {
     hostName = "nixos"; # Define your hostname.
     networkmanager.enable = true;
+    # No wifi hardware on this host; NetworkManager force-enables wpa_supplicant
+    # as its wifi backend, so override it to drop the idle service + imperative.conf.
+    wireless.enable = lib.mkForce false;
     firewall = {
       enable = true;
       allowedTCPPorts = [ ];
