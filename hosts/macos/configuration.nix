@@ -61,7 +61,7 @@
 
   fonts = {
     packages = with pkgs; [
-      jetbrains-mono
+      # jetbrains-mono
       meslo-lgs-nf
       nerd-fonts.fira-code
     ];
