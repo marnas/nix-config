@@ -20,6 +20,13 @@ in
         ShowPathbar = true;
       };
 
+      # Single Space spans all displays (turns OFF "Displays have separate
+      # Spaces"). AeroSpace's recommended workaround for the macOS-API bug where
+      # same-app windows across monitors (e.g. two Firefox windows) focus/raise
+      # unpredictably. Trade-off: native multi-monitor fullscreen gets clunky —
+      # irrelevant under tiling. Requires a logout to take effect.
+      spaces.spans-displays = true;
+
       dock = {
         autohide = true;
         mru-spaces = false; # disable auto rearrange spaces based on most recent use

@@ -5,8 +5,6 @@
   pkg-config,
   installShellFiles,
   openssl,
-  stdenv,
-  darwin,
   writeShellApplication,
   symlinkJoin,
   jq,
@@ -39,13 +37,10 @@ let
       installShellFiles
     ];
 
+    # Darwin SDK frameworks (Security/SystemConfiguration) ship in the default
+    # stdenv now, so no explicit apple_sdk inputs are needed on macOS.
     buildInputs = [
       openssl
-    ]
-    ++ lib.optionals stdenv.isDarwin [
-      # cross-platform: home-manager/cli/ is imported by the macOS host too
-      darwin.apple_sdk.frameworks.Security
-      darwin.apple_sdk.frameworks.SystemConfiguration
     ];
 
     meta = {

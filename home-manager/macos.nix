@@ -10,6 +10,7 @@
   home.packages = with pkgs; [
     # colima
     # maccy
+    azure-cli
     vlc-bin-universal
   ];
 

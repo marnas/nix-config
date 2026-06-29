@@ -21,6 +21,16 @@ let
   # Quote-protected so an empty $CLAUDECODE short-circuits BEFORE running the
   # seed (so human ssh pays no latency and never touches Infisical).
   claudeAgentMatch = ''exec "test -n \"$CLAUDECODE\" && ${pkgs.git-agent}/bin/git-agent-seed >/dev/null 2>&1"'';
+
+  # The 1Password SSH-agent socket lives at a different path per OS: a fixed
+  # location on Linux, but inside the sandboxed group container on macOS.
+  onePasswordAgentSock =
+    if pkgs.stdenv.isDarwin then
+      # Double-quoted because the path contains a space ("Group Containers");
+      # unquoted, ssh's config parser treats it as multiple arguments and aborts.
+      "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\""
+    else
+      "~/.1password/agent.sock";
 in
 {
   programs.ssh = {
@@ -30,7 +40,7 @@ in
 
     settings = {
       "*" = {
-        IdentityAgent = "~/.1password/agent.sock";
+        IdentityAgent = onePasswordAgentSock;
         # Former enableDefaultConfig values, kept verbatim.
         ForwardAgent = false;
         AddKeysToAgent = "no";
