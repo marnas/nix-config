@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 {
 
   imports = [
@@ -8,11 +13,44 @@
 
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
-    # colima
     # maccy
     azure-cli
+    colima # Docker daemon on macOS (replaces Docker Desktop)
+    docker-client # docker CLI only; the daemon lives in the colima VM
+    docker-compose
     vlc-bin-universal
   ];
+
+  # Auto-start the colima VM at login, mirroring `brew services start colima`
+  # (which runs `colima start --foreground`). vz = Apple Virtualization.framework:
+  # lighter and faster than qemu on Apple Silicon, with memory ballooning so idle
+  # RAM is reclaimed by the host. Run `colima stop` to drop the VM entirely; the
+  # clean exit won't be relaunched (KeepAlive only restarts on crash).
+  launchd.agents.colima = {
+    enable = true;
+    config = {
+      ProgramArguments = [
+        "${pkgs.colima}/bin/colima"
+        "start"
+        "--foreground"
+        "--vm-type"
+        "vz"
+      ];
+      RunAtLoad = true;
+      KeepAlive.SuccessfulExit = false;
+      StandardOutPath = "${config.home.homeDirectory}/Library/Logs/colima.log";
+      StandardErrorPath = "${config.home.homeDirectory}/Library/Logs/colima.log";
+      # colima's startup dependency check needs the docker CLI on PATH; launchd
+      # gives a minimal PATH, so add it explicitly (plus /usr/bin for ssh, which
+      # lima shells out to).
+      EnvironmentVariables.PATH = "${
+        lib.makeBinPath [
+          pkgs.docker-client
+          pkgs.colima
+        ]
+      }:/usr/bin:/bin:/usr/sbin:/sbin";
+    };
+  };
 
   services.jankyborders = {
     enable = true;

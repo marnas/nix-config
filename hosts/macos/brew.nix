@@ -10,7 +10,6 @@
       "anytype"
       "arc"
       #"autodesk-fusion"
-      "docker-desktop"
       "firefox"
       #"garmin-express"
       "ghostty"
