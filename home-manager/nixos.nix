@@ -25,7 +25,7 @@
     nemo-with-extensions
     nicotine-plus
     orca-slicer
-    stable.plexamp
+    plexamp
     picard
     cameractrls-gtk4
     prismlauncher

@@ -20,8 +20,9 @@
     };
 
     hyprland = {
+      # Do NOT set inputs.nixpkgs.follows: it forces a source rebuild and loses
+      # the hyprland.cachix.org binary cache (upstream warns against it).
       url = "git+https://github.com/hyprwm/Hyprland?submodules=1&ref=refs/tags/v0.55.2";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     split-monitor-workspaces = {
