@@ -25,5 +25,18 @@
       '';
       destination = "/etc/udev/rules.d/99-finalmouse.rules";
     })
+
+    (pkgs.writeTextFile {
+      name = "fpv_udev";
+      text = ''
+        # STM32 DFU bootloader (EdgeTX flashing, Betaflight DFU)
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", TAG+="uaccess"
+        # STM32 virtual COM port (radio VCP, Betaflight Configurator, ELRS passthrough).
+        # Tag both the USB device and the tty node so the user gets an ACL on /dev/ttyACM*.
+        SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", TAG+="uaccess"
+        SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="5740", TAG+="uaccess"
+      '';
+      destination = "/etc/udev/rules.d/70-fpv.rules";
+    })
   ];
 }

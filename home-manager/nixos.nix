@@ -4,6 +4,7 @@
   imports = [
     ./cli
     ./desktop
+    ./fpv.nix
     ./shared.nix
   ];
 
