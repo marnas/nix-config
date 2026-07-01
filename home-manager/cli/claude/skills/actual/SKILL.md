@@ -1,5 +1,5 @@
 ---
-description: Manage the user's Actual Budget via the `actual` CLI — review accounts, categories and budget months, categorize imported transactions, run bank sync, create category groups. Use whenever the user mentions Actual Budget, budgeting, categorizing transactions, or asks about their spending ("categorize my transactions", "how's my budget", "add a category").
+description: Manage the user's Actual Budget via the `actual` CLI — review accounts, categories and budget months, categorize imported transactions, create category groups. Use whenever the user mentions Actual Budget, budgeting, categorizing transactions, or asks about their spending ("categorize my transactions", "how's my budget", "add a category").
 ---
 
 ## Tool
@@ -31,7 +31,7 @@ actual rm-group <group_id> [transfer_cat_id]           delete a group and all it
 actual rules                                           list categorization rules (id, conditions → actions)
 actual add-rule <category_id> <match_text>             auto-categorize: imported_payee contains <text> → set category
 actual rm-rule <rule_id>                               delete a rule
-actual sync [--account ID]                             pull new transactions from the bank (server-side GoCardless)
+actual sync [--account ID]                             pull new transactions (DOES NOT WORK from the CLI — see rules)
 ```
 
 Table output starts with the **id** — use it for `categorize`/`note`/`add-category`.
@@ -72,8 +72,11 @@ Amounts in tables are currency units (outflows negative); raw `--json` amounts a
   groups/categories first, `add-*`/`rm-*` after the user agrees. The `rm-*` verbs are
   destructive (no undo); when deleting a category that has transactions, pass a
   transfer category id so they don't fall back to uncategorized.
-- **Bank import is `actual sync`**, run it when the user asks to refresh/import
-  transactions, then continue with the categorization loop.
+- **Bank import is NOT done from the CLI.** GoCardless sync runs server-side via a
+  scheduled CI job (twice a day); the user triggers it manually if needed. `actual sync`
+  from this CLI does **not** pull new bank transactions — never call it. When the user
+  asks to refresh/import, remind them it's the CI's job, then just read whatever new
+  transactions have already landed (`txns --uncategorized`) and categorize.
 - **Reconciling:** compare `accounts` against the real-world balance the user reports;
   book the difference with `add-txn --cleared` — payee `Starting Balance`, category
   `Starting Balances` when it represents history predating the import window, otherwise

@@ -2,7 +2,8 @@
 // Tier-1 CLI over the official Actual Budget API (@actual-app/api) — list accounts,
 // categories, payees and transactions, categorize transactions (singly or in batch),
 // annotate them, inspect/set budget months, create category groups/categories, and
-// trigger bank sync. Targets the self-hosted server at https://actual.marnas.sh
+// trigger the bank-sync CI (`sync` dispatches a Forgejo workflow via fj — the Actual
+// server has no bank provider). Targets the self-hosted server at https://actual.marnas.sh
 // (override with $ACTUAL_SERVER_URL). Credentials are fetched from the self-hosted
 // Infisical at call time (project `claude`, path /actual, secrets ACTUAL_PASSWORD +
 // ACTUAL_SYNC_ID, optional ACTUAL_FILE_PASSWORD for e2e-encrypted files) via
@@ -465,18 +466,27 @@ async function cmdRmGroup(args) {
   );
 }
 
-// Pulls new transactions from the bank-sync provider configured on the server
-// (GoCardless/SimpleFIN) into the budget, for one account or all linked accounts.
-async function cmdSync(args) {
-  let account = null;
-  if (args[0] === '--account') account = args[1];
-  await withBudget(
-    async () => {
-      await api.runBankSync(account ? { accountId: account } : undefined);
-      print('Bank sync complete');
-    },
-    { mutates: true },
+// Bank sync is NOT driven by the Actual server here. A Forgejo CI job (repo
+// marnas/actual-sync, workflow sync.yml) pulls from GoCardless and pushes into Actual
+// on a twice-daily schedule; `api.runBankSync()` would no-op because the server has no
+// provider configured. This verb fires that same workflow on demand via `fj actions
+// dispatch` — fj carries its own Infisical-seeded credential, so no token lives here.
+// It only QUEUES the run; new transactions land a minute or two later, so re-run
+// `actual txns --uncategorized` once the CI finishes.
+const SYNC_REPO = process.env.ACTUAL_SYNC_REPO ?? 'marnas/actual-sync';
+const SYNC_WORKFLOW = process.env.ACTUAL_SYNC_WORKFLOW ?? 'sync.yml';
+const SYNC_REF = process.env.ACTUAL_SYNC_REF ?? 'main';
+
+function cmdSync() {
+  const r = spawnSync(
+    'fj',
+    ['actions', 'dispatch', '--repo', SYNC_REPO, SYNC_WORKFLOW, SYNC_REF],
+    { encoding: 'utf8' },
   );
+  if (r.error) die(`actual: failed to run fj: ${r.error.message}`);
+  if (r.status !== 0) die(`actual: fj actions dispatch failed:\n${r.stderr ?? ''}`);
+  print(`Triggered bank-sync CI (${SYNC_REPO} ${SYNC_WORKFLOW}@${SYNC_REF}).`);
+  print('New transactions land in a minute or two — then: actual txns --uncategorized');
 }
 
 const HELP = `actual — manage your Actual Budget via the official API
@@ -503,7 +513,7 @@ const HELP = `actual — manage your Actual Budget via the official API
   add-rule <category_id> <match_text>             auto-categorize: imported_payee contains <text> → set category
                                                   (--field imported_payee|payee  --op contains|is)
   rm-rule <rule_id>                               delete a rule
-  sync [--account ID]                             run bank sync (all linked accounts or one)
+  sync                                            trigger the bank-sync CI (Forgejo workflow) — queues a run, doesn't wait
 
   Amounts are integer minor units in raw JSON (-5234 == -52.34); table output is already in units.
   Server: ${SERVER_URL} (override with $ACTUAL_SERVER_URL)`;
