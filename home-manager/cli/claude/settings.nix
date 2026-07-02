@@ -8,7 +8,7 @@
     autoUpdates = false;
     # Suppress the 0–4 session-quality survey that pops up intermittently.
     feedbackSurveyRate = 0;
-    model = "opus";
+    model = "fable";
 
     statusLine = {
       type = "command";
