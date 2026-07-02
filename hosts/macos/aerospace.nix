@@ -6,11 +6,29 @@ let
     text = ''
       n="$1"
       action="''${2:-focus}"
-      focused=$(aerospace list-monitors --focused | awk '{print $1}')
-      if [ "$focused" = "1" ]; then
-        target="$n"
+      if [ "$(aerospace list-monitors --count)" -eq 1 ]; then
+        # Single monitor: workspaces 6-10 fall back onto it but the plain
+        # N mapping can't reach them. Toggle within the pair (N <-> N+5)
+        # instead of moving windows, so assignments survive re-docking.
+        # If N is empty and N+5 isn't, prefer N+5 outright.
+        current=$(aerospace list-workspaces --focused)
+        if [ "$current" = "$n" ]; then
+          target=$((n + 5))
+        elif [ "$current" = "$((n + 5))" ]; then
+          target="$n"
+        elif [ "$(aerospace list-windows --workspace "$n" --count)" -eq 0 ] \
+          && [ "$(aerospace list-windows --workspace $((n + 5)) --count)" -gt 0 ]; then
+          target=$((n + 5))
+        else
+          target="$n"
+        fi
       else
-        target=$((n + 5))
+        focused=$(aerospace list-monitors --focused | awk '{print $1}')
+        if [ "$focused" = "1" ]; then
+          target="$n"
+        else
+          target=$((n + 5))
+        fi
       fi
       if [ "$action" = "move" ]; then
         aerospace move-node-to-workspace --focus-follows-window "$target"
