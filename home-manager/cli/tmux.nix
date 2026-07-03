@@ -52,8 +52,8 @@ in
           # If set inside minimal-tmux-status's extraConfig it lands too late.
           # The #(...) usage widget (Claude 5h-block % + reset, shared across all
           # panes) is left untouched by that pass and evaluated by tmux itself on
-          # each status redraw — see pkgs/claude-usage-tmux.
-          set -g @minimal-tmux-status-right '#{agent_session_dots} #{agent_indicator} #[fg=#EBCB8B]#(${pkgs.claude-usage-tmux}/bin/claude-usage-tmux)#[default] #[bold]#h  '
+          # each status redraw — see pkgs/claude-usage.
+          set -g @minimal-tmux-status-right '#{agent_session_dots} #{agent_indicator} #[fg=#EBCB8B]#(${pkgs.claude-usage}/bin/claude-usage)#[default] #[bold]#h  '
         '';
       }
       # Minimal status bar that consumes @agent_indicator / @agent_session_dots.
@@ -104,8 +104,9 @@ in
 
       # status-right is overridden by minimal-tmux-status via
       # @minimal-tmux-status-right (see plugin block below). Refresh it on an
-      # interval so the embedded claude-usage-tmux widget (block % + reset
-      # countdown) updates; minute-granularity data, so 15s is ample.
+      # interval so the embedded claude-usage widget (block % + reset
+      # countdown) updates; these redraws are also what triggers its
+      # self-refresh of the usage cache. Minute-granularity data, 15s is ample.
       set -g status-interval 15
 
       # minimal-tmux-status never sets status-right-length, so tmux's default of

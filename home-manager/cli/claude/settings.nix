@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 {
   programs.claude-code.settings = {
     "$schema" = "https://json.schemastore.org/claude-code-settings.json";
@@ -10,11 +10,7 @@
     feedbackSurveyRate = 0;
     model = "fable";
 
-    statusLine = {
-      type = "command";
-      command = lib.getExe pkgs.ccstatusline;
-      padding = 0;
-    };
+    # statusLine is set in statusline.nix.
 
     # Give Claude its own git identity via a session ssh-agent keyed from Infisical, instead
     # of 1Password's op-ssh-sign — so neither signing nor pushing raises a biometric prompt.
