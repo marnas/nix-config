@@ -7,6 +7,7 @@ let
   claudeNotify = import ./notify.nix { inherit pkgs lib; };
   pruneSession = import ./prune-session.nix { inherit pkgs lib; };
   cloudGuard = import ./cloud-guard.nix { inherit pkgs; };
+  nixHint = import ./nix-missing-tool.nix { inherit pkgs; };
 in
 {
   programs.claude-code.settings.hooks = {
@@ -34,6 +35,35 @@ in
             type = "command";
             "if" = "Bash(tofu *)";
             command = "${cloudGuard}/bin/claude-cloud-guard";
+          }
+        ];
+      }
+    ];
+
+    # Missing-tool hint: nudge toward `nix shell nixpkgs#<pkg>` instead of a
+    # substitute tool. Registered on BOTH events because a non-zero-exit Bash
+    # call (incl. a failed `which` probe) fires PostToolUseFailure, while a
+    # compound command can hit `command not found` in one segment yet still
+    # exit 0 → PostToolUse. The script exits silently on every other call.
+    PostToolUse = [
+      {
+        matcher = "Bash";
+        hooks = [
+          {
+            type = "command";
+            command = "${nixHint}/bin/claude-nix-hint";
+          }
+        ];
+      }
+    ];
+
+    PostToolUseFailure = [
+      {
+        matcher = "Bash";
+        hooks = [
+          {
+            type = "command";
+            command = "${nixHint}/bin/claude-nix-hint";
           }
         ];
       }
