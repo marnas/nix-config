@@ -17,6 +17,10 @@
   ids.gids.nixbld = 350;
   system.configurationRevision = inputs.self.rev or inputs.self.dirtyRev or null;
 
+  # Same nixos-render-docs --toc-depth workaround as hosts/macos/configuration.nix.
+  documentation.doc.enable = false;
+  system.tools.darwin-uninstaller.enable = false;
+
   # The Forgejo Actions runner + node (required by JS actions like
   # actions/checkout). xcodegen deliberately comes from brew (/opt/homebrew/bin),
   # NOT nixpkgs: the nixpkgs xcodegen build doesn't apply XcodeGen's setting
@@ -55,8 +59,7 @@
       # Jobs inherit this PATH: nix system profile first (node, xcodegen,
       # forgejo-runner), then /usr/bin (xcodebuild/xcrun/git). brew kept last as a
       # fallback but CI no longer depends on it.
-      EnvironmentVariables.PATH =
-        "/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin";
+      EnvironmentVariables.PATH = "/run/current-system/sw/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin";
     };
   };
 }

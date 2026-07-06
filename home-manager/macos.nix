@@ -15,10 +15,10 @@
   home.packages = with pkgs; [
     # maccy
     azure-cli
+    google-cloud-sdk
     colima # Docker daemon on macOS (replaces Docker Desktop)
     docker-client # docker CLI only; the daemon lives in the colima VM
     docker-compose
-    vlc-bin-universal
   ];
 
   # Auto-start the colima VM at login, mirroring `brew services start colima`

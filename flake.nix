@@ -49,11 +49,6 @@
       url = "github:marnas/nvim-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    mac-app-util = {
-      url = "github:hraban/mac-app-util";
-      inputs.cl-nix-lite.url = "github:r4v3n6101/cl-nix-lite/url-fix";
-    };
   };
 
   outputs =
@@ -62,7 +57,6 @@
       nixpkgs,
       home-manager,
       nix-darwin,
-      mac-app-util,
       ...
     }@inputs:
     let
@@ -91,7 +85,6 @@
           specialArgs = { inherit inputs outputs; };
           modules = [
             ./hosts/macos/configuration.nix
-            mac-app-util.darwinModules.default
           ];
         };
 
@@ -134,7 +127,6 @@
           modules = [
             # > main home-manager configuration file <
             ./home-manager/macos.nix
-            mac-app-util.homeManagerModules.default
             inputs.arkenfox-nixos.hmModules.default
           ];
         };

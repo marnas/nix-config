@@ -7,8 +7,9 @@
     casks = [
       "1password"
       "1password-cli"
+      "alacritty"
       "anytype"
-      "arc"
+      # "arc"
       #"autodesk-fusion"
       "firefox"
       #"garmin-express"
@@ -16,12 +17,12 @@
       #"hammerspoon"
       #"kicad"
       "nextcloud"
-      "nordpass"
       #"orcaslicer"
       "plex"
       "plexamp"
       #"soulseek"
       "tailscale-app"
+      #"vlc"
     ];
   };
 }

@@ -23,6 +23,13 @@
 
   ids.gids.nixbld = 350;
 
+  # Workaround: nixos-render-docs in nixpkgs unstable removed --toc-depth but
+  # nix-darwin master still passes it, breaking the darwin-manual-html build.
+  # darwin-uninstaller embeds its own darwinSystem with docs enabled, so it
+  # hits the same failure. Re-enable both once nix-darwin catches up.
+  documentation.doc.enable = false;
+  system.tools.darwin-uninstaller.enable = false;
+
   # security.pam.enableSudoTouchIdAuth = true;
 
   # Create /etc/zshrc that loads the nix-darwin environment.
