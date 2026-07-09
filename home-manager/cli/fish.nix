@@ -50,6 +50,7 @@ in
       # Git aliases
       g = mkIf hasGit "git";
       gst = mkIf hasGit "git status";
+      gcm = mkIf hasGit "git checkout main";
       gdf = mkIf hasGit "git diff :!flake.lock";
 
     };
