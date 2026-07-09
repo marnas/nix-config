@@ -6,14 +6,11 @@
 
     casks = [
       "1password"
-      "1password-cli"
-      "alacritty"
       "anytype"
       # "arc"
       #"autodesk-fusion"
       "firefox"
       #"garmin-express"
-      "ghostty"
       #"hammerspoon"
       #"kicad"
       "nextcloud"

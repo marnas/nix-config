@@ -14,6 +14,7 @@
   # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
     # maccy
+    _1password-cli # on NixOS the CLI comes with the system-level programs._1password
     azure-cli
     google-cloud-sdk
     colima # Docker daemon on macOS (replaces Docker Desktop)

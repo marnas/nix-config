@@ -8,9 +8,6 @@
 
   programs.alacritty = {
     enable = true;
-    # On macOS the .app comes from the brew cask (no mac-app-util trampolines
-    # for nix-installed apps anymore); home-manager only manages the config.
-    package = lib.mkIf pkgs.stdenv.isDarwin null;
     settings = {
       terminal.shell = "${pkgs.fish}/bin/fish";
 

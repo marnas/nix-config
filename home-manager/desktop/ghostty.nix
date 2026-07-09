@@ -10,8 +10,9 @@
     enable = true;
     enableFishIntegration = true;
 
-    # On macOS, set to null since Ghostty is installed via Homebrew
-    package = if (vars.hostname == "macos") then null else pkgs.ghostty;
+    # The source `ghostty` package is unavailable on darwin; use the official
+    # binary repack there.
+    package = if pkgs.stdenv.isDarwin then pkgs.ghostty-bin else pkgs.ghostty;
 
     settings = {
       # Font configuration
