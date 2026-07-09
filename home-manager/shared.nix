@@ -42,6 +42,7 @@
       kubernetes-helm
       lens
       nvim-pkg
+      slack
       talosctl
       terraform
       yt-dlp
