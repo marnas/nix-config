@@ -51,6 +51,13 @@
       pkgs.fish
     ];
 
+    # Split DNS: send *.ts.net to Tailscale's resolver so MagicDNS keeps
+    # working while Cloudflare WARP owns the system resolver
+    # (tailscale runs with accept-dns=false to avoid fighting WARP over DNS).
+    etc."resolver/ts.net".text = ''
+      nameserver 100.100.100.100
+    '';
+
     #Allow touchIdAuth with tmux
     etc."pam.d/sudo_local".text = ''
       # Managed by Nix Darwin
