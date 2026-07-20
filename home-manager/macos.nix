@@ -36,6 +36,12 @@
         "--foreground"
         "--vm-type"
         "vz"
+        # 8GiB: colima's 2GiB default can't build the aiscore image (vite needs
+        # >1GB of V8 heap). vz ballooning returns idle RAM to the host.
+        "--memory"
+        "8"
+        "--cpu"
+        "4"
       ];
       RunAtLoad = true;
       KeepAlive.SuccessfulExit = false;
