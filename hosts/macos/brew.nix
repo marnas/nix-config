@@ -9,6 +9,7 @@
       "anytype"
       # "arc"
       #"autodesk-fusion"
+      "cloudflare-warp"
       "firefox"
       #"garmin-express"
       #"hammerspoon"
@@ -20,6 +21,7 @@
       #"soulseek"
       "tailscale-app"
       #"vlc"
+      "windows-app"
     ];
   };
 }
