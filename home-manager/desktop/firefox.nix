@@ -92,6 +92,10 @@
         # automatically (auto-translation mangles dynamic web apps).
         "browser.translations.automaticallyPopup" = false;
 
+        # GTK emoji picker (Firefox 150+) grabs Ctrl+. in text fields,
+        # shadowing the 1Password quick-access shortcut.
+        "widget.gtk.native-emoji-dialog" = false;
+
         # Performance optimizations
         "gfx.webrender.all" = true;
         "media.ffmpeg.vaapi.enabled" = true;
