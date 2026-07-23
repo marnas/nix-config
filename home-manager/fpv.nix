@@ -11,9 +11,6 @@
   home.packages = [ pkgs.expresslrs-configurator ];
 
   nixpkgs = {
-    # expresslrs-configurator's build closure pulls pnpm 10.29.2, flagged insecure.
-    config.permittedInsecurePackages = [ "pnpm-10.29.2" ];
-
     overlays = [
       # The binary-flashing strategy spawns a bundled flasher.pyz
       # (#!/usr/bin/env python3), but the upstream wrapper only puts git on PATH,
