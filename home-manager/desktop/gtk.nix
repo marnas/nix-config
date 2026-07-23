@@ -1,6 +1,7 @@
 { pkgs, ... }:
 {
   home.pointerCursor = {
+    enable = true;
     gtk.enable = true;
     name = "macOS";
     package = pkgs.apple-cursor;
