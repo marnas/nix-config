@@ -16,6 +16,7 @@
     ./git.nix
     ./infisical
     # ./music
+    ./sparky
     ./ssh.nix
     ./starship.nix
     ./tmux.nix
